@@ -502,7 +502,7 @@ MonoBehaviour:
   beatCSVs:
   - {fileID: 4900000, guid: 745dcdcd89bad174eb2501a939492f9d, type: 3}
   - {fileID: 4900000, guid: 1ed1fdb957d8c9649a9248545b90d4ce, type: 3}
-  selectedBeatIndex: 1
+  selectedBeatIndex: 0
   kickSource: {fileID: 955035013}
   snareSource: {fileID: 955035012}
   hihatSource: {fileID: 955035014}
