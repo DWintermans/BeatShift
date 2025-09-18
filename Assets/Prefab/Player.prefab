@@ -160,48 +160,114 @@ MonoBehaviour:
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
-    - m_Name: AD E spacebar
-      m_Id: e5c09d34-16c6-46d4-bbda-2f9707b11e1a
-      m_Path: 2DVector
+    - m_Name: AD
+      m_Id: 1aca1a39-abe7-4cf3-b36c-5e1d3e5f1640
+      m_Path: 1DAxis
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Move
       m_Flags: 4
-    - m_Name: up
-      m_Id: 2f0b0d89-4b72-48c3-bc8e-083eb3afd0f4
-      m_Path: <Keyboard>/space
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move
-      m_Flags: 8
-    - m_Name: down
-      m_Id: 9ba5fe5e-5618-422d-a105-047c9dcfcd76
-      m_Path: <Keyboard>/e
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move
-      m_Flags: 8
-    - m_Name: left
-      m_Id: 3ee7b866-5ef8-4ccf-83ea-31c44e892e4e
+    - m_Name: negative
+      m_Id: b3cedf7f-4660-428d-a797-2fb84d57fd59
       m_Path: <Keyboard>/a
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Move
       m_Flags: 8
-    - m_Name: right
-      m_Id: b72139e3-39b5-426f-9e98-230608317f7c
+    - m_Name: positive
+      m_Id: 4d4348db-2518-4b3f-9f02-5aef6a3fdecd
       m_Path: <Keyboard>/d
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Move
       m_Flags: 8
+    - m_Name: Arrows left right
+      m_Id: 996f1476-efd1-46ae-ae7f-ada1a8ead47d
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 4
+    - m_Name: negative
+      m_Id: f67409f6-fc5d-4ffe-97ab-bae518720a06
+      m_Path: <Keyboard>/leftArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
+    - m_Name: positive
+      m_Id: 16ae1303-4628-4ebb-9bca-bfc0c9a439b4
+      m_Path: <Keyboard>/rightArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 8
     m_Flags: 0
-  walkSpeed: 3
+  RotateAction:
+    m_Name: Rotate
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 66fb84b3-339b-4641-94d8-a1e820d2b0ad
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 04b0e345-2d54-42b4-81e0-b993da46e1fb
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Rotate
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 6491e4c0-d4b7-41bd-a6b4-9d6c2d39b986
+      m_Path: <Keyboard>/period
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Rotate
+      m_Flags: 0
+    m_Flags: 0
+  JumpAction:
+    m_Name: Jump
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: a174f64a-44bd-44ef-9fd0-70d2e081e650
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f880bf79-3eb9-4058-b657-d82de13c6720
+      m_Path: <Keyboard>/space
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Jump
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 357a9aa1-fc59-41fb-997f-600c7a6f8756
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Jump
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 42aae539-188c-417a-8b88-b913337c08a1
+      m_Path: <Keyboard>/upArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Jump
+      m_Flags: 0
+    m_Flags: 0
+  walkSpeed: 3.04
   RotateCooldown: 1
   JumpForce: 8
   JumpCooldown: 0.5

@@ -3,9 +3,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Walking")]
     public InputAction MoveAction;
     public float walkSpeed = 1.0f;
+
+    [Header("Rotating")]
+    public InputAction RotateAction;
     public float RotateCooldown = 1.0f;
+
+    [Header("Jumping")]
+    public InputAction JumpAction;
     public float JumpForce = 1.0f;
     public float JumpCooldown = 0.5f;
 
@@ -20,8 +27,21 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
-        MoveAction.Enable();
         m_Collider = GetComponent<Collider>();
+    }
+
+    void OnEnable()
+    {
+        MoveAction.Enable();
+        RotateAction.Enable();
+        JumpAction.Enable();
+    }
+
+    void OnDisable()
+    {
+        MoveAction.Disable();
+        RotateAction.Disable();
+        JumpAction.Disable();
     }
 
     void OnCollisionExit(Collision collision)
@@ -42,7 +62,7 @@ public class PlayerController : MonoBehaviour
             if (contact.point.y <= thisBottomY + 0.01f)
             {
                 isGrounded = true;
-                        AdjustDepthPosition(collision);
+                AdjustDepthPosition(collision);
                 break;
             }
         }
@@ -67,15 +87,13 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        var pos = MoveAction.ReadValue<Vector2>();
-
-        float movement = pos.x;
+        float movement = MoveAction.ReadValue<float>();
         Move(movement);
 
-        bool rotate = pos.y < -0.5f;
+        bool rotate = RotateAction.ReadValue<float>() > 0.5f;
         HandleRotation(rotate);
 
-        bool jump = pos.y > 0.5f;
+        bool jump = JumpAction.ReadValue<float>() > 0.5f;
         Jump(jump);
     }
 
