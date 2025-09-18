@@ -33,7 +33,7 @@ public class BeatVisualizer : MonoBehaviour
 
     private void ToggleTransparency(GameObject[] platforms, bool isOpaque)
     {
-        float alpha = isOpaque ? 1f : 0.3f;
+        float alpha = isOpaque ?  0.3f : 1f;
 
         foreach (var obj in platforms)
         {
