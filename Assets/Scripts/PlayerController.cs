@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDir;
         if (rotated)
         {
-            moveDir = new Vector3(0f, 0f, movement);
+            moveDir = new Vector3(0f, 0f, -movement);
         }
         else
         {
@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
 
         rotated = !rotated;
 
-        Vector3 rotation = rotated ? Vector3.down : Vector3.zero;
+        Vector3 rotation = rotated ? Vector3.up : Vector3.zero;
         rotation *= 90;
         m_Rigidbody.rotation = Quaternion.Euler(rotation);
     }
