@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 14a8162fbc68cd7499471e94ca54b039, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
       m_Flags: 4
     - m_Name: negative
       m_Id: b3cedf7f-4660-428d-a797-2fb84d57fd59
-      m_Path: <Keyboard>/a
+      m_Path: <Keyboard>/d
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -178,7 +178,7 @@ MonoBehaviour:
       m_Flags: 8
     - m_Name: positive
       m_Id: 4d4348db-2518-4b3f-9f02-5aef6a3fdecd
-      m_Path: <Keyboard>/d
+      m_Path: <Keyboard>/a
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -194,7 +194,7 @@ MonoBehaviour:
       m_Flags: 4
     - m_Name: negative
       m_Id: f67409f6-fc5d-4ffe-97ab-bae518720a06
-      m_Path: <Keyboard>/leftArrow
+      m_Path: <Keyboard>/rightArrow
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -202,13 +202,14 @@ MonoBehaviour:
       m_Flags: 8
     - m_Name: positive
       m_Id: 16ae1303-4628-4ebb-9bca-bfc0c9a439b4
-      m_Path: <Keyboard>/rightArrow
+      m_Path: <Keyboard>/leftArrow
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Move
       m_Flags: 8
     m_Flags: 0
+  walkSpeed: 5
   RotateAction:
     m_Name: Rotate
     m_Type: 0
@@ -234,6 +235,7 @@ MonoBehaviour:
       m_Action: Rotate
       m_Flags: 0
     m_Flags: 0
+  RotateCooldown: 1
   JumpAction:
     m_Name: Jump
     m_Type: 0
@@ -267,7 +269,5 @@ MonoBehaviour:
       m_Action: Jump
       m_Flags: 0
     m_Flags: 0
-  walkSpeed: 3.04
-  RotateCooldown: 1
-  JumpForce: 8
+  JumpForce: 10
   JumpCooldown: 0.5

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDir;
         if (rotated)
         {
-            moveDir = new Vector3(0f, 0f, movement);
+            moveDir = new Vector3(0f, 0f, -movement);
         }
         else
         {
@@ -136,7 +137,7 @@ public class PlayerController : MonoBehaviour
 
         rotated = !rotated;
 
-        Vector3 rotation = rotated ? Vector3.down : Vector3.zero;
+        Vector3 rotation = rotated ? Vector3.up : Vector3.zero;
         rotation *= 90;
         m_Rigidbody.rotation = Quaternion.Euler(rotation);
     }
@@ -154,6 +155,14 @@ public class PlayerController : MonoBehaviour
             m_Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             jumpCountdown = JumpCooldown;
             isGrounded = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Danger"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
