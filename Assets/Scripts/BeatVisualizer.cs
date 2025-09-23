@@ -1,14 +1,34 @@
+using System.Linq;
 using UnityEngine;
 
 public class BeatVisualizer : MonoBehaviour
 {
-    public GameObject[] kickPlatformsList;
-    public GameObject[] snarePlatformsList;
-    public GameObject[] hihatPlatformsList;
+    //cache retrieved platforms
+    private GameObject[] kickPlatformsList;
+    private GameObject[] snarePlatformsList;
+    private GameObject[] hihatPlatformsList;
 
     private bool isKickOpaque = false;
     private bool isSnareOpaque = false;
     private bool isHihatOpaque = false;
+
+    private void Awake()
+    {
+        kickPlatformsList = GetChildrenOf("KickPlatforms");
+        snarePlatformsList = GetChildrenOf("SnarePlatforms");
+        hihatPlatformsList = GetChildrenOf("HihatPlatforms");
+    }
+
+    private GameObject[] GetChildrenOf(string parentName)
+    {
+        var parent = GameObject.Find(parentName);
+        if (parent == null) return new GameObject[0];
+
+        return parent.GetComponentsInChildren<Transform>(true)
+                     .Where(t => t.gameObject != parent)
+                     .Select(t => t.gameObject)
+                     .ToArray();
+    }
 
     public void OnKick()
     {
@@ -33,7 +53,7 @@ public class BeatVisualizer : MonoBehaviour
 
     private void ToggleTransparency(GameObject[] platforms, bool isOpaque)
     {
-        float alpha = isOpaque ?  0.3f : 1f;
+        float alpha = isOpaque ? 0.3f : 1f;
 
         foreach (var obj in platforms)
         {
