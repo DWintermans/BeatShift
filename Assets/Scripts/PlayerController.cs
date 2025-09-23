@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -154,6 +155,14 @@ public class PlayerController : MonoBehaviour
             m_Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             jumpCountdown = JumpCooldown;
             isGrounded = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Danger"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
