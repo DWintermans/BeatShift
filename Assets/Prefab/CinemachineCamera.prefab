@@ -93,9 +93,9 @@ MonoBehaviour:
     BindingMode: 1
     PositionDamping: {x: 0, y: 0, z: 0}
     AngularDampingMode: 0
-    RotationDamping: {x: 0, y: 1, z: 0}
+    RotationDamping: {x: 0, y: 0.5, z: 0}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 1, z: -10}
+  FollowOffset: {x: 0, y: 5, z: 50}
 --- !u!114 &1552951218365891164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 0, z: 0}
-  Damping: {x: 0.5, y: 0.5}
+  Damping: {x: 0, y: 0.5}
   Lookahead:
     Enabled: 0
     Time: 0
