@@ -115,6 +115,14 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 rayOrigin = Camera.gameObject.transform.position;
         rayOrigin.y -= m_Collider.bounds.extents.y;
+        if (rotated)
+        {
+            rayOrigin.x += m_Collider.bounds.extents.x;
+        }
+        else
+        {
+            rayOrigin.z += m_Collider.bounds.extents.z;
+        }
         Vector3 direction = Camera.gameObject.transform.forward;
 
         Ray ray = new Ray(rayOrigin, direction);
