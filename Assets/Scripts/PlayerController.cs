@@ -111,24 +111,42 @@ public class PlayerController : MonoBehaviour
         Jump(jump);
     }
 
-    void CheckCollision()
+    Vector3 GetRayOrigin(bool right)
     {
         Vector3 rayOrigin = Camera.gameObject.transform.position;
         rayOrigin.y -= m_Collider.bounds.extents.y;
         if (rotated)
         {
             rayOrigin.x += m_Collider.bounds.extents.x;
+
+            if (right)
+                rayOrigin.z += m_Collider.bounds.extents.z;
+            else
+                rayOrigin.z -= m_Collider.bounds.extents.z;
         }
         else
         {
             rayOrigin.z += m_Collider.bounds.extents.z;
+
+            if (right)
+                rayOrigin.x -= m_Collider.bounds.extents.x;
+            else
+                rayOrigin.x += m_Collider.bounds.extents.x;
         }
+        return rayOrigin;
+    }
+
+    void CheckCollision()
+    {
+        Vector3 rayOriginLeft = GetRayOrigin(false);
+        Vector3 rayOriginRight = GetRayOrigin(true);
         Vector3 direction = Camera.gameObject.transform.forward;
 
-        Ray ray = new Ray(rayOrigin, direction);
+        Ray rayLeft = new Ray(rayOriginLeft, direction);
+        Ray rayRight = new Ray(rayOriginRight, direction);
         m_Collider.enabled = false;
 
-        if (Physics.Raycast(ray, out hit, distance))
+        if (Physics.Raycast(rayLeft, out hit, distance) || Physics.Raycast(rayRight, out hit, distance))
         {
             m_Collider.enabled = true;
             AdjustDepthPosition(hit.collider);
@@ -138,7 +156,8 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false;
         }
-        Debug.DrawRay(ray.origin, ray.direction * distance, Color.red);
+        Debug.DrawRay(rayLeft.origin, rayLeft.direction * distance, Color.red);
+        Debug.DrawRay(rayRight.origin, rayRight.direction * distance, Color.blue);
         m_Collider.enabled = true;
     }
 
