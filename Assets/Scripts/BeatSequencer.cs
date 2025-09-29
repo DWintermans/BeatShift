@@ -174,11 +174,11 @@ public class BeatSequencer : MonoBehaviour
             dictionary[instrument] = pattern;
         }
 
-        foreach (var kvp in dictionary)
-        {
-            string patternStr = string.Join(",", kvp.Value);
-            Debug.Log($"{kvp.Key}: {patternStr}");
-        }
+        // foreach (var kvp in dictionary)
+        // {
+        //     string patternStr = string.Join(",", kvp.Value);
+        //     Debug.Log($"{kvp.Key}: {patternStr}");
+        // }
 
         return dictionary;
     }

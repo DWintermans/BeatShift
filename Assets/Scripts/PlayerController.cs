@@ -29,12 +29,16 @@ public class PlayerController : MonoBehaviour
     float jumpCountdown = -1f;
     bool isGrounded = false;
 
+    private Vector3 startPosition;
+
     RaycastHit hit;
 
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Collider = GetComponent<Collider>();
+
+        startPosition = m_Rigidbody.position;
     }
 
     void OnEnable()
@@ -224,7 +228,10 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Danger"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            m_Rigidbody.linearVelocity = Vector3.zero;
+            m_Rigidbody.angularVelocity = Vector3.zero;
+
+            m_Rigidbody.position = startPosition;
         }
     }
 }
