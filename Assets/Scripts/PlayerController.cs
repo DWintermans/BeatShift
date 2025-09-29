@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [Header("Walking")]
     public InputAction MoveAction;
     public float walkSpeed = 1.0f;
+    public float walkAccelerationForce = 100f;
 
     [Header("Rotating")]
     public InputAction RotateAction;
@@ -56,10 +57,16 @@ public class PlayerController : MonoBehaviour
         }
         moveDir.Normalize();
 
-        Vector3 velocity = moveDir * walkSpeed;
-        velocity.y = m_Rigidbody.linearVelocity.y;
+        m_Rigidbody.AddForce(moveDir * walkAccelerationForce);
 
-        m_Rigidbody.linearVelocity = velocity;
+        Vector3 maxVelocity = moveDir * walkSpeed;
+        maxVelocity.y = m_Rigidbody.linearVelocity.y;
+        bool overMaxVelocityRotated = Rotated && Mathf.Abs(m_Rigidbody.linearVelocity.z) > Mathf.Abs(maxVelocity.z);
+        bool overMaxVelocityNotRotated = !Rotated && Mathf.Abs(m_Rigidbody.linearVelocity.x) > Mathf.Abs(maxVelocity.x);
+        if (overMaxVelocityRotated || overMaxVelocityNotRotated)
+        {
+            m_Rigidbody.linearVelocity = maxVelocity;
+        }
     }
 
     void HandleRotation(bool rotate)
