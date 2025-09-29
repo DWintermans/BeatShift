@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 5632316597531522382}
   - component: {fileID: 5364294701746709218}
   - component: {fileID: 3943903305585201653}
+  - component: {fileID: 1707916004794831859}
+  - component: {fileID: 1697801363758021783}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -236,16 +238,44 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   RotateCooldown: 1
+--- !u!114 &1707916004794831859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272667514205182082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a46521f7b4cde7f449910f3f77179f7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollisionController
+  playerController: {fileID: 3943903305585201653}
+  Camera: {fileID: 0}
+  distance: 1000
+--- !u!114 &1697801363758021783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272667514205182082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3674766148e07704faf389b89467c325, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JumpController
+  collisionController: {fileID: 1707916004794831859}
   JumpAction:
     m_Name: Jump
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: a174f64a-44bd-44ef-9fd0-70d2e081e650
+    m_Id: 87bde0ca-2027-4f50-8995-55f30020e58a
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: f880bf79-3eb9-4058-b657-d82de13c6720
+      m_Id: 8eacd4de-bf0a-4a10-ad2f-aca216d91905
       m_Path: <Keyboard>/space
       m_Interactions: 
       m_Processors: 
@@ -253,7 +283,7 @@ MonoBehaviour:
       m_Action: Jump
       m_Flags: 0
     - m_Name: 
-      m_Id: 357a9aa1-fc59-41fb-997f-600c7a6f8756
+      m_Id: a2402f1f-f61d-4a40-894f-a46a374b646a
       m_Path: <Keyboard>/w
       m_Interactions: 
       m_Processors: 
@@ -261,7 +291,7 @@ MonoBehaviour:
       m_Action: Jump
       m_Flags: 0
     - m_Name: 
-      m_Id: 42aae539-188c-417a-8b88-b913337c08a1
+      m_Id: 0d8d475c-0141-476f-abd6-99bde8b9d192
       m_Path: <Keyboard>/upArrow
       m_Interactions: 
       m_Processors: 
@@ -272,5 +302,3 @@ MonoBehaviour:
   JumpForce: 5000
   JumpTime: 0.1
   StopJumpingMultiplier: 0.8
-  Camera: {fileID: 0}
-  distance: 1000
