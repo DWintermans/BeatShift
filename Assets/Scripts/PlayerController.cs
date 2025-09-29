@@ -58,7 +58,11 @@ public class PlayerController : MonoBehaviour
         moveDir.Normalize();
 
         m_Rigidbody.AddForce(moveDir * walkAccelerationForce);
+        PreventGoingOverMaxVelocity(moveDir);
+    }
 
+    void PreventGoingOverMaxVelocity(Vector3 moveDir)
+    {
         Vector3 maxVelocity = moveDir * walkSpeed;
         maxVelocity.y = m_Rigidbody.linearVelocity.y;
         bool overMaxVelocityRotated = Rotated && Mathf.Abs(m_Rigidbody.linearVelocity.z) > Mathf.Abs(maxVelocity.z);
