@@ -269,7 +269,8 @@ MonoBehaviour:
       m_Action: Jump
       m_Flags: 0
     m_Flags: 0
-  JumpForce: 10
-  JumpCooldown: 0.5
+  JumpForce: 5000
+  JumpTime: 0.1
+  StopJumpingMultiplier: 0.8
   Camera: {fileID: 0}
   distance: 1000

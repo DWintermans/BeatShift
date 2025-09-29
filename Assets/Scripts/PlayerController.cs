@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
     [Header("Jumping")]
     public InputAction JumpAction;
     public float JumpForce = 1.0f;
-    public float JumpCooldown = 0.5f;
+    public float JumpTime = 0.3f;
+    public float StopJumpingMultiplier = 0.5f;
 
     [Header("Collision")]
     public Camera Camera;
@@ -26,8 +27,10 @@ public class PlayerController : MonoBehaviour
 
     bool rotated = false;
     float rotateCountdown = -1f;
-    float jumpCountdown = -1f;
     bool isGrounded = false;
+
+    bool isJumping = false;
+    float jumpTimeCountdown = -1f;
 
     RaycastHit hit;
 
@@ -97,6 +100,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        Jump();
+    }
+
     void FixedUpdate()
     {
         CheckCollision();
@@ -106,9 +114,6 @@ public class PlayerController : MonoBehaviour
 
         bool rotate = RotateAction.ReadValue<float>() > 0.5f;
         HandleRotation(rotate);
-
-        bool jump = JumpAction.ReadValue<float>() > 0.5f;
-        Jump(jump);
     }
 
     Vector3 GetRayOrigin(bool right)
@@ -205,18 +210,41 @@ public class PlayerController : MonoBehaviour
         m_Rigidbody.rotation = Quaternion.Euler(rotation);
     }
 
-    void Jump(bool jump)
+    void Jump()
     {
-        if (jumpCountdown > 0f)
+        bool startedPressingJump = JumpAction.WasPressedThisFrame();
+        bool holdingJump = JumpAction.ReadValue<float>() > 0.5f;
+        bool stoppedPressingJump = JumpAction.WasReleasedThisFrame();
+
+        if (startedPressingJump && isGrounded)
         {
-            jumpCountdown -= Time.deltaTime;
-            return;
+            isJumping = true;
+            m_Rigidbody.AddForce(Vector3.up * JumpForce * Time.deltaTime);
+            jumpTimeCountdown = JumpTime;
+        }
+        else if (stoppedPressingJump)
+        {
+            isJumping = false;
         }
 
-        if (jump && isGrounded)
+        if (holdingJump && isJumping)
         {
-            m_Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-            jumpCountdown = JumpCooldown;
+            if (jumpTimeCountdown > 0f)
+            {
+                m_Rigidbody.AddForce(Vector3.up * JumpForce * Time.deltaTime);
+                jumpTimeCountdown -= Time.deltaTime;
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
+
+        if (!holdingJump && m_Rigidbody.linearVelocity.y > 0f)
+        {
+            Vector3 newVelocity = m_Rigidbody.linearVelocity;
+            newVelocity.y *= StopJumpingMultiplier;
+            m_Rigidbody.linearVelocity = newVelocity;
         }
     }
 
