@@ -303,3 +303,4 @@ MonoBehaviour:
   JumpForce: 5000
   JumpTime: 0.1
   StopJumpingMultiplier: 0.8
+  JumpPressBeforeHittingGroundTime: 0.2

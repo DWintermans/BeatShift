@@ -8,10 +8,12 @@ public class JumpController : MonoBehaviour
     public float JumpForce = 1.0f;
     public float JumpTime = 0.3f;
     public float StopJumpingMultiplier = 0.5f;
+    public float JumpPressBeforeHittingGroundTime = 0.5f;
 
     Rigidbody m_Rigidbody;
     bool isJumping = false;
     float jumpTimeCountdown = 0f;
+    float jumpPressBeforeHittingGroundTimeCountdown = 0f;
 
     void Start()
     {
@@ -34,11 +36,10 @@ public class JumpController : MonoBehaviour
         bool holdingJump = JumpAction.ReadValue<float>() > 0.5f;
         bool stoppedPressingJump = JumpAction.WasReleasedThisFrame();
 
+        HandleJumpPressBeforeLanding();
         if (startedPressingJump && collisionController.IsGrounded)
         {
-            isJumping = true;
-            m_Rigidbody.AddForce(Vector3.up * JumpForce * Time.deltaTime);
-            jumpTimeCountdown = JumpTime;
+            StartJump();
         }
         else if (stoppedPressingJump)
         {
@@ -64,5 +65,32 @@ public class JumpController : MonoBehaviour
             newVelocity.y *= StopJumpingMultiplier;
             m_Rigidbody.linearVelocity = newVelocity;
         }
+    }
+
+    void HandleJumpPressBeforeLanding()
+    {
+        bool startedPressingJump = JumpAction.WasPressedThisFrame();
+        if (startedPressingJump && !collisionController.IsGrounded)
+        {
+            jumpPressBeforeHittingGroundTimeCountdown = JumpPressBeforeHittingGroundTime;
+        }
+
+        if (jumpPressBeforeHittingGroundTimeCountdown > 0f)
+        {
+            jumpPressBeforeHittingGroundTimeCountdown -= Time.deltaTime;
+
+            if (collisionController.IsGrounded)
+            {
+                jumpPressBeforeHittingGroundTimeCountdown = -1f;
+                StartJump();
+            }
+        }
+    }
+
+    void StartJump()
+    {
+        isJumping = true;
+        m_Rigidbody.AddForce(Vector3.up * JumpForce * Time.deltaTime);
+        jumpTimeCountdown = JumpTime;
     }
 }
