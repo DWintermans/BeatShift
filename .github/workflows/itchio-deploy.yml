@@ -6,48 +6,37 @@ on:
       - main   
 
 jobs:
-  build-deploy:
-    runs-on: ubuntu-22.04
-
+  buildForAllSupportedPlatforms:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - WebGL
     steps:
-      - name: Free disk space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf /opt/hostedtoolcache
-          df -h
-          
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Setup Unity
-        uses: game-ci/unity-builder@v4
+      - uses: actions/checkout@v4
         with:
-          unityVersion: 6000.2.2f1        
-          targetPlatform: WebGL
-          buildsPath: build
-          buildName: WebGL 
-          versioning: None  
+          fetch-depth: 0
+          lfs: true
+          
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}
+          restore-keys: Library-
+          
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        
+      - uses: game-ci/unity-builder@v4
         env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-
-      - name: Zip WebGL build
-        run: |
-          cd build
-          zip -r WebGLBuild.zip WebGL
-
-      - name: Install Butler
-        run: |
-          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-          unzip butler.zip
-          chmod +x butler
-          sudo mv butler /usr/local/bin/
-          
-      - name: Deploy to Itch.io
-        run: |
-          butler push ./build/WebGLBuild.zip dwintermans/beatshift:web
-        env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+        with:
+          targetPlatform: ${{ matrix.targetPlatform }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
