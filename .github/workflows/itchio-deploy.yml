@@ -1,0 +1,35 @@
+name: Build & Deploy Unity WebGL to Itch.io
+
+on:
+  push:
+    branches:
+      - main   
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Unity
+        uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: 6000.2.2f1        
+          targetPlatform: WebGL
+          buildPath: build/WebGL
+
+      - name: Zip WebGL build
+        run: |
+          cd build
+          zip -r WebGLBuild.zip WebGL
+
+      - name: Deploy to Itch.io
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.2
+        with:
+          butlerApiKey: ${{ secrets.BUTLER_CREDENTIALS }}
+          user: dwintermans       
+          game: beatshift           
+          channel: web
+          package: build/WebGLBuild.zip
