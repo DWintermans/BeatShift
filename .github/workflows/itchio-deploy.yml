@@ -13,20 +13,16 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Decode Unity License
-        run: |
-          echo "${{ secrets.UNITY_LICENSE_BASE64 }}" | base64 --decode > Unity_lic.ulf
-
       - name: Setup Unity
         uses: game-ci/unity-builder@v4
         with:
-          unityVersion: 6000.2.2f1        
+          unityVersion: 2022.3.20f1        
           targetPlatform: WebGL
           buildsPath: build
           buildName: WebGL 
           versioning: None  
         env:
-          UNITY_LICENSE_FILE: ${{ github.workspace }}/Unity_lic.ulf
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
       - name: Zip WebGL build
         run: |
