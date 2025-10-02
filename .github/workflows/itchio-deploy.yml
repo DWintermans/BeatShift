@@ -13,23 +13,35 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Decode Unity License
+        run: |
+          echo "${{ secrets.UNITY_LICENSE_BASE64 }}" | base64 --decode > Unity_lic.ulf
+
       - name: Setup Unity
         uses: game-ci/unity-builder@v4
         with:
           unityVersion: 6000.2.2f1        
           targetPlatform: WebGL
-          buildPath: build/WebGL
+          buildsPath: build
+          buildName: WebGL 
+          versioning: None  
+        env:
+          UNITY_LICENSE_FILE: ${{ github.workspace }}/Unity_lic.ulf
 
       - name: Zip WebGL build
         run: |
           cd build
           zip -r WebGLBuild.zip WebGL
 
+      - name: Install Butler
+        run: |
+          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          chmod +x butler
+          sudo mv butler /usr/local/bin/
+          
       - name: Deploy to Itch.io
-        uses: josephbmanley/butler-publish-itchio-action@v1.0.2
-        with:
-          butlerApiKey: ${{ secrets.BUTLER_CREDENTIALS }}
-          user: dwintermans       
-          game: beatshift           
-          channel: web
-          package: build/WebGLBuild.zip
+        run: |
+          butler push ./build/WebGLBuild.zip dwintermans/beatshift:web
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
