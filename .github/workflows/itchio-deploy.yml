@@ -19,7 +19,7 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-          
+            
       - uses: actions/cache@v3
         with:
           path: Library
@@ -36,6 +36,9 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
+          projectPath: .
+          buildName: WebGL
+          buildMethod: BuildScript.PerformBuild
       - uses: actions/upload-artifact@v4
         with:
           name: Build-${{ matrix.targetPlatform }}
