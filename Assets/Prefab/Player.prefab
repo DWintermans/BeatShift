@@ -301,7 +301,7 @@ MonoBehaviour:
       m_Action: Jump
       m_Flags: 0
     m_Flags: 0
-  JumpForce: 12500
+  JumpForce: 200
   JumpTime: 0.05
   StopJumpingMultiplier: 0.8
   JumpPressBeforeHittingGroundTime: 0.2

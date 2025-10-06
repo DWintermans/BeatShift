@@ -74,7 +74,7 @@ public class JumpController : MonoBehaviour
         {
             if (jumpTimeCountdown > 0f)
             {
-                m_Rigidbody.AddForce(Vector3.up * JumpForce * Time.fixedDeltaTime);
+                m_Rigidbody.AddForce(Vector3.up * JumpForce);
                 jumpTimeCountdown -= Time.fixedDeltaTime;
             }
             else
@@ -94,7 +94,7 @@ public class JumpController : MonoBehaviour
     void StartJump()
     {
         isJumping = true;
-        m_Rigidbody.AddForce(Vector3.up * JumpForce * Time.deltaTime);
+        m_Rigidbody.AddForce(Vector3.up * JumpForce);
         jumpTimeCountdown = JumpTime;
     }
 }
