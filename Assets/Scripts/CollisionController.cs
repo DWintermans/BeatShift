@@ -5,6 +5,7 @@ public class CollisionController : MonoBehaviour
     public PlayerController playerController;
     public Camera Camera;
     public float distance;
+    public string platformsLayerName;
 
     public bool IsGrounded { get; private set; } = false;
 
@@ -26,11 +27,9 @@ public class CollisionController : MonoBehaviour
 
         Ray rayLeft = new Ray(rayOriginLeft, direction);
         Ray rayRight = new Ray(rayOriginRight, direction);
-        m_Collider.enabled = false;
 
-        if (Physics.Raycast(rayLeft, out hit, distance) || Physics.Raycast(rayRight, out hit, distance))
+        if (Physics.Raycast(rayLeft, out hit, distance, LayerMask.GetMask(platformsLayerName)) || Physics.Raycast(rayRight, out hit, distance, LayerMask.GetMask(platformsLayerName)))
         {
-            m_Collider.enabled = true;
             AdjustDepthPosition(hit.collider);
             IsGrounded = Mathf.Approximately(hit.collider.bounds.max.y, m_Collider.bounds.min.y);
         }
@@ -40,7 +39,6 @@ public class CollisionController : MonoBehaviour
         }
         Debug.DrawRay(rayLeft.origin, rayLeft.direction * distance, Color.red);
         Debug.DrawRay(rayRight.origin, rayRight.direction * distance, Color.blue);
-        m_Collider.enabled = true;
     }
 
     Vector3 GetRayOrigin(bool right)

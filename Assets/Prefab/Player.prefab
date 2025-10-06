@@ -255,6 +255,7 @@ MonoBehaviour:
   playerController: {fileID: 3943903305585201653}
   Camera: {fileID: 0}
   distance: 1000
+  platformsLayerName: Platforms
 --- !u!114 &1697801363758021783
 MonoBehaviour:
   m_ObjectHideFlags: 0
