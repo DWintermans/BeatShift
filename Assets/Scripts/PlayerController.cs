@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [Header("Rotating")]
     public InputAction RotateAction;
     public float RotateCooldown = 1.0f;
+    public float RotateDuration = 0.3f;
 
     public bool Rotated { get; private set; } = false;
 
@@ -85,19 +86,30 @@ public class PlayerController : MonoBehaviour
 
         if (rotate)
         {
-            Rotate();
+            rotateCountdown = RotateCooldown;
+            StartCoroutine(RotateOverTime());
         }
     }
 
-    void Rotate()
+    System.Collections.IEnumerator RotateOverTime()
     {
-        rotateCountdown = RotateCooldown;
+        Quaternion startRot = m_Rigidbody.rotation;
+        Quaternion endRot = Rotated
+            ? Quaternion.Euler(Vector3.zero) // rotate back
+            : Quaternion.Euler(Vector3.up * 90f); // rotate 90° Y
+
+        float elapsed = 0f;
+        while (elapsed < RotateDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / RotateDuration);
+            m_Rigidbody.MoveRotation(Quaternion.Slerp(startRot, endRot, t));
+            yield return null;
+        }
+
+        m_Rigidbody.MoveRotation(endRot);
 
         Rotated = !Rotated;
-
-        Vector3 rotation = Rotated ? Vector3.up : Vector3.zero;
-        rotation *= 90;
-        m_Rigidbody.rotation = Quaternion.Euler(rotation);
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -33,7 +33,6 @@ public class JumpController : MonoBehaviour
     void Update()
     {
         bool startedPressingJump = JumpAction.WasPressedThisFrame();
-        bool holdingJump = JumpAction.ReadValue<float>() > 0.5f;
         bool stoppedPressingJump = JumpAction.WasReleasedThisFrame();
 
         HandleJumpPressBeforeLanding();
@@ -44,26 +43,6 @@ public class JumpController : MonoBehaviour
         else if (stoppedPressingJump)
         {
             isJumping = false;
-        }
-
-        if (holdingJump && isJumping)
-        {
-            if (jumpTimeCountdown > 0f)
-            {
-                m_Rigidbody.AddForce(Vector3.up * JumpForce * Time.deltaTime);
-                jumpTimeCountdown -= Time.deltaTime;
-            }
-            else
-            {
-                isJumping = false;
-            }
-        }
-
-        if (!holdingJump && m_Rigidbody.linearVelocity.y > 0f)
-        {
-            Vector3 newVelocity = m_Rigidbody.linearVelocity;
-            newVelocity.y *= StopJumpingMultiplier;
-            m_Rigidbody.linearVelocity = newVelocity;
         }
     }
 
@@ -87,10 +66,35 @@ public class JumpController : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        bool holdingJump = JumpAction.ReadValue<float>() > 0.5f;
+
+        if (holdingJump && isJumping)
+        {
+            if (jumpTimeCountdown > 0f)
+            {
+                m_Rigidbody.AddForce(Vector3.up * JumpForce);
+                jumpTimeCountdown -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
+
+        if (!holdingJump && m_Rigidbody.linearVelocity.y > 0f)
+        {
+            Vector3 newVelocity = m_Rigidbody.linearVelocity;
+            newVelocity.y *= StopJumpingMultiplier;
+            m_Rigidbody.linearVelocity = newVelocity;
+        }
+    }
+
     void StartJump()
     {
         isJumping = true;
-        m_Rigidbody.AddForce(Vector3.up * JumpForce * Time.deltaTime);
+        m_Rigidbody.AddForce(Vector3.up * JumpForce);
         jumpTimeCountdown = JumpTime;
     }
 }

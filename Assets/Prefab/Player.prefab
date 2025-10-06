@@ -101,7 +101,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5272667514205182082}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a40fe93e6b93e634a88280cd5be4c785, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -239,6 +239,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   RotateCooldown: 1
+  RotateDuration: 0.3
 --- !u!114 &1707916004794831859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +255,7 @@ MonoBehaviour:
   playerController: {fileID: 3943903305585201653}
   Camera: {fileID: 0}
   distance: 1000
+  platformsLayerName: Platforms
 --- !u!114 &1697801363758021783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +302,7 @@ MonoBehaviour:
       m_Action: Jump
       m_Flags: 0
     m_Flags: 0
-  JumpForce: 5000
-  JumpTime: 0.1
+  JumpForce: 200
+  JumpTime: 0.05
   StopJumpingMultiplier: 0.8
   JumpPressBeforeHittingGroundTime: 0.2
