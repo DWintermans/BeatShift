@@ -239,6 +239,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   RotateCooldown: 1
+  RotateDuration: 0.3
 --- !u!114 &1707916004794831859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +301,7 @@ MonoBehaviour:
       m_Action: Jump
       m_Flags: 0
     m_Flags: 0
-  JumpForce: 5000
-  JumpTime: 0.1
+  JumpForce: 12500
+  JumpTime: 0.05
   StopJumpingMultiplier: 0.8
   JumpPressBeforeHittingGroundTime: 0.2
