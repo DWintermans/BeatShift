@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public InputAction RotateAction;
     public float RotateCooldown = 1.0f;
     public float RotateDuration = 0.3f;
+    [Header("Checkpoint")]
+    public CheckpointManager checkpointManager;
 
     public bool Rotated { get; private set; } = false;
 
@@ -45,6 +47,8 @@ public class PlayerController : MonoBehaviour
 
         bool rotate = RotateAction.ReadValue<float>() > 0.5f;
         HandleRotation(rotate);
+
+        Debug.Log(Rotated);
     }
 
     void Move(float movement)
@@ -91,6 +95,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void HandleRotatedOnCheckpoint()
+    {
+        Collider[] hits = Physics.OverlapBox(transform.position, gameObject.GetComponent<Collider>().bounds.extents);
+        foreach (var hit in hits)
+        {
+            Checkpoint checkpoint = hit.GetComponent<Checkpoint>();
+            if (checkpoint != null)
+            {
+                checkpoint.Rotated = Rotated;
+            }
+        }
+    }
+
     System.Collections.IEnumerator RotateOverTime()
     {
         Quaternion startRot = m_Rigidbody.rotation;
@@ -110,16 +127,38 @@ public class PlayerController : MonoBehaviour
         m_Rigidbody.MoveRotation(endRot);
 
         Rotated = !Rotated;
+
+        HandleRotatedOnCheckpoint();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Danger"))
         {
-            m_Rigidbody.linearVelocity = Vector3.zero;
-            m_Rigidbody.angularVelocity = Vector3.zero;
-
-            m_Rigidbody.position = startPosition;
+            Respawn();
         }
+    }
+
+    private void Respawn()
+    {
+        m_Rigidbody.linearVelocity = Vector3.zero;
+        m_Rigidbody.angularVelocity = Vector3.zero;
+
+        try
+        {
+            Checkpoint checkpoint = checkpointManager.GetLatestCheckpoint();
+            m_Rigidbody.position = checkpoint.transform.position;
+            Rotated = checkpoint.Rotated;
+        }
+        catch
+        {
+            m_Rigidbody.position = startPosition;
+            Rotated = false;
+        }
+        Quaternion rotation = Rotated
+    ? Quaternion.Euler(Vector3.up * 90f)
+    : Quaternion.Euler(Vector3.zero);
+
+        m_Rigidbody.rotation = rotation;
     }
 }

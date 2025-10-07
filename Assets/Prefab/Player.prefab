@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1697801363758021783}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -240,6 +240,7 @@ MonoBehaviour:
     m_Flags: 0
   RotateCooldown: 1
   RotateDuration: 0.3
+  checkpointManager: {fileID: 0}
 --- !u!114 &1707916004794831859
 MonoBehaviour:
   m_ObjectHideFlags: 0
