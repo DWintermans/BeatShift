@@ -6,16 +6,33 @@ public class VolumeManager : MonoBehaviour
     [Range(0f, 1f)] public float drumVolume = 0.5f;
     [Range(0f, 1f)] public float bassVolume = 0.5f;
 
-    public static VolumeManager Instance { get; private set; }
+    private static VolumeManager _instance;
+    public static VolumeManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<VolumeManager>();
+                if (_instance == null)
+                {
+                    var go = new GameObject("VolumeManager");
+                    _instance = go.AddComponent<VolumeManager>();
+                    DontDestroyOnLoad(go);
+                }
+            }
+            return _instance;
+        }
+    }
 
     void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        Instance = this;
+        _instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
