@@ -47,8 +47,6 @@ public class PlayerController : MonoBehaviour
 
         bool rotate = RotateAction.ReadValue<float>() > 0.5f;
         HandleRotation(rotate);
-
-        Debug.Log(Rotated);
     }
 
     void Move(float movement)
@@ -91,6 +89,7 @@ public class PlayerController : MonoBehaviour
         if (rotate)
         {
             rotateCountdown = RotateCooldown;
+            Rotated = !Rotated;
             StartCoroutine(RotateOverTime());
         }
     }
@@ -112,8 +111,8 @@ public class PlayerController : MonoBehaviour
     {
         Quaternion startRot = m_Rigidbody.rotation;
         Quaternion endRot = Rotated
-            ? Quaternion.Euler(Vector3.zero) // rotate back
-            : Quaternion.Euler(Vector3.up * 90f); // rotate 90° Y
+            ? Quaternion.Euler(Vector3.up * 90f)
+            : Quaternion.Euler(Vector3.zero);
 
         float elapsed = 0f;
         while (elapsed < RotateDuration)
@@ -125,8 +124,6 @@ public class PlayerController : MonoBehaviour
         }
 
         m_Rigidbody.MoveRotation(endRot);
-
-        Rotated = !Rotated;
 
         HandleRotatedOnCheckpoint();
     }
@@ -155,10 +152,7 @@ public class PlayerController : MonoBehaviour
             m_Rigidbody.position = startPosition;
             Rotated = false;
         }
-        Quaternion rotation = Rotated
-    ? Quaternion.Euler(Vector3.up * 90f)
-    : Quaternion.Euler(Vector3.zero);
 
-        m_Rigidbody.rotation = rotation;
+        StartCoroutine(RotateOverTime());
     }
 }
