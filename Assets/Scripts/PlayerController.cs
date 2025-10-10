@@ -144,7 +144,10 @@ public class PlayerController : MonoBehaviour
         try
         {
             Checkpoint checkpoint = checkpointManager.GetLatestCheckpoint();
-            m_Rigidbody.position = checkpoint.transform.position;
+            Vector3 respawnPosition = checkpoint.transform.position;
+            respawnPosition.y += checkpoint.GetComponent<Collider>().bounds.extents.y + GetComponent<Collider>().bounds.extents.y;
+            
+            m_Rigidbody.position = respawnPosition;
             Rotated = checkpoint.Rotated;
         }
         catch
