@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class StartMenuController : MonoBehaviour
 {
     private VisualElement mainPanel, settingsPanel;
     private Button playButton, settingsButton, exitButton, backButton;
     private (SliderInt slider, Label label, System.Action<float> setter)[] volumeControls;
+    public InputAction MenuAction;
 
     void OnEnable()
     {
@@ -22,10 +24,10 @@ public class StartMenuController : MonoBehaviour
         exitButton = root.Q<Button>("ExitButton");
         backButton = root.Q<Button>("BackButton");
 
-        playButton.clicked += () => SceneManager.LoadScene("Prototype");
+        playButton.clicked += OnPlayClicked;
         settingsButton.clicked += ShowSettings;
         exitButton.clicked += () => { Application.Quit(); Debug.Log("Exit game"); };
-        backButton.clicked += ShowMain;
+        backButton.clicked += ShowMainMenu;
 
         //volume control
         volumeControls = new[]
@@ -37,7 +39,56 @@ public class StartMenuController : MonoBehaviour
 
         InitializeVolumeControls();
 
-        ShowMain();
+        MenuAction.Enable();
+        MenuAction.performed += OnMenuPressed;
+
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            ShowMainMenu();
+        }
+        else
+        {
+            HideMainMenu();
+        }
+    }
+
+    void OnDisable()
+    {
+        MenuAction.performed -= OnMenuPressed;
+        MenuAction.Disable();
+    }
+
+    private void OnMenuPressed(InputAction.CallbackContext context)
+    {
+        if (settingsPanel.style.display == DisplayStyle.Flex)
+        {
+            ShowMainMenu();
+            return;
+        }
+
+        bool isMainVisible = mainPanel.style.display == DisplayStyle.Flex;
+
+        if (isMainVisible)
+        {
+            HideMainMenu();
+        }
+        else
+        {
+            ShowMainMenu();
+        }
+    }
+
+    private void OnPlayClicked()
+    {
+        //if in mainmenu: start game else hide menu
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            SceneManager.LoadScene("Prototype");
+        }
+        else
+        {
+            HideMainMenu();
+        }
     }
 
     private void InitializeVolumeControls()
@@ -73,9 +124,17 @@ public class StartMenuController : MonoBehaviour
             label.text = slider.value.ToString();
     }
 
-    private void ShowMain()
+    private void ShowMainMenu()
     {
         mainPanel.style.display = DisplayStyle.Flex;
         settingsPanel.style.display = DisplayStyle.None;
+        Time.timeScale = 0f;
+    }
+
+    private void HideMainMenu()
+    {
+        mainPanel.style.display = DisplayStyle.None;
+        settingsPanel.style.display = DisplayStyle.None;
+        Time.timeScale = 1f;
     }
 }
