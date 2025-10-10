@@ -134,6 +134,11 @@ public class PlayerController : MonoBehaviour
         {
             Respawn();
         }
+
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            FindFirstObjectByType<LevelManager>().LoadNextLevel();
+        }
     }
 
     private void Respawn()
@@ -146,7 +151,7 @@ public class PlayerController : MonoBehaviour
             Checkpoint checkpoint = checkpointManager.GetLatestCheckpoint();
             Vector3 respawnPosition = checkpoint.transform.position;
             respawnPosition.y += checkpoint.GetComponent<Collider>().bounds.extents.y + GetComponent<Collider>().bounds.extents.y;
-            
+
             m_Rigidbody.position = respawnPosition;
             Rotated = checkpoint.Rotated;
         }

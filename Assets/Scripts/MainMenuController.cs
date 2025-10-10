@@ -83,7 +83,7 @@ public class StartMenuController : MonoBehaviour
         //if in mainmenu: start game else hide menu
         if (SceneManager.GetActiveScene().name == "MainMenu")
         {
-            SceneManager.LoadScene("Prototype");
+            SceneManager.LoadScene("Tutorial");
         }
         else
         {
