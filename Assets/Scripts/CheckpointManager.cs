@@ -8,17 +8,8 @@ public class CheckpointManager : MonoBehaviour
 
     private void Awake()
     {
-        checkpoints = GetChildrenOf("Checkpoints");
-        checkpoints = checkpoints.OrderByDescending(c => c.Priority).ToArray();
-    }
-
-    private Checkpoint[] GetChildrenOf(string parentName)
-    {
-        var parent = GameObject.Find(parentName);
-        if (parent == null) return new Checkpoint[0];
-
-        return parent.GetComponentsInChildren<Checkpoint>(true)
-                     .Where(t => t.gameObject != parent)
+        checkpoints = GetComponentsInChildren<Checkpoint>(true)
+                     .Where(t => t.gameObject != this)
                      .Select(t => t)
                      .ToArray();
     }

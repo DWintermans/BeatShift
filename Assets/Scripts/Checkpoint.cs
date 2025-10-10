@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    public int Priority;
     public bool Rotated;
     public bool Activated{ get; private set; }
 
