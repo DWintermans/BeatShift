@@ -1,0 +1,21 @@
+:root {
+
+}
+
+.unity-button {
+    color: white;   
+	letter-spacing: 4px;	
+}
+
+.unity-button:hover {
+	color: black;
+    text-shadow: 0px 0px 5px #12c2f9;
+}
+
+#MainPanel {
+    display: flex;
+}
+
+#SettingsPanel {
+    display: none;
+}

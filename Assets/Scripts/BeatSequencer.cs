@@ -2,6 +2,7 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 
 public class BeatSequencer : MonoBehaviour
 {
@@ -118,19 +119,21 @@ public class BeatSequencer : MonoBehaviour
             //drums
             if (cell.ToLower() == "x")
             {
+                float drumVolume = VolumeManager.Instance.drumVolume * VolumeManager.Instance.mainVolume;
+
                 if (instrument == "hihat")
                 {
-                    hihatSource.PlayOneShot(hihatSource.clip);
+                    hihatSource.PlayOneShot(hihatSource.clip, drumVolume);
                     visualizer?.OnHihat();
                 }
                 else if (instrument == "snare")
                 {
-                    snareSource.PlayOneShot(snareSource.clip);
+                    snareSource.PlayOneShot(snareSource.clip, drumVolume);
                     visualizer?.OnSnare();
                 }
                 else if (instrument == "kick")
                 {
-                    kickSource.PlayOneShot(kickSource.clip);
+                    kickSource.PlayOneShot(kickSource.clip, drumVolume);
                     visualizer?.OnKick();
                 }
             }
@@ -140,7 +143,8 @@ public class BeatSequencer : MonoBehaviour
             {
                 if (cell == "-")
                 {
-                    if (bassSource.isPlaying) bassSource.Stop();
+                    if (bassSource.isPlaying)
+                        StartCoroutine(FadeOutBass(bassSource, 0.1f)); 
                 }
                 else if (bassClips.ContainsKey(cell))
                 {
@@ -148,11 +152,44 @@ public class BeatSequencer : MonoBehaviour
                     {
                         bassSource.clip = bassClips[cell];
                         bassSource.loop = true;
-                        bassSource.Play();
+                        StartCoroutine(FadeInBass(bassSource, 0.1f)); 
                     }
                 }
             }
         }
+    }
+
+    private IEnumerator FadeInBass(AudioSource source, float duration)
+    {
+        float targetVolume = VolumeManager.Instance.bassVolume * VolumeManager.Instance.mainVolume;
+        source.volume = 0f;
+        source.Play();
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            source.volume = Mathf.Lerp(0f, targetVolume, elapsed / duration);
+            yield return null;
+        }
+
+        source.volume = targetVolume;
+    }
+
+    private IEnumerator FadeOutBass(AudioSource source, float duration)
+    {
+        float startVolume = source.volume;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            source.volume = Mathf.Lerp(startVolume, 0f, elapsed / duration);
+            yield return null;
+        }
+
+        source.volume = 0f;
+        source.Stop();
     }
 
     private Dictionary<string, string[]> LoadBeat(TextAsset csv)
