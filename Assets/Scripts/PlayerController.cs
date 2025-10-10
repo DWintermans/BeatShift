@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public CheckpointManager checkpointManager;
 
     public bool Rotated { get; private set; } = false;
+    public float Movement { get; private set; }
 
     Rigidbody m_Rigidbody;
     float rotateCountdown = -1f;
@@ -42,8 +43,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float movement = MoveAction.ReadValue<float>();
-        Move(movement);
+        Movement = MoveAction.ReadValue<float>();
+        Move(Movement);
 
         bool rotate = RotateAction.ReadValue<float>() > 0.5f;
         HandleRotation(rotate);
