@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public InputAction RotateAction;
     public float RotateCooldown = 1.0f;
     public float RotateDuration = 0.3f;
+    [Header("Checkpoint")]
+    public CheckpointManager checkpointManager;
 
     public bool Rotated { get; private set; } = false;
 
@@ -87,7 +89,21 @@ public class PlayerController : MonoBehaviour
         if (rotate)
         {
             rotateCountdown = RotateCooldown;
+            Rotated = !Rotated;
             StartCoroutine(RotateOverTime());
+        }
+    }
+
+    void HandleRotatedOnCheckpoint()
+    {
+        Collider[] hits = Physics.OverlapBox(transform.position, gameObject.GetComponent<Collider>().bounds.extents);
+        foreach (var hit in hits)
+        {
+            Checkpoint checkpoint = hit.GetComponent<Checkpoint>();
+            if (checkpoint != null)
+            {
+                checkpoint.Rotated = Rotated;
+            }
         }
     }
 
@@ -95,8 +111,8 @@ public class PlayerController : MonoBehaviour
     {
         Quaternion startRot = m_Rigidbody.rotation;
         Quaternion endRot = Rotated
-            ? Quaternion.Euler(Vector3.zero) // rotate back
-            : Quaternion.Euler(Vector3.up * 90f); // rotate 90° Y
+            ? Quaternion.Euler(Vector3.up * 90f)
+            : Quaternion.Euler(Vector3.zero);
 
         float elapsed = 0f;
         while (elapsed < RotateDuration)
@@ -109,17 +125,37 @@ public class PlayerController : MonoBehaviour
 
         m_Rigidbody.MoveRotation(endRot);
 
-        Rotated = !Rotated;
+        HandleRotatedOnCheckpoint();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Danger"))
         {
-            m_Rigidbody.linearVelocity = Vector3.zero;
-            m_Rigidbody.angularVelocity = Vector3.zero;
-
-            m_Rigidbody.position = startPosition;
+            Respawn();
         }
+    }
+
+    private void Respawn()
+    {
+        m_Rigidbody.linearVelocity = Vector3.zero;
+        m_Rigidbody.angularVelocity = Vector3.zero;
+
+        try
+        {
+            Checkpoint checkpoint = checkpointManager.GetLatestCheckpoint();
+            Vector3 respawnPosition = checkpoint.transform.position;
+            respawnPosition.y += checkpoint.GetComponent<Collider>().bounds.extents.y + GetComponent<Collider>().bounds.extents.y;
+            
+            m_Rigidbody.position = respawnPosition;
+            Rotated = checkpoint.Rotated;
+        }
+        catch
+        {
+            m_Rigidbody.position = startPosition;
+            Rotated = false;
+        }
+
+        StartCoroutine(RotateOverTime());
     }
 }
