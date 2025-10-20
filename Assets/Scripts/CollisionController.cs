@@ -13,6 +13,7 @@ public class CollisionController : MonoBehaviour
     Rigidbody m_Rigidbody;
     Collider m_Collider;
     RaycastHit hit;
+    bool checkCollision { get { return !playerController.IsRotating; } }
 
     void Start()
     {
@@ -22,6 +23,8 @@ public class CollisionController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!checkCollision) return;
+
         Vector3 rayOriginLeft = GetRayOrigin(false);
         Vector3 rayOriginRight = GetRayOrigin(true);
         Vector3 direction = Camera.gameObject.transform.forward;

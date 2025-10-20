@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public CheckpointManager checkpointManager;
 
     public bool Rotated { get; private set; } = false;
+    public bool IsRotating { get; private set; } = false;
     public float Movement { get; private set; }
 
     Rigidbody m_Rigidbody;
@@ -115,6 +116,7 @@ public class PlayerController : MonoBehaviour
             ? Quaternion.Euler(Vector3.up * 90f)
             : Quaternion.Euler(Vector3.zero);
 
+        IsRotating = true;
         float elapsed = 0f;
         while (elapsed < RotateDuration)
         {
@@ -125,6 +127,7 @@ public class PlayerController : MonoBehaviour
         }
 
         m_Rigidbody.MoveRotation(endRot);
+        IsRotating = false;
 
         HandleRotatedOnCheckpoint();
     }
