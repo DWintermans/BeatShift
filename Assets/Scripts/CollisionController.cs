@@ -6,6 +6,7 @@ public class CollisionController : MonoBehaviour
     public Camera Camera;
     public float distance;
     public string platformsLayerName;
+    public float IsGroundedMarginOfError = 1E-06f;
 
     public bool IsGrounded { get; private set; } = false;
 
@@ -33,7 +34,7 @@ public class CollisionController : MonoBehaviour
         if (hitLeft || hitRight)
         {
             AdjustDepthPosition(hit.collider);
-            IsGrounded = Mathf.Approximately(hit.collider.bounds.max.y, m_Collider.bounds.min.y);
+            IsGrounded = Approximately(hit.collider.bounds.max.y, m_Collider.bounds.min.y);
         }
         else
         {
@@ -41,6 +42,11 @@ public class CollisionController : MonoBehaviour
         }
         Debug.DrawRay(rayLeft.origin, rayLeft.direction * distance, Color.red);
         Debug.DrawRay(rayRight.origin, rayRight.direction * distance, Color.blue);
+    }
+
+    bool Approximately(float a, float b)
+    {
+        return Mathf.Abs(b - a) < Mathf.Max(IsGroundedMarginOfError * Mathf.Max(Mathf.Abs(a), Mathf.Abs(b)), Mathf.Epsilon * 8f); //Mathf.Approximately with customizable margin of error
     }
 
     Vector3 GetRayOrigin(bool right)
