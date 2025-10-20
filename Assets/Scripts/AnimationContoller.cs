@@ -22,7 +22,7 @@ public class AnimationContoller : MonoBehaviour
         }
 
         Animator.SetBool("IsRunning", isRunning);
-        Animator.SetBool("IsLanding", CollisionController.IsGrounded);
+        Animator.SetBool("IsGrounded", CollisionController.IsGrounded);
         Animator.SetBool("IsJumping", JumpController.IsJumping);
     }
 }
