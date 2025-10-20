@@ -27,8 +27,10 @@ public class CollisionController : MonoBehaviour
 
         Ray rayLeft = new Ray(rayOriginLeft, direction);
         Ray rayRight = new Ray(rayOriginRight, direction);
+        bool hitLeft = Physics.Raycast(rayLeft, out hit, distance, LayerMask.GetMask(platformsLayerName));
+        bool hitRight = Physics.Raycast(rayRight, out hit, distance, LayerMask.GetMask(platformsLayerName));
 
-        if (Physics.Raycast(rayLeft, out hit, distance, LayerMask.GetMask(platformsLayerName)) || Physics.Raycast(rayRight, out hit, distance, LayerMask.GetMask(platformsLayerName)))
+        if (hitLeft || hitRight)
         {
             AdjustDepthPosition(hit.collider);
             IsGrounded = Mathf.Approximately(hit.collider.bounds.max.y, m_Collider.bounds.min.y);
