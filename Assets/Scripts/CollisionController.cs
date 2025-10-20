@@ -28,8 +28,11 @@ public class CollisionController : MonoBehaviour
 
         Ray rayLeft = new Ray(rayOriginLeft, direction);
         Ray rayRight = new Ray(rayOriginRight, direction);
+        
         bool hitLeft = Physics.Raycast(rayLeft, out hit, distance, LayerMask.GetMask(platformsLayerName));
-        bool hitRight = Physics.Raycast(rayRight, out hit, distance, LayerMask.GetMask(platformsLayerName));
+        bool hitRight = false;
+        if (!hitLeft)
+            hitRight = Physics.Raycast(rayRight, out hit, distance, LayerMask.GetMask(platformsLayerName));
 
         if (hitLeft || hitRight)
         {
