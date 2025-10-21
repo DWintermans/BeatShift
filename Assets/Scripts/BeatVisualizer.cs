@@ -49,7 +49,6 @@ public class BeatVisualizer : MonoBehaviour
         isHihatOpaque = !isHihatOpaque;
         ToggleTransparency(hihatPlatformsList, isHihatOpaque);
         ToggleHitbox(hihatPlatformsList, isHihatOpaque);
-        ToggleEmission(hihatPlatformsList, isHihatOpaque);
     }
 
     private void ToggleTransparency(GameObject[] platforms, bool isOpaque)
@@ -78,25 +77,6 @@ public class BeatVisualizer : MonoBehaviour
             if (collider != null)
             {
                 collider.enabled = !isOpaque;
-            }
-        }
-    }
-
-    private void ToggleEmission(GameObject[] platforms, bool isOpaque)
-    {
-        foreach (var obj in platforms)
-        {
-            var renderer = obj.GetComponent<Renderer>();
-            if (renderer != null)
-            {
-                if (isOpaque)
-                {
-                    renderer.material.DisableKeyword("_EMISSION");
-                }
-                else
-                {
-                    renderer.material.EnableKeyword("_EMISSION");
-                }
             }
         }
     }

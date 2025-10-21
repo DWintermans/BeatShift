@@ -11,7 +11,7 @@ public class JumpController : MonoBehaviour
     public float JumpPressBeforeHittingGroundTime = 0.5f;
 
     Rigidbody m_Rigidbody;
-    public bool IsJumping { get; private set; } = false;
+    bool isJumping = false;
     float jumpTimeCountdown = 0f;
     float jumpPressBeforeHittingGroundTimeCountdown = 0f;
 
@@ -42,7 +42,7 @@ public class JumpController : MonoBehaviour
         }
         else if (stoppedPressingJump)
         {
-            IsJumping = false;
+            isJumping = false;
         }
     }
 
@@ -70,7 +70,7 @@ public class JumpController : MonoBehaviour
     {
         bool holdingJump = JumpAction.ReadValue<float>() > 0.5f;
 
-        if (holdingJump && IsJumping)
+        if (holdingJump && isJumping)
         {
             if (jumpTimeCountdown > 0f)
             {
@@ -79,7 +79,7 @@ public class JumpController : MonoBehaviour
             }
             else
             {
-                IsJumping = false;
+                isJumping = false;
             }
         }
 
@@ -93,7 +93,7 @@ public class JumpController : MonoBehaviour
 
     void StartJump()
     {
-        IsJumping = true;
+        isJumping = true;
         m_Rigidbody.AddForce(Vector3.up * JumpForce);
         jumpTimeCountdown = JumpTime;
     }

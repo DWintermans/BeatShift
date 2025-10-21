@@ -17,8 +17,6 @@ public class PlayerController : MonoBehaviour
     public CheckpointManager checkpointManager;
 
     public bool Rotated { get; private set; } = false;
-    public bool IsRotating { get; private set; } = false;
-    public float Movement { get; private set; }
 
     Rigidbody m_Rigidbody;
     float rotateCountdown = -1f;
@@ -44,8 +42,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Movement = MoveAction.ReadValue<float>();
-        Move(Movement);
+        float movement = MoveAction.ReadValue<float>();
+        Move(movement);
 
         bool rotate = RotateAction.ReadValue<float>() > 0.5f;
         HandleRotation(rotate);
@@ -116,7 +114,6 @@ public class PlayerController : MonoBehaviour
             ? Quaternion.Euler(Vector3.up * 90f)
             : Quaternion.Euler(Vector3.zero);
 
-        IsRotating = true;
         float elapsed = 0f;
         while (elapsed < RotateDuration)
         {
@@ -127,7 +124,6 @@ public class PlayerController : MonoBehaviour
         }
 
         m_Rigidbody.MoveRotation(endRot);
-        IsRotating = false;
 
         HandleRotatedOnCheckpoint();
     }
@@ -137,11 +133,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Danger"))
         {
             Respawn();
-        }
-
-        if (collision.gameObject.CompareTag("Finish"))
-        {
-            FindFirstObjectByType<LevelManager>().LoadNextLevel();
         }
     }
 
@@ -155,7 +146,7 @@ public class PlayerController : MonoBehaviour
             Checkpoint checkpoint = checkpointManager.GetLatestCheckpoint();
             Vector3 respawnPosition = checkpoint.transform.position;
             respawnPosition.y += checkpoint.GetComponent<Collider>().bounds.extents.y + GetComponent<Collider>().bounds.extents.y;
-
+            
             m_Rigidbody.position = respawnPosition;
             Rotated = checkpoint.Rotated;
         }

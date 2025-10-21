@@ -6,14 +6,12 @@ public class CollisionController : MonoBehaviour
     public Camera Camera;
     public float distance;
     public string platformsLayerName;
-    public float IsGroundedMarginOfError = 1E-06f;
 
     public bool IsGrounded { get; private set; } = false;
 
     Rigidbody m_Rigidbody;
     Collider m_Collider;
     RaycastHit hit;
-    bool checkCollision { get { return !playerController.IsRotating; } }
 
     void Start()
     {
@@ -23,24 +21,17 @@ public class CollisionController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!checkCollision) return;
-
         Vector3 rayOriginLeft = GetRayOrigin(false);
         Vector3 rayOriginRight = GetRayOrigin(true);
         Vector3 direction = Camera.gameObject.transform.forward;
 
         Ray rayLeft = new Ray(rayOriginLeft, direction);
         Ray rayRight = new Ray(rayOriginRight, direction);
-        
-        bool hitLeft = Physics.Raycast(rayLeft, out hit, distance, LayerMask.GetMask(platformsLayerName));
-        bool hitRight = false;
-        if (!hitLeft)
-            hitRight = Physics.Raycast(rayRight, out hit, distance, LayerMask.GetMask(platformsLayerName));
 
-        if (hitLeft || hitRight)
+        if (Physics.Raycast(rayLeft, out hit, distance, LayerMask.GetMask(platformsLayerName)) || Physics.Raycast(rayRight, out hit, distance, LayerMask.GetMask(platformsLayerName)))
         {
             AdjustDepthPosition(hit.collider);
-            IsGrounded = Approximately(hit.collider.bounds.max.y, m_Collider.bounds.min.y);
+            IsGrounded = Mathf.Approximately(hit.collider.bounds.max.y, m_Collider.bounds.min.y);
         }
         else
         {
@@ -48,11 +39,6 @@ public class CollisionController : MonoBehaviour
         }
         Debug.DrawRay(rayLeft.origin, rayLeft.direction * distance, Color.red);
         Debug.DrawRay(rayRight.origin, rayRight.direction * distance, Color.blue);
-    }
-
-    bool Approximately(float a, float b)
-    {
-        return Mathf.Abs(b - a) < Mathf.Max(IsGroundedMarginOfError * Mathf.Max(Mathf.Abs(a), Mathf.Abs(b)), Mathf.Epsilon * 8f); //Mathf.Approximately with customizable margin of error
     }
 
     Vector3 GetRayOrigin(bool right)
