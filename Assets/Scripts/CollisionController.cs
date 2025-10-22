@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CollisionController : MonoBehaviour
 {
-    public PlayerController playerController;
+    public RotationController rotationController;
     public Camera Camera;
     public float distance;
     public string platformsLayerName;
@@ -13,7 +13,7 @@ public class CollisionController : MonoBehaviour
     Rigidbody m_Rigidbody;
     Collider m_Collider;
     RaycastHit hit;
-    bool checkCollision { get { return !playerController.IsRotating; } }
+    bool checkCollision { get { return !rotationController.IsRotating; } }
 
     void Start()
     {
@@ -59,7 +59,7 @@ public class CollisionController : MonoBehaviour
     {
         Vector3 rayOrigin = Camera.gameObject.transform.position;
         rayOrigin.y -= m_Collider.bounds.extents.y;
-        if (playerController.Rotated)
+        if (rotationController.Rotated)
         {
             rayOrigin.x += m_Collider.bounds.extents.x;
 
@@ -90,7 +90,7 @@ public class CollisionController : MonoBehaviour
         Vector3 position = transform.position;
         Bounds colBounds = collider.bounds;
 
-        if (playerController.Rotated)
+        if (rotationController.Rotated)
         {
             position.x = Mathf.Clamp(position.x, colBounds.min.x, colBounds.max.x);
             position.y -= GetDistanceDownByTilt(transform.position.x, position.x);

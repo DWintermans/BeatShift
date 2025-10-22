@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1707916004794831859}
   - component: {fileID: 1697801363758021783}
   - component: {fileID: 1523141198704385090}
+  - component: {fileID: 3114355002555193910}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -157,33 +158,6 @@ MonoBehaviour:
     m_Flags: 0
   walkSpeed: 5
   walkAccelerationForce: 30
-  RotateAction:
-    m_Name: Rotate
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 66fb84b3-339b-4641-94d8-a1e820d2b0ad
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 04b0e345-2d54-42b4-81e0-b993da46e1fb
-      m_Path: <Keyboard>/e
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Rotate
-      m_Flags: 0
-    - m_Name: 
-      m_Id: 6491e4c0-d4b7-41bd-a6b4-9d6c2d39b986
-      m_Path: <Keyboard>/period
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Rotate
-      m_Flags: 0
-    m_Flags: 0
-  RotateCooldown: 1
-  RotateDuration: 0.3
   checkpointManager: {fileID: 0}
 --- !u!114 &1707916004794831859
 MonoBehaviour:
@@ -197,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a46521f7b4cde7f449910f3f77179f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollisionController
-  playerController: {fileID: 3943903305585201653}
+  rotationController: {fileID: 3114355002555193910}
   Camera: {fileID: 0}
   distance: 1000
   platformsLayerName: Platforms
@@ -269,6 +243,46 @@ MonoBehaviour:
   JumpController: {fileID: 1697801363758021783}
   Animator: {fileID: 4863155994529377155}
   ModelToRotate: {fileID: 4969686872549007239}
+--- !u!114 &3114355002555193910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272667514205182082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e00160f08b2d2e4b9607ef17cf58dad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RotationController
+  RotateAction:
+    m_Name: Rotate
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 545d16eb-f75b-4d7d-88df-47a3eec6c578
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: b058dd84-0e62-4f84-a8e0-188cdcbbe5d5
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Rotate
+      m_Flags: 0
+    - m_Name: 
+      m_Id: fcf848dd-eef4-4007-aafe-70e13e314128
+      m_Path: <Keyboard>/period
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Rotate
+      m_Flags: 0
+    m_Flags: 0
+  RotateCooldown: 1
+  RotateDuration: 0.3
+  Rotated: 0
 --- !u!1001 &6951481662833439865
 PrefabInstance:
   m_ObjectHideFlags: 0

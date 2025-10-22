@@ -1,23 +1,13 @@
 using UnityEngine;
 
-public class Checkpoint : MonoBehaviour
+public class RotationEnabler : MonoBehaviour
 {
-    public bool Rotated;
-    public bool Activated{ get; private set; }
-
-    void Start()
-    {
-        Activated = false;
-    }
-
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             RotationController playerRotationController = collision.gameObject.GetComponent<RotationController>();
-
-            Activated = true;
-            Rotated = playerRotationController.Rotated;
+            playerRotationController.enabled = true;
         }
     }
 }
