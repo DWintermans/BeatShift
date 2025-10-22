@@ -19,15 +19,20 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-            
+      
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1        
+        
       - uses: actions/cache@v3
         with:
-          path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: Library-
-          
-      - name: Free disk space
-        uses: jlumbroso/free-disk-space@v1.3.1
+          path: |
+            Library
+            obj
+            Temp
+          key: Library-${{ matrix.targetPlatform }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-${{ matrix.targetPlatform }}-
+            Library-
         
       - uses: game-ci/unity-builder@v4
         env:
