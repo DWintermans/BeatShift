@@ -10,19 +10,25 @@ public class CollisionController : MonoBehaviour
 
     public bool IsGrounded { get; private set; } = false;
 
-    Rigidbody m_Rigidbody;
-    Collider m_Collider;
-    RaycastHit hit;
-    bool checkCollision { get { return !rotationController.IsRotating; } }
+    private Rigidbody m_Rigidbody;
+    private Collider m_Collider;
+    private RaycastHit hit;
+    private bool checkCollision { get { return !rotationController.IsRotating; } }
+    private ParticleSystem childParticleSystem;
+    private bool lastIsGrounded;
+
 
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Collider = GetComponent<Collider>();
+        childParticleSystem = GetComponentInChildren<ParticleSystem>();
     }
 
     void FixedUpdate()
     {
+        lastIsGrounded = IsGrounded;
+
         if (!checkCollision) return;
 
         Vector3 rayOriginLeft = GetRayOrigin(false);
@@ -31,7 +37,7 @@ public class CollisionController : MonoBehaviour
 
         Ray rayLeft = new Ray(rayOriginLeft, direction);
         Ray rayRight = new Ray(rayOriginRight, direction);
-        
+
         bool hitLeft = Physics.Raycast(rayLeft, out hit, distance, LayerMask.GetMask(platformsLayerName));
         bool hitRight = false;
         if (!hitLeft)
@@ -45,6 +51,11 @@ public class CollisionController : MonoBehaviour
         else
         {
             IsGrounded = false;
+        }
+
+        if (IsGrounded && !lastIsGrounded)
+        {
+            childParticleSystem.Play();
         }
         Debug.DrawRay(rayLeft.origin, rayLeft.direction * distance, Color.red);
         Debug.DrawRay(rayRight.origin, rayRight.direction * distance, Color.blue);
