@@ -21,7 +21,11 @@ public class BeatSequencer : MonoBehaviour
 
     [Header("Bass Audio Sources")]
     public AudioSource bassSource;
-    public AudioClip C2, D2, E2, F2, G2, A2, B2, C3, D3, E3, F3, G3, A3, B3, C4;
+    public AudioClip E0, E1, E2, E3, E4, E5,
+                 A1, A2, A3, A4, A5,
+                 D1, D2, D3, D4, D5,
+                 G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12, G13, G14;
+
     private Dictionary<string, AudioClip> bassClips;
 
     //instrument name + bool
@@ -42,21 +46,36 @@ public class BeatSequencer : MonoBehaviour
 
         bassClips = new Dictionary<string, AudioClip>
         {
-            { "C2", C2 },
-            { "D2", D2 },
+            { "E0", E0 },
+            { "E1", E1 },
             { "E2", E2 },
-            { "F2", F2 },
-            { "G2", G2 },
-            { "A2", A2 },
-            { "B2", B2 },
-            { "C3", C3 },
-            { "D3", D3 },
             { "E3", E3 },
-            { "F3", F3 },
-            { "G3", G3 },
+            { "E4", E4 },
+            { "E5", E5 },
+            { "A1", A1 },
+            { "A2", A2 },
             { "A3", A3 },
-            { "B3", B3 },
-            { "C4", C4 }
+            { "A4", A4 },
+            { "A5", A5 },
+            { "D1", D1 },
+            { "D2", D2 },
+            { "D3", D3 },
+            { "D4", D4 },
+            { "D5", D5 },
+            { "G1", G1 },
+            { "G2", G2 },
+            { "G3", G3 },
+            { "G4", G4 },
+            { "G5", G5 },
+            { "G6", G6 },
+            { "G7", G7 },
+            { "G8", G8 },
+            { "G9", G9 },
+            { "G10", G10 },
+            { "G11", G11 },
+            { "G12", G12 },
+            { "G13", G13 },
+            { "G14", G14 }
         };
     }
 
@@ -144,7 +163,7 @@ public class BeatSequencer : MonoBehaviour
                 if (cell == "-")
                 {
                     if (bassSource.isPlaying)
-                        StartCoroutine(FadeOutBass(bassSource, 0.1f)); 
+                        StartCoroutine(FadeOutBass(bassSource, 0.1f));
                 }
                 else if (bassClips.ContainsKey(cell))
                 {
@@ -152,7 +171,7 @@ public class BeatSequencer : MonoBehaviour
                     {
                         bassSource.clip = bassClips[cell];
                         bassSource.loop = true;
-                        StartCoroutine(FadeInBass(bassSource, 0.1f)); 
+                        StartCoroutine(FadeInBass(bassSource, 0.1f));
                     }
                 }
             }
