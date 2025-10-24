@@ -35,6 +35,7 @@ public class BeatVisualizer : MonoBehaviour
         isKickOpaque = !isKickOpaque;
         ToggleTransparency(kickPlatformsList, isKickOpaque);
         ToggleHitbox(kickPlatformsList, isKickOpaque);
+        ToggleEmission(kickPlatformsList, isKickOpaque);
     }
 
     public void OnSnare()
@@ -42,6 +43,7 @@ public class BeatVisualizer : MonoBehaviour
         isSnareOpaque = !isSnareOpaque;
         ToggleTransparency(snarePlatformsList, isSnareOpaque);
         ToggleHitbox(snarePlatformsList, isSnareOpaque);
+        ToggleEmission(snarePlatformsList, isSnareOpaque);
     }
 
     public void OnHihat()
@@ -64,6 +66,22 @@ public class BeatVisualizer : MonoBehaviour
                 Color c = renderer.material.color;
                 c.a = alpha;
                 renderer.material.color = c;
+            }
+            else
+            {
+                var childRenderers = obj.GetComponentsInChildren<Renderer>();
+                if (childRenderers != null)
+                {
+                    foreach (var childRenderer in childRenderers)
+                    {
+                        if (childRenderer != null)
+                        {
+                            Color c = childRenderer.material.color;
+                            c.a = alpha;
+                            childRenderer.material.color = c;
+                        }
+                    }
+                }
             }
         }
     }
