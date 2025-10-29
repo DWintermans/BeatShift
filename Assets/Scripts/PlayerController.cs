@@ -105,6 +105,9 @@ public class PlayerController : MonoBehaviour
             rotationController.Rotated = false;
         }
 
-        StartCoroutine(rotationController.RotateOverTime());
+        if (rotationController.enabled)
+        {
+            StartCoroutine(rotationController.RotateOverTime());
+        }
     }
 }
