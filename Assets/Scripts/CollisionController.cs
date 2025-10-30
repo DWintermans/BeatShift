@@ -10,10 +10,10 @@ public class CollisionController : MonoBehaviour
 
     public bool IsGrounded { get; private set; } = false;
 
-    Rigidbody m_Rigidbody;
-    Collider m_Collider;
-    RaycastHit hit;
-    bool checkCollision { get { return !rotationController.IsRotating; } }
+    private Rigidbody m_Rigidbody;
+    private Collider m_Collider;
+    private RaycastHit hit;
+    private bool checkCollision { get { return !rotationController.IsRotating; } }
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class CollisionController : MonoBehaviour
 
         Ray rayLeft = new Ray(rayOriginLeft, direction);
         Ray rayRight = new Ray(rayOriginRight, direction);
-        
+
         bool hitLeft = Physics.Raycast(rayLeft, out hit, distance, LayerMask.GetMask(platformsLayerName));
         bool hitRight = false;
         if (!hitLeft)
@@ -46,6 +46,7 @@ public class CollisionController : MonoBehaviour
         {
             IsGrounded = false;
         }
+
         Debug.DrawRay(rayLeft.origin, rayLeft.direction * distance, Color.red);
         Debug.DrawRay(rayRight.origin, rayRight.direction * distance, Color.blue);
     }
