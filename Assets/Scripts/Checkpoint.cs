@@ -26,7 +26,7 @@ public class Checkpoint : MonoBehaviour
             {
                 Vector3 vfxLocation = transform.position;
                 vfxLocation.y += GetComponent<Collider>().bounds.extents.y;
-                Vector3 scale = transform.localScale;
+                Vector3 scale = transform.lossyScale;
                 scale.y = Mathf.Min(scale.x, scale.z);
                 ParticleSystem instantiatedParticaleSystem = Instantiate(checkpointParticleSystem, vfxLocation, checkpointParticleSystem.transform.rotation);
                 instantiatedParticaleSystem.transform.localScale = scale;
