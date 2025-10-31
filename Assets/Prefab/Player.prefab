@@ -177,7 +177,7 @@ MonoBehaviour:
   Camera: {fileID: 0}
   distance: 1000
   platformsLayerName: Platforms
-  IsGroundedMarginOfError: 0.0001
+  IsGroundedMarginOfError: 0.01
 --- !u!114 &1697801363758021783
 MonoBehaviour:
   m_ObjectHideFlags: 0

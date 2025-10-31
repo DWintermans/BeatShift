@@ -7,6 +7,8 @@ public class BeatVisualizer : MonoBehaviour
     private GameObject[] kickPlatformsList;
     private GameObject[] snarePlatformsList;
     private GameObject[] hihatPlatformsList;
+    private GameObject[] kickMovingPlatformsList;
+    private GameObject[] snareMovingPlatformsList;
 
     private bool isKickOpaque = false;
     private bool isSnareOpaque = false;
@@ -17,6 +19,8 @@ public class BeatVisualizer : MonoBehaviour
         kickPlatformsList = GetChildrenOf("KickPlatforms");
         snarePlatformsList = GetChildrenOf("SnarePlatforms");
         hihatPlatformsList = GetChildrenOf("HihatPlatforms");
+        kickMovingPlatformsList = GetChildrenOf("KickMovingPlatforms");
+        snareMovingPlatformsList = GetChildrenOf("SnareMovingPlatforms");
     }
 
     private GameObject[] GetChildrenOf(string parentName)
@@ -37,6 +41,8 @@ public class BeatVisualizer : MonoBehaviour
         ToggleHitbox(kickPlatformsList, isKickOpaque);
         ToggleEmission(kickPlatformsList, isKickOpaque);
         ToggleAdvertisementBaseMap(kickPlatformsList, isKickOpaque);
+        
+        ToggleMovingPlatformDirection(kickMovingPlatformsList);
     }
 
     public void OnSnare()
@@ -46,6 +52,8 @@ public class BeatVisualizer : MonoBehaviour
         ToggleHitbox(snarePlatformsList, isSnareOpaque);
         ToggleEmission(snarePlatformsList, isSnareOpaque);
         ToggleAdvertisementBaseMap(snarePlatformsList, isSnareOpaque);
+
+        ToggleMovingPlatformDirection(snareMovingPlatformsList);
     }
 
     public void OnHihat()
@@ -136,6 +144,15 @@ public class BeatVisualizer : MonoBehaviour
                     childRenderer.material.color = baseMap;
                 }
             }
+        }
+    }
+
+    private void ToggleMovingPlatformDirection(GameObject[] platforms)
+    {
+        foreach (var obj in platforms)
+        {
+            var movingPlatform = obj.GetComponent<MovingPlatform>();
+            movingPlatform.Move();
         }
     }
 }
