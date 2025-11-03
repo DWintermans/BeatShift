@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CollisionController : MonoBehaviour
 {
-    public PlayerController playerController;
+    public RotationController rotationController;
     public Camera Camera;
     public float distance;
     public string platformsLayerName;
@@ -10,10 +10,10 @@ public class CollisionController : MonoBehaviour
 
     public bool IsGrounded { get; private set; } = false;
 
-    Rigidbody m_Rigidbody;
-    Collider m_Collider;
-    RaycastHit hit;
-    bool checkCollision { get { return !playerController.IsRotating; } }
+    private Rigidbody m_Rigidbody;
+    private Collider m_Collider;
+    private RaycastHit hit;
+    private bool checkCollision { get { return !rotationController.IsRotating; } }
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class CollisionController : MonoBehaviour
 
         Ray rayLeft = new Ray(rayOriginLeft, direction);
         Ray rayRight = new Ray(rayOriginRight, direction);
-        
+
         bool hitLeft = Physics.Raycast(rayLeft, out hit, distance, LayerMask.GetMask(platformsLayerName));
         bool hitRight = false;
         if (!hitLeft)
@@ -46,6 +46,7 @@ public class CollisionController : MonoBehaviour
         {
             IsGrounded = false;
         }
+
         Debug.DrawRay(rayLeft.origin, rayLeft.direction * distance, Color.red);
         Debug.DrawRay(rayRight.origin, rayRight.direction * distance, Color.blue);
     }
@@ -59,7 +60,7 @@ public class CollisionController : MonoBehaviour
     {
         Vector3 rayOrigin = Camera.gameObject.transform.position;
         rayOrigin.y -= m_Collider.bounds.extents.y;
-        if (playerController.Rotated)
+        if (rotationController.Rotated)
         {
             rayOrigin.x += m_Collider.bounds.extents.x;
 
@@ -90,7 +91,7 @@ public class CollisionController : MonoBehaviour
         Vector3 position = transform.position;
         Bounds colBounds = collider.bounds;
 
-        if (playerController.Rotated)
+        if (rotationController.Rotated)
         {
             position.x = Mathf.Clamp(position.x, colBounds.min.x, colBounds.max.x);
             position.y -= GetDistanceDownByTilt(transform.position.x, position.x);

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,52 +8,43 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 1.0f;
     public float walkAccelerationForce = 100f;
 
-    [Header("Rotating")]
-    public InputAction RotateAction;
-    public float RotateCooldown = 1.0f;
-    public float RotateDuration = 0.3f;
     [Header("Checkpoint")]
     public CheckpointManager checkpointManager;
 
-    public bool Rotated { get; private set; } = false;
-    public bool IsRotating { get; private set; } = false;
     public float Movement { get; private set; }
 
-    Rigidbody m_Rigidbody;
-    float rotateCountdown = -1f;
+    private Rigidbody m_Rigidbody;
+    private RotationController rotationController;
     private Vector3 startPosition;
+    private bool rotated { get { return rotationController.Rotated; } }
 
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        rotationController = GetComponent<RotationController>();
         startPosition = m_Rigidbody.position;
     }
 
     void OnEnable()
     {
         MoveAction.Enable();
-        RotateAction.Enable();
     }
 
     void OnDisable()
     {
         MoveAction.Disable();
-        RotateAction.Disable();
     }
 
     void FixedUpdate()
     {
         Movement = MoveAction.ReadValue<float>();
         Move(Movement);
-
-        bool rotate = RotateAction.ReadValue<float>() > 0.5f;
-        HandleRotation(rotate);
     }
 
     void Move(float movement)
     {
         Vector3 moveDir;
-        if (Rotated)
+        if (rotated)
         {
             moveDir = new Vector3(0f, 0f, -movement);
         }
@@ -72,65 +62,15 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 maxVelocity = moveDir * walkSpeed;
         maxVelocity.y = m_Rigidbody.linearVelocity.y;
-        bool overMaxVelocityRotated = Rotated && Mathf.Abs(m_Rigidbody.linearVelocity.z) > Mathf.Abs(maxVelocity.z);
-        bool overMaxVelocityNotRotated = !Rotated && Mathf.Abs(m_Rigidbody.linearVelocity.x) > Mathf.Abs(maxVelocity.x);
+        bool overMaxVelocityRotated = rotated && Mathf.Abs(m_Rigidbody.linearVelocity.z) > Mathf.Abs(maxVelocity.z);
+        bool overMaxVelocityNotRotated = !rotated && Mathf.Abs(m_Rigidbody.linearVelocity.x) > Mathf.Abs(maxVelocity.x);
         if (overMaxVelocityRotated || overMaxVelocityNotRotated)
         {
             m_Rigidbody.linearVelocity = maxVelocity;
         }
     }
 
-    void HandleRotation(bool rotate)
-    {
-        if (rotateCountdown > 0f)
-        {
-            rotateCountdown -= Time.deltaTime;
-            return;
-        }
 
-        if (rotate)
-        {
-            rotateCountdown = RotateCooldown;
-            Rotated = !Rotated;
-            StartCoroutine(RotateOverTime());
-        }
-    }
-
-    void HandleRotatedOnCheckpoint()
-    {
-        Collider[] hits = Physics.OverlapBox(transform.position, gameObject.GetComponent<Collider>().bounds.extents);
-        foreach (var hit in hits)
-        {
-            Checkpoint checkpoint = hit.GetComponent<Checkpoint>();
-            if (checkpoint != null)
-            {
-                checkpoint.Rotated = Rotated;
-            }
-        }
-    }
-
-    System.Collections.IEnumerator RotateOverTime()
-    {
-        Quaternion startRot = m_Rigidbody.rotation;
-        Quaternion endRot = Rotated
-            ? Quaternion.Euler(Vector3.up * 90f)
-            : Quaternion.Euler(Vector3.zero);
-
-        IsRotating = true;
-        float elapsed = 0f;
-        while (elapsed < RotateDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / RotateDuration);
-            m_Rigidbody.MoveRotation(Quaternion.Slerp(startRot, endRot, t));
-            yield return null;
-        }
-
-        m_Rigidbody.MoveRotation(endRot);
-        IsRotating = false;
-
-        HandleRotatedOnCheckpoint();
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -157,14 +97,17 @@ public class PlayerController : MonoBehaviour
             respawnPosition.y += checkpoint.GetComponent<Collider>().bounds.extents.y + GetComponent<Collider>().bounds.extents.y;
 
             m_Rigidbody.position = respawnPosition;
-            Rotated = checkpoint.Rotated;
+            rotationController.Rotated = checkpoint.Rotated;
         }
         catch
         {
             m_Rigidbody.position = startPosition;
-            Rotated = false;
+            rotationController.Rotated = false;
         }
 
-        StartCoroutine(RotateOverTime());
+        if (rotationController.enabled)
+        {
+            StartCoroutine(rotationController.RotateOverTime());
+        }
     }
 }

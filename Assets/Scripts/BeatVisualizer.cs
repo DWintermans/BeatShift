@@ -7,6 +7,8 @@ public class BeatVisualizer : MonoBehaviour
     private GameObject[] kickPlatformsList;
     private GameObject[] snarePlatformsList;
     private GameObject[] hihatPlatformsList;
+    private GameObject[] kickMovingPlatformsList;
+    private GameObject[] snareMovingPlatformsList;
 
     private bool isKickOpaque = false;
     private bool isSnareOpaque = false;
@@ -17,6 +19,8 @@ public class BeatVisualizer : MonoBehaviour
         kickPlatformsList = GetChildrenOf("KickPlatforms");
         snarePlatformsList = GetChildrenOf("SnarePlatforms");
         hihatPlatformsList = GetChildrenOf("HihatPlatforms");
+        kickMovingPlatformsList = GetChildrenOf("KickMovingPlatforms");
+        snareMovingPlatformsList = GetChildrenOf("SnareMovingPlatforms");
     }
 
     private GameObject[] GetChildrenOf(string parentName)
@@ -35,6 +39,10 @@ public class BeatVisualizer : MonoBehaviour
         isKickOpaque = !isKickOpaque;
         ToggleTransparency(kickPlatformsList, isKickOpaque);
         ToggleHitbox(kickPlatformsList, isKickOpaque);
+        ToggleEmission(kickPlatformsList, isKickOpaque);
+        ToggleAdvertisementBaseMap(kickPlatformsList, isKickOpaque);
+        
+        ToggleMovingPlatformDirection(kickMovingPlatformsList);
     }
 
     public void OnSnare()
@@ -42,6 +50,10 @@ public class BeatVisualizer : MonoBehaviour
         isSnareOpaque = !isSnareOpaque;
         ToggleTransparency(snarePlatformsList, isSnareOpaque);
         ToggleHitbox(snarePlatformsList, isSnareOpaque);
+        ToggleEmission(snarePlatformsList, isSnareOpaque);
+        ToggleAdvertisementBaseMap(snarePlatformsList, isSnareOpaque);
+
+        ToggleMovingPlatformDirection(snareMovingPlatformsList);
     }
 
     public void OnHihat()
@@ -50,6 +62,7 @@ public class BeatVisualizer : MonoBehaviour
         ToggleTransparency(hihatPlatformsList, isHihatOpaque);
         ToggleHitbox(hihatPlatformsList, isHihatOpaque);
         ToggleEmission(hihatPlatformsList, isHihatOpaque);
+        ToggleAdvertisementBaseMap(hihatPlatformsList, isHihatOpaque);
     }
 
     private void ToggleTransparency(GameObject[] platforms, bool isOpaque)
@@ -64,6 +77,22 @@ public class BeatVisualizer : MonoBehaviour
                 Color c = renderer.material.color;
                 c.a = alpha;
                 renderer.material.color = c;
+            }
+            else
+            {
+                var childRenderers = obj.GetComponentsInChildren<Renderer>();
+                if (childRenderers != null)
+                {
+                    foreach (var childRenderer in childRenderers)
+                    {
+                        if (childRenderer != null)
+                        {
+                            Color c = childRenderer.material.color;
+                            c.a = alpha;
+                            childRenderer.material.color = c;
+                        }
+                    }
+                }
             }
         }
     }
@@ -98,6 +127,32 @@ public class BeatVisualizer : MonoBehaviour
                     renderer.material.EnableKeyword("_EMISSION");
                 }
             }
+        }
+    }
+
+    private void ToggleAdvertisementBaseMap(GameObject[] platforms, bool isOpaque)
+    {
+        Color baseMap = isOpaque ? new Color(0.3f, 0.3f, 0.3f) : new Color(1, 1, 1);
+
+        foreach (var obj in platforms)
+        {
+            var childRenderers = obj.GetComponentsInChildren<Renderer>();
+            foreach (var childRenderer in childRenderers)
+            {
+                if (childRenderer.CompareTag("Advertisement"))
+                {
+                    childRenderer.material.color = baseMap;
+                }
+            }
+        }
+    }
+
+    private void ToggleMovingPlatformDirection(GameObject[] platforms)
+    {
+        foreach (var obj in platforms)
+        {
+            var movingPlatform = obj.GetComponent<MovingPlatform>();
+            movingPlatform.Move();
         }
     }
 }

@@ -83,11 +83,16 @@ public class JumpController : MonoBehaviour
             }
         }
 
-        if (!holdingJump && m_Rigidbody.linearVelocity.y > 0f)
+        if (!holdingJump)
         {
-            Vector3 newVelocity = m_Rigidbody.linearVelocity;
-            newVelocity.y *= StopJumpingMultiplier;
-            m_Rigidbody.linearVelocity = newVelocity;
+            IsJumping = false;
+
+            if (m_Rigidbody.linearVelocity.y > 0f)
+            {
+                Vector3 newVelocity = m_Rigidbody.linearVelocity;
+                newVelocity.y *= StopJumpingMultiplier;
+                m_Rigidbody.linearVelocity = newVelocity;
+            }
         }
     }
 
