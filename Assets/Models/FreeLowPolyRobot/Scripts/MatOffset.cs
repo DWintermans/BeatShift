@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YourNamespaceHere
+namespace MatOffset
 {
     public class MatOffset : MonoBehaviour
     {

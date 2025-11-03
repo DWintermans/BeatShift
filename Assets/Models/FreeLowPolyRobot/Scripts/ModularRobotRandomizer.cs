@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace YourNamespaceHere
+namespace ModularRobotRandomizer
 {
     public class ModularRobotRandomizer : MonoBehaviour
     {
