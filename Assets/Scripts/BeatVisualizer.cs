@@ -7,8 +7,8 @@ public class BeatVisualizer : MonoBehaviour
     private GameObject[] kickPlatformsList;
     private GameObject[] snarePlatformsList;
     private GameObject[] hihatPlatformsList;
-    private GameObject[] kickMovingPlatformsList;
-    private GameObject[] snareMovingPlatformsList;
+    private MovingPlatform[] kickMovingPlatformsList;
+    private MovingPlatform[] snareMovingPlatformsList;
 
     private bool isKickOpaque = false;
     private bool isSnareOpaque = false;
@@ -19,8 +19,8 @@ public class BeatVisualizer : MonoBehaviour
         kickPlatformsList = GetChildrenOf("KickPlatforms");
         snarePlatformsList = GetChildrenOf("SnarePlatforms");
         hihatPlatformsList = GetChildrenOf("HihatPlatforms");
-        kickMovingPlatformsList = GetChildrenOf("KickMovingPlatforms");
-        snareMovingPlatformsList = GetChildrenOf("SnareMovingPlatforms");
+        kickMovingPlatformsList = GetMovingPlatformChildrenOf("KickMovingPlatforms");
+        snareMovingPlatformsList = GetMovingPlatformChildrenOf("SnareMovingPlatforms");
     }
 
     private GameObject[] GetChildrenOf(string parentName)
@@ -34,6 +34,15 @@ public class BeatVisualizer : MonoBehaviour
                      .ToArray();
     }
 
+    private MovingPlatform[] GetMovingPlatformChildrenOf(string parentName)
+    {
+        var parent = GameObject.Find(parentName);
+        if (parent == null) return new MovingPlatform[0];
+
+        return parent.GetComponentsInChildren<MovingPlatform>(true)
+                     .ToArray();
+    }
+
     public void OnKick()
     {
         isKickOpaque = !isKickOpaque;
@@ -41,7 +50,7 @@ public class BeatVisualizer : MonoBehaviour
         ToggleHitbox(kickPlatformsList, isKickOpaque);
         ToggleEmission(kickPlatformsList, isKickOpaque);
         ToggleAdvertisementBaseMap(kickPlatformsList, isKickOpaque);
-        
+
         ToggleMovingPlatformDirection(kickMovingPlatformsList);
     }
 
@@ -147,12 +156,11 @@ public class BeatVisualizer : MonoBehaviour
         }
     }
 
-    private void ToggleMovingPlatformDirection(GameObject[] platforms)
+    private void ToggleMovingPlatformDirection(MovingPlatform[] platforms)
     {
         foreach (var obj in platforms)
         {
-            var movingPlatform = obj.GetComponent<MovingPlatform>();
-            movingPlatform.Move();
+            obj.Move();
         }
     }
 }
