@@ -7,6 +7,7 @@ public class CollisionController : MonoBehaviour
     public float distance;
     public string platformsLayerName;
     public float IsGroundedMarginOfError = 1E-06f;
+    public float FrontPosition;
 
     public bool IsGrounded { get; private set; } = false;
 
@@ -44,6 +45,11 @@ public class CollisionController : MonoBehaviour
         }
         else
         {
+            bool behindFront = (rotationController.Rotated && transform.position.x < FrontPosition) || (!rotationController.Rotated && transform.position.z < FrontPosition);
+            if (behindFront)
+            {
+                TeleportToFront();
+            }
             IsGrounded = false;
         }
 
@@ -125,5 +131,25 @@ public class CollisionController : MonoBehaviour
             position.y = colBounds.max.y + m_Collider.bounds.extents.y;
             transform.position = position;
         }
+    }
+
+    void TeleportToFront()
+    {
+        Vector3 oldPosition = transform.position;
+        Vector3 newPosition = oldPosition;
+        float yAdjustment;
+        if (rotationController.Rotated)
+        {
+            newPosition.x = FrontPosition;
+            yAdjustment = GetDistanceDownByTilt(oldPosition.x, newPosition.x);
+        }
+        else
+        {
+            newPosition.z = FrontPosition;
+            yAdjustment = GetDistanceDownByTilt(oldPosition.z, newPosition.z);
+        }
+        newPosition.y -= yAdjustment;
+
+        transform.position = newPosition;
     }
 }
