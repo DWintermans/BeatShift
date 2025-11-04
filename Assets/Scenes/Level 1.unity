@@ -23860,7 +23860,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: bpm
-      value: 120
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: visualizer
@@ -23877,7 +23877,7 @@ PrefabInstance:
     - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: 'beatCSVs.Array.data[0]'
       value: 
-      objectReference: {fileID: 4900000, guid: a55415ee5a818d5459e40ff9574ad2eb, type: 3}
+      objectReference: {fileID: 4900000, guid: 8a83ed3ec094efe4ea2c88f8249611de, type: 3}
     - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: 'beatCSVs.Array.data[1]'
       value: 
@@ -23890,6 +23890,14 @@ PrefabInstance:
       propertyPath: 'beatCSVs.Array.data[3]'
       value: 
       objectReference: {fileID: 4900000, guid: 5cf66e7df7b6a0f49b87ec6a249cc844, type: 3}
+    - target: {fileID: 6929102570087510033, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: m_Pitch
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7043965409245134618, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: m_Pitch
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 7043965409245134618, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: BypassListenerEffects
       value: 0
@@ -23899,6 +23907,14 @@ PrefabInstance:
       value: Background_AudioSource
       objectReference: {fileID: 0}
     - target: {fileID: 7838680780402486543, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: m_Pitch
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838680780402486543, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: m_Volume
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8405999469411708903, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: m_Pitch
       value: 0.9
       objectReference: {fileID: 0}
