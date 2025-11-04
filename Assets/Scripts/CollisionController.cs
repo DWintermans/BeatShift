@@ -38,19 +38,16 @@ public class CollisionController : MonoBehaviour
         if (!hitLeft)
             hitRight = Physics.Raycast(rayRight, out hit, distance, LayerMask.GetMask(platformsLayerName));
 
+        IsGrounded = false;
+
         if (hitLeft || hitRight)
         {
             AdjustDepthPosition(hit.collider);
             IsGrounded = Approximately(hit.collider.bounds.max.y, m_Collider.bounds.min.y);
         }
-        else
+        else if (IsPlayerBehindSomething())
         {
-            bool behindFront = (rotationController.Rotated && transform.position.x < FrontPosition) || (!rotationController.Rotated && transform.position.z < FrontPosition);
-            if (behindFront)
-            {
-                TeleportToFront();
-            }
-            IsGrounded = false;
+            TeleportToFront();
         }
 
         Debug.DrawRay(rayLeft.origin, rayLeft.direction * distance, Color.red);
@@ -132,6 +129,21 @@ public class CollisionController : MonoBehaviour
             transform.position = position;
         }
     }
+
+    bool IsPlayerBehindSomething()
+    {
+        int nonPlatformsMask = ~LayerMask.GetMask(platformsLayerName);
+        Vector3 rayOrigin = Camera.transform.position;
+        Vector3 direction = Camera.transform.forward;
+
+        if (Physics.Raycast(rayOrigin, direction, out var hit, distance, nonPlatformsMask))
+        {
+            return hit.collider != m_Collider;
+        }
+
+        return false;
+    }
+
 
     void TeleportToFront()
     {

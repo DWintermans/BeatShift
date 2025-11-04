@@ -115,7 +115,10 @@ public class BeatVisualizer : MonoBehaviour
             var collider = obj.GetComponent<Collider>();
             if (collider != null)
             {
-                collider.enabled = !isOpaque;
+                if (obj.layer == LayerMask.NameToLayer("Platforms"))
+                    collider.enabled = !isOpaque;
+                else
+                    collider.isTrigger = isOpaque;
             }
         }
     }
