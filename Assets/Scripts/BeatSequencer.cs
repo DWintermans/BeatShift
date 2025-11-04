@@ -19,6 +19,18 @@ public class BeatSequencer : MonoBehaviour
     [Header("Tempo")]
     public float bpm = 160f;
 
+    [Header("Auto Test Sequence")]
+    public List<BeatChange> testSequence = new List<BeatChange>();
+    public bool useTestSequence = false;
+    private int testSequencePos = 0;
+
+    [System.Serializable]
+    public class BeatChange
+    {
+        public int beatIndex;
+        public float bpm;
+    }
+
     [Header("Bass Audio Sources")]
     public AudioSource bassSource;
     public AudioClip E0, E1, E2, E3, E4, E5,
@@ -86,25 +98,38 @@ public class BeatSequencer : MonoBehaviour
 
         int totalSteps = beatMap.Values.First().Length;
 
-        //run changes after loop ends
-        if (gridPos == totalSteps - 1)
-        {
-            if (selectedBeatIndex != lastBeatIndex)
-                LoadSelectedBeat();
-
-            if (bpmChanged)
-            {
-                ApplyBPM();
-                bpmChanged = false;
-            }
-        }
-
         timer += Time.deltaTime;
         if (timer >= stepDuration)
         {
             timer -= stepDuration;
             PlayStep(gridPos);
             gridPos = (gridPos + 1) % totalSteps;
+
+            //run changes after loop ends
+            if (gridPos == 0)
+            {
+                if (useTestSequence && testSequence.Count > 0)
+                {
+                    testSequencePos = (testSequencePos + 1) % testSequence.Count;
+                    selectedBeatIndex = testSequence[testSequencePos].beatIndex;
+                    
+                    float newBpm = testSequence[testSequencePos].bpm;
+                    if (!Mathf.Approximately(newBpm, bpm))
+                    {
+                        bpm = newBpm;
+                        bpmChanged = true;
+                    }
+                }
+            
+                if (selectedBeatIndex != lastBeatIndex)
+                    LoadSelectedBeat();
+
+                if (bpmChanged)
+                {
+                    ApplyBPM();
+                    bpmChanged = false;
+                }
+            }
         }
     }
 
