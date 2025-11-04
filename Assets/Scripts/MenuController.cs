@@ -129,7 +129,7 @@ public class StartMenuController : MonoBehaviour
             sceneName = sceneName.Replace("Level", "Level ");
 
         Debug.Log($"Loading scene: {sceneName}");
-        
+
         SceneManager.LoadScene(sceneName);
     }
     #endregion
@@ -158,6 +158,8 @@ public class StartMenuController : MonoBehaviour
         //refresh labels
         foreach (var (slider, label, _) in volumeControls)
             label.text = slider.value.ToString();
+
+        UpdateAudioMute();    
     }
 
     private void ShowLevels()
@@ -166,6 +168,8 @@ public class StartMenuController : MonoBehaviour
         settingsPanel.style.display = DisplayStyle.None;
         levelsPanel.style.display = DisplayStyle.Flex;
         Time.timeScale = 0f;
+
+        UpdateAudioMute();
     }
 
     private void ShowMainMenu()
@@ -174,6 +178,8 @@ public class StartMenuController : MonoBehaviour
         settingsPanel.style.display = DisplayStyle.None;
         levelsPanel.style.display = DisplayStyle.None;
         Time.timeScale = 0f;
+
+        UpdateAudioMute();
     }
 
     private void HideMainMenu()
@@ -182,6 +188,18 @@ public class StartMenuController : MonoBehaviour
         settingsPanel.style.display = DisplayStyle.None;
         levelsPanel.style.display = DisplayStyle.None;
         Time.timeScale = 1f;
+
+        UpdateAudioMute();
     }
     #endregion
+    private void UpdateAudioMute()
+    {
+        //mute audio if not mainmenu and any menu panel is open
+        bool shouldMute = !IsMainMenu && 
+                        (mainPanel.style.display == DisplayStyle.Flex ||
+                        settingsPanel.style.display == DisplayStyle.Flex ||
+                        levelsPanel.style.display == DisplayStyle.Flex);
+
+        AudioListener.volume = shouldMute ? 0f : 1f;
+    }
 }
