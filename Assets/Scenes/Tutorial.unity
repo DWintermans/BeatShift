@@ -23157,42 +23157,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: bpm
-      value: 124
-      objectReference: {fileID: 0}
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: visualizer
-      value: 
-      objectReference: {fileID: 1893188321}
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: selectedBeatIndex
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: beatCSVs.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: 'beatCSVs.Array.data[0]'
-      value: 
-      objectReference: {fileID: 4900000, guid: 8a83ed3ec094efe4ea2c88f8249611de, type: 3}
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: 'beatCSVs.Array.data[1]'
-      value: 
-      objectReference: {fileID: 4900000, guid: 745dcdcd89bad174eb2501a939492f9d, type: 3}
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: 'beatCSVs.Array.data[2]'
-      value: 
-      objectReference: {fileID: 4900000, guid: 1ed1fdb957d8c9649a9248545b90d4ce, type: 3}
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: 'beatCSVs.Array.data[3]'
-      value: 
-      objectReference: {fileID: 4900000, guid: 5cf66e7df7b6a0f49b87ec6a249cc844, type: 3}
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: 'beatCSVs.Array.data[4]'
-      value: 
-      objectReference: {fileID: 4900000, guid: ea7099fb549624346ac8df3a29fab943, type: 3}
     - target: {fileID: 7043965409245134618, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: BypassListenerEffects
       value: 0
@@ -24472,17 +24436,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae6dd757c94f5fe499039a451a35e58f, type: 3}
---- !u!114 &1893188321 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3073639590368148883, guid: 375f8ed51cb06584b8200e1055194e82, type: 3}
-  m_PrefabInstance: {fileID: 2120359794}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aa9b88ee8d4db8429744f2b285f6cba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BeatVisualizer
 --- !u!1001 &1894275523
 PrefabInstance:
   m_ObjectHideFlags: 0
