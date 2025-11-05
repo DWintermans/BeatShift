@@ -11,13 +11,25 @@ public class BeatSequencer : MonoBehaviour
     public int selectedBeatIndex = 0;
 
     [Header("Drum Audio Sources")]
-    public AudioSource kickSource, snareSource, hihatSource;
+    public AudioSource kickSource, snareSource, hihatSource, stickSource;
 
     [Header("Visualizer")]
     public BeatVisualizer visualizer;
 
     [Header("Tempo")]
     public float bpm = 160f;
+
+    [Header("Auto Test Sequence")]
+    public List<BeatChange> testSequence = new List<BeatChange>();
+    public bool useTestSequence = false;
+    private int testSequencePos = 0;
+
+    [System.Serializable]
+    public class BeatChange
+    {
+        public int beatIndex;
+        public float bpm;
+    }
 
     [Header("Bass Audio Sources")]
     public AudioSource bassSource;
@@ -86,25 +98,38 @@ public class BeatSequencer : MonoBehaviour
 
         int totalSteps = beatMap.Values.First().Length;
 
-        //run changes after loop ends
-        if (gridPos == totalSteps - 1)
-        {
-            if (selectedBeatIndex != lastBeatIndex)
-                LoadSelectedBeat();
-
-            if (bpmChanged)
-            {
-                ApplyBPM();
-                bpmChanged = false;
-            }
-        }
-
         timer += Time.deltaTime;
         if (timer >= stepDuration)
         {
             timer -= stepDuration;
             PlayStep(gridPos);
             gridPos = (gridPos + 1) % totalSteps;
+
+            //run changes after loop ends
+            if (gridPos == 0)
+            {
+                if (useTestSequence && testSequence.Count > 0)
+                {
+                    testSequencePos = (testSequencePos + 1) % testSequence.Count;
+                    selectedBeatIndex = testSequence[testSequencePos].beatIndex;
+                    
+                    float newBpm = testSequence[testSequencePos].bpm;
+                    if (!Mathf.Approximately(newBpm, bpm))
+                    {
+                        bpm = newBpm;
+                        bpmChanged = true;
+                    }
+                }
+            
+                if (selectedBeatIndex != lastBeatIndex)
+                    LoadSelectedBeat();
+
+                if (bpmChanged)
+                {
+                    ApplyBPM();
+                    bpmChanged = false;
+                }
+            }
         }
     }
 
@@ -154,6 +179,10 @@ public class BeatSequencer : MonoBehaviour
                 {
                     kickSource.PlayOneShot(kickSource.clip, drumVolume);
                     visualizer?.OnKick();
+                }
+                else if (instrument == "stick")
+                {
+                    stickSource.PlayOneShot(stickSource.clip, drumVolume);
                 }
             }
 
