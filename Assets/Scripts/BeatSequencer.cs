@@ -40,7 +40,6 @@ public class BeatSequencer : MonoBehaviour
     private bool bpmChanged = false;
 
     private Queue<QueuedBeat> beatQueue = new Queue<QueuedBeat>();
-    private Coroutine activeLoopCoroutine;
 
     public struct QueuedBeat
     {

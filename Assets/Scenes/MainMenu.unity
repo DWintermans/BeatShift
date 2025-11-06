@@ -135,6 +135,18 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: beatCSVs.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: 'beatCSVs.Array.data[8]'
+      value: 
+      objectReference: {fileID: 4900000, guid: df22a25343e394d4fa6a20c9221f728d, type: 3}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: 'beatCSVs.Array.data[9]'
+      value: 
+      objectReference: {fileID: 4900000, guid: df22a25343e394d4fa6a20c9221f728d, type: 3}
     - target: {fileID: 7656094517505030085, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: m_Name
       value: Background_AudioSource

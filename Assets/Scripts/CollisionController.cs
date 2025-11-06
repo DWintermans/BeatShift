@@ -138,7 +138,7 @@ public class CollisionController : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, direction, out var hit, distance, nonPlatformsMask))
         {
-            return hit.collider != m_Collider;
+            return hit.collider != m_Collider && !hit.collider.gameObject.CompareTag("Danger");
         }
 
         return false;

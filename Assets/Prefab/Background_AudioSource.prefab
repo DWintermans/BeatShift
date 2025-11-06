@@ -488,6 +488,7 @@ MonoBehaviour:
   G12: {fileID: 8300000, guid: 0deaf04c5a6648b49b4898f03b7f2201, type: 3}
   G13: {fileID: 8300000, guid: 916cc0ffa4e24df4b8a393839bb2ebb4, type: 3}
   G14: {fileID: 8300000, guid: b32aed1d67722b54eb449de2886e2e7a, type: 3}
+  beatToQueue: 2
 --- !u!82 &2762445665211569762
 AudioSource:
   m_ObjectHideFlags: 0
