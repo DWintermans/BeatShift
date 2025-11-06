@@ -40,12 +40,9 @@ public class BeatSequencer : MonoBehaviour
     private bool bpmChanged = false;
 
     private Queue<QueuedBeat> beatQueue = new Queue<QueuedBeat>();
-    private bool isRepeatingLoop = true;
-    private int repeatBeatA = 0; // Beat 1
-    private int repeatBeatB = 1; // Beat 2
-    private bool playNextA = false;
+    private Coroutine activeLoopCoroutine;
 
-    private struct QueuedBeat
+    public struct QueuedBeat
     {
         public int beatIndex;
         public float bpm;
@@ -57,8 +54,7 @@ public class BeatSequencer : MonoBehaviour
         }
     }
 
-
-    private bool IsReadyToVisualize => beatQueue.Count == 0 && !isRepeatingLoop;
+    private bool IsReadyToVisualize => beatQueue.Count == 0;
 
     public static BeatSequencer Instance;
     void Awake()
@@ -144,13 +140,7 @@ public class BeatSequencer : MonoBehaviour
                         selectedBeatIndex = next.beatIndex;
                         bpm = next.bpm;
                         bpmChanged = true;
-                        isRepeatingLoop = false;
                     }
-                }
-                else if (isRepeatingLoop && SceneManager.GetActiveScene().name == "MainMenu")
-                {
-                    selectedBeatIndex = playNextA ? repeatBeatA : repeatBeatB;
-                    playNextA = !playNextA;
                 }
 
                 if (selectedBeatIndex != lastBeatIndex)
@@ -312,16 +302,32 @@ public class BeatSequencer : MonoBehaviour
         beatQueue.Clear();
     }
 
-    public void StartRepeatLoop()
+    public void StartLoop(params QueuedBeat[] beats)
     {
-        isRepeatingLoop = true;
-        playNextA = false;
+        StopLoop();
+        activeLoopCoroutine = StartCoroutine(LoopCoroutine(beats));
+    }
+
+    public void StopLoop()
+    {
+        if (activeLoopCoroutine != null)
+        {
+            StopCoroutine(activeLoopCoroutine);
+            activeLoopCoroutine = null;
+        }
         ClearQueue();
     }
 
-    public void StopRepeatLoop()
+    private IEnumerator LoopCoroutine(QueuedBeat[] beats)
     {
-        isRepeatingLoop = false;
+        while (true)
+        {
+            foreach (var beat in beats)
+                EnqueueBeat(beat.beatIndex, beat.bpm);
+
+            //wait until all beats in the queue have been played
+            yield return new WaitUntil(() => beatQueue.Count == 0);
+        }
     }
 
     void OnEnable()
@@ -344,28 +350,35 @@ public class BeatSequencer : MonoBehaviour
 
     private void SetBeatForScene(string sceneName)
     {
-        if (sceneName.Contains("MainMenu"))
-            return;
-
         ClearQueue();
+        StopLoop();
 
-        if (sceneName.Contains("Tutorial"))
+        if (sceneName.Contains("MainMenu"))
+        {
+            StartLoop(
+                new QueuedBeat(0, 124f),
+                new QueuedBeat(1, 124f)
+            );
+        }
+        else if (sceneName.Contains("Tutorial"))
         {
             EnqueueBeat(2, 124f);
         }
         else if (sceneName.Contains("Level 1"))
         {
-            EnqueueBeat(4, 160f);
+            //if bpm != 160 : build up to speed
+            // EnqueueBeat(8, 130f);
+            // EnqueueBeat(9, 136f);
+            // EnqueueBeat(10, 142f);
+            // EnqueueBeat(10, 148f);
+            StartLoop(
+                new QueuedBeat(4, 160f),
+                new QueuedBeat(5, 160f)
+            );
         }
         else if (sceneName.Contains("Level 2"))
         {
-     
+            EnqueueBeat(6, 140f);
         }
-        else if (sceneName.Contains("Level 3"))
-        {
-       
-        }
-
-        StopRepeatLoop();
     }
 }

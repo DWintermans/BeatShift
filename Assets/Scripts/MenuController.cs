@@ -17,11 +17,6 @@ public class StartMenuController : MonoBehaviour
     {
         beatSequencer = FindFirstObjectByType<BeatSequencer>();
 
-        if (beatSequencer != null)
-        {
-            beatSequencer.StartRepeatLoop();
-        }
-        
         var root = GetComponent<UIDocument>().rootVisualElement;
 
         InitPanels(root);
