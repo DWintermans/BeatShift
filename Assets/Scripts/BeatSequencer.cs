@@ -54,7 +54,7 @@ public class BeatSequencer : MonoBehaviour
         }
     }
 
-    private bool IsReadyToVisualize => beatQueue.Count == 0;
+    private bool IsReadyToVisualize = false;
 
     public static BeatSequencer Instance;
     void Awake()
@@ -136,10 +136,20 @@ public class BeatSequencer : MonoBehaviour
                 {
                     if (beatQueue.Count > 0)
                     {
-                        QueuedBeat next = beatQueue.Dequeue();
-                        selectedBeatIndex = next.beatIndex;
-                        bpm = next.bpm;
+                        QueuedBeat nextBeat = beatQueue.Dequeue();
+                        selectedBeatIndex = nextBeat.beatIndex;
+                        bpm = nextBeat.bpm;
                         bpmChanged = true;
+
+                        //skip beat if its a marker with 2000f bpm
+                        if (Mathf.Approximately(nextBeat.bpm, 2000f) && beatQueue.Count > 0)
+                        {
+                            QueuedBeat followUpBeat = beatQueue.Dequeue();
+                            selectedBeatIndex = followUpBeat.beatIndex;
+                            bpm = followUpBeat.bpm;
+                            bpmChanged = true;
+                            IsReadyToVisualize = true;
+                        }
                     }
                 }
 
@@ -328,7 +338,9 @@ public class BeatSequencer : MonoBehaviour
     private void SetBeatForScene(string sceneName)
     {
         ClearQueue();
+        IsReadyToVisualize = false;
 
+        //bridgers + beat
         if (sceneName.Contains("MainMenu"))
         {
             EnqueueBeat(0, 124f);
@@ -336,22 +348,52 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Tutorial"))
         {
+            //marker
+            EnqueueBeat(0, 2000f);
             EnqueueBeat(2, 124f);
         }
         else if (sceneName.Contains("Level 1"))
         {
+            //2 sec pause
+            EnqueueBeat(11, 120f);
+
+            EnqueueBeat(6, 120f);
+            EnqueueBeat(6, 100f);
+            EnqueueBeat(6, 80f);
+            EnqueueBeat(6, 50f);
+
+            //4 sec pause
+            EnqueueBeat(11, 60f);
+
+            EnqueueBeat(7, 136f);
+            EnqueueBeat(7, 136f);
+
+            EnqueueBeat(7, 142f);
+            EnqueueBeat(7, 142f);
+            EnqueueBeat(7, 148f);
+            EnqueueBeat(7, 148f);
+            EnqueueBeat(7, 154f);
+            EnqueueBeat(7, 154f);
+
+            //marker
+            EnqueueBeat(0, 2000f);
+
+            //beat
             EnqueueBeat(4, 160f);
             EnqueueBeat(5, 160f);
         }
         else if (sceneName.Contains("Level 2"))
         {
-            EnqueueBeat(6, 140f);
+            EnqueueBeat(0, 2000f); //marker
+            EnqueueBeat(6, 160f);
         }
     }
 
     private void FillBeatQueue()
     {
         string sceneName = SceneManager.GetActiveScene().name;
+
+        // loop beat
         if (sceneName.Contains("MainMenu"))
         {
             EnqueueBeat(0, 124f);
