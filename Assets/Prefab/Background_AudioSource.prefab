@@ -446,15 +446,12 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 6c9d80e6ad1dacf4b9cb8c2f3279be74, type: 3}
   - {fileID: 4900000, guid: adc804dcf26c78f4ea3e09d347aaaa5f, type: 3}
   - {fileID: 4900000, guid: 8713719c99cb1c1419268501ad2b97fc, type: 3}
-  - {fileID: 4900000, guid: d23cdc60994e0884c8d66cdaeaecf5ed, type: 3}
-  - {fileID: 4900000, guid: 80e0bdd7924cb594f8f24d76a64c05bf, type: 3}
-  - {fileID: 4900000, guid: 5d76871db06c1294bb98482ee68370c5, type: 3}
-  - {fileID: 4900000, guid: 11f7572374c3cf84286d1761a265e4d9, type: 3}
   selectedBeatIndex: 5
   kickSource: {fileID: 8405999469411708903}
   snareSource: {fileID: 7838680780402486543}
   hihatSource: {fileID: 7043965409245134618}
   stickSource: {fileID: 6929102570087510033}
+  bellSource: {fileID: 0}
   visualizer: {fileID: 0}
   bpm: 124
   bassSource: {fileID: 2762445665211569762}
@@ -488,7 +485,6 @@ MonoBehaviour:
   G12: {fileID: 8300000, guid: 0deaf04c5a6648b49b4898f03b7f2201, type: 3}
   G13: {fileID: 8300000, guid: 916cc0ffa4e24df4b8a393839bb2ebb4, type: 3}
   G14: {fileID: 8300000, guid: b32aed1d67722b54eb449de2886e2e7a, type: 3}
-  beatToQueue: 2
 --- !u!82 &2762445665211569762
 AudioSource:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class BeatSequencer : MonoBehaviour
     public int selectedBeatIndex = 0;
 
     [Header("Drum Audio Sources")]
-    public AudioSource kickSource, snareSource, hihatSource, stickSource;
+    public AudioSource kickSource, snareSource, hihatSource, stickSource, bellSource;
 
     [Header("Visualizer")]
     public BeatVisualizer visualizer;
@@ -219,6 +219,10 @@ public class BeatSequencer : MonoBehaviour
                 else if (instrument == "stick")
                 {
                     stickSource.PlayOneShot(stickSource.clip, drumVolume);
+                }
+                else if (instrument == "bell")
+                {
+                    bellSource.PlayOneShot(bellSource.clip, drumVolume);
                 }
             }
 
