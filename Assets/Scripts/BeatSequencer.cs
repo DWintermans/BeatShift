@@ -18,19 +18,7 @@ public class BeatSequencer : MonoBehaviour
     public BeatVisualizer visualizer;
 
     [Header("Tempo")]
-    public float bpm = 160f;
-
-    [Header("Auto Test Sequence")]
-    public List<BeatChange> testSequence = new List<BeatChange>();
-    public bool useTestSequence = false;
-    private int testSequencePos = 0;
-
-    [System.Serializable]
-    public class BeatChange
-    {
-        public int beatIndex;
-        public float bpm;
-    }
+    public float bpm = 124f;
 
     [Header("Bass Audio Sources")]
     public AudioSource bassSource;
@@ -50,6 +38,43 @@ public class BeatSequencer : MonoBehaviour
     private int lastBeatIndex = -1;
     private float lastBpm;
     private bool bpmChanged = false;
+
+    private Queue<QueuedBeat> beatQueue = new Queue<QueuedBeat>();
+    private bool isRepeatingLoop = true;
+    private int repeatBeatA = 0; // Beat 1
+    private int repeatBeatB = 1; // Beat 2
+    private bool playNextA = false;
+
+    private struct QueuedBeat
+    {
+        public int beatIndex;
+        public float bpm;
+
+        public QueuedBeat(int beatIndex, float bpm)
+        {
+            this.beatIndex = beatIndex;
+            this.bpm = bpm;
+        }
+    }
+
+
+    private bool IsReadyToVisualize => beatQueue.Count == 0 && !isRepeatingLoop;
+
+    public static BeatSequencer Instance;
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(bassSource.gameObject);
+        DontDestroyOnLoad(kickSource.gameObject);
+        DontDestroyOnLoad(snareSource.gameObject);
+        DontDestroyOnLoad(hihatSource.gameObject);
+    }
 
     void Start()
     {
@@ -100,7 +125,7 @@ public class BeatSequencer : MonoBehaviour
         int totalSteps = beatMap.Values.First().Length;
 
         float delta = SceneManager.GetActiveScene().name == "MainMenu" ? Time.unscaledDeltaTime : Time.deltaTime;
-    
+
         timer += delta;
         if (timer >= stepDuration)
         {
@@ -111,17 +136,23 @@ public class BeatSequencer : MonoBehaviour
             //run changes after loop ends
             if (gridPos == 0)
             {
-                if (useTestSequence && testSequence.Count > 0)
+                if (beatQueue.Count > 0)
                 {
-                    testSequencePos = (testSequencePos + 1) % testSequence.Count;
-                    selectedBeatIndex = testSequence[testSequencePos].beatIndex;
-                    float newBpm = testSequence[testSequencePos].bpm;
-                    if (!Mathf.Approximately(newBpm, bpm))
+                    if (beatQueue.Count > 0)
                     {
-                        bpm = newBpm;
+                        QueuedBeat next = beatQueue.Dequeue();
+                        selectedBeatIndex = next.beatIndex;
+                        bpm = next.bpm;
                         bpmChanged = true;
+                        isRepeatingLoop = false;
                     }
                 }
+                else if (isRepeatingLoop && SceneManager.GetActiveScene().name == "MainMenu")
+                {
+                    selectedBeatIndex = playNextA ? repeatBeatA : repeatBeatB;
+                    playNextA = !playNextA;
+                }
+
                 if (selectedBeatIndex != lastBeatIndex)
                     LoadSelectedBeat();
 
@@ -169,17 +200,17 @@ public class BeatSequencer : MonoBehaviour
                 if (instrument == "hihat")
                 {
                     hihatSource.PlayOneShot(hihatSource.clip, drumVolume);
-                    visualizer?.OnHihat();
+                    if (IsReadyToVisualize) visualizer?.OnHihat();
                 }
                 else if (instrument == "snare")
                 {
                     snareSource.PlayOneShot(snareSource.clip, drumVolume);
-                    visualizer?.OnSnare();
+                    if (IsReadyToVisualize) visualizer?.OnSnare();
                 }
                 else if (instrument == "kick")
                 {
                     kickSource.PlayOneShot(kickSource.clip, drumVolume);
-                    visualizer?.OnKick();
+                    if (IsReadyToVisualize) visualizer?.OnKick();
                 }
                 else if (instrument == "stick")
                 {
@@ -269,5 +300,72 @@ public class BeatSequencer : MonoBehaviour
         // }
 
         return dictionary;
+    }
+
+    private void EnqueueBeat(int beatIndex, float bpm)
+    {
+        beatQueue.Enqueue(new QueuedBeat(beatIndex, bpm));
+    }
+
+    public void ClearQueue()
+    {
+        beatQueue.Clear();
+    }
+
+    public void StartRepeatLoop()
+    {
+        isRepeatingLoop = true;
+        playNextA = false;
+        ClearQueue();
+    }
+
+    public void StopRepeatLoop()
+    {
+        isRepeatingLoop = false;
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //find the visualizer in new scene
+        visualizer = FindFirstObjectByType<BeatVisualizer>();
+
+        SetBeatForScene(scene.name);
+    }
+
+    private void SetBeatForScene(string sceneName)
+    {
+        if (sceneName.Contains("MainMenu"))
+            return;
+
+        ClearQueue();
+
+        if (sceneName.Contains("Tutorial"))
+        {
+            EnqueueBeat(2, 124f);
+        }
+        else if (sceneName.Contains("Level 1"))
+        {
+            EnqueueBeat(4, 160f);
+        }
+        else if (sceneName.Contains("Level 2"))
+        {
+     
+        }
+        else if (sceneName.Contains("Level 3"))
+        {
+       
+        }
+
+        StopRepeatLoop();
     }
 }
