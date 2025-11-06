@@ -178,6 +178,7 @@ MonoBehaviour:
   distance: 1000
   platformsLayerName: Platforms
   IsGroundedMarginOfError: 0.01
+  FrontPosition: 300
 --- !u!114 &1697801363758021783
 MonoBehaviour:
   m_ObjectHideFlags: 0

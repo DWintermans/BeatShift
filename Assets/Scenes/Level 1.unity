@@ -3800,10 +3800,6 @@ PrefabInstance:
       propertyPath: Camera
       value: 
       objectReference: {fileID: 1593189433}
-    - target: {fileID: 1707916004794831859, guid: 6b5643d40a4583d46b68f8abf4e7e455, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3114355002555193910, guid: 6b5643d40a4583d46b68f8abf4e7e455, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -17435,7 +17431,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 2000
   field of view: 60.000004
   orthographic: 1
   orthographic size: 10

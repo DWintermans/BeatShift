@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class BeatSequencer : MonoBehaviour
 {
@@ -98,7 +99,9 @@ public class BeatSequencer : MonoBehaviour
 
         int totalSteps = beatMap.Values.First().Length;
 
-        timer += Time.deltaTime;
+        float delta = SceneManager.GetActiveScene().name == "MainMenu" ? Time.unscaledDeltaTime : Time.deltaTime;
+    
+        timer += delta;
         if (timer >= stepDuration)
         {
             timer -= stepDuration;
@@ -112,7 +115,6 @@ public class BeatSequencer : MonoBehaviour
                 {
                     testSequencePos = (testSequencePos + 1) % testSequence.Count;
                     selectedBeatIndex = testSequence[testSequencePos].beatIndex;
-                    
                     float newBpm = testSequence[testSequencePos].bpm;
                     if (!Mathf.Approximately(newBpm, bpm))
                     {
@@ -120,7 +122,6 @@ public class BeatSequencer : MonoBehaviour
                         bpmChanged = true;
                     }
                 }
-            
                 if (selectedBeatIndex != lastBeatIndex)
                     LoadSelectedBeat();
 
@@ -216,7 +217,8 @@ public class BeatSequencer : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            float delta = SceneManager.GetActiveScene().name == "MainMenu" ? Time.unscaledDeltaTime : Time.deltaTime;
+            elapsed += delta;
             source.volume = Mathf.Lerp(0f, targetVolume, elapsed / duration);
             yield return null;
         }
@@ -231,7 +233,8 @@ public class BeatSequencer : MonoBehaviour
 
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            float delta = SceneManager.GetActiveScene().name == "MainMenu" ? Time.unscaledDeltaTime : Time.deltaTime;
+            elapsed += delta;
             source.volume = Mathf.Lerp(startVolume, 0f, elapsed / duration);
             yield return null;
         }
