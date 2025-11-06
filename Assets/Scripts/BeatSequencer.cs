@@ -40,12 +40,8 @@ public class BeatSequencer : MonoBehaviour
     private bool bpmChanged = false;
 
     private Queue<QueuedBeat> beatQueue = new Queue<QueuedBeat>();
-    private bool isRepeatingLoop = true;
-    private int repeatBeatA = 0; // Beat 1
-    private int repeatBeatB = 1; // Beat 2
-    private bool playNextA = false;
 
-    private struct QueuedBeat
+    public struct QueuedBeat
     {
         public int beatIndex;
         public float bpm;
@@ -57,8 +53,7 @@ public class BeatSequencer : MonoBehaviour
         }
     }
 
-
-    private bool IsReadyToVisualize => beatQueue.Count == 0 && !isRepeatingLoop;
+    private bool IsReadyToVisualize = false;
 
     public static BeatSequencer Instance;
     void Awake()
@@ -140,17 +135,26 @@ public class BeatSequencer : MonoBehaviour
                 {
                     if (beatQueue.Count > 0)
                     {
-                        QueuedBeat next = beatQueue.Dequeue();
-                        selectedBeatIndex = next.beatIndex;
-                        bpm = next.bpm;
+                        QueuedBeat nextBeat = beatQueue.Dequeue();
+                        selectedBeatIndex = nextBeat.beatIndex;
+                        bpm = nextBeat.bpm;
                         bpmChanged = true;
-                        isRepeatingLoop = false;
+
+                        //skip beat if its a marker with 2000f bpm
+                        if (Mathf.Approximately(nextBeat.bpm, 2000f) && beatQueue.Count > 0)
+                        {
+                            QueuedBeat followUpBeat = beatQueue.Dequeue();
+                            selectedBeatIndex = followUpBeat.beatIndex;
+                            bpm = followUpBeat.bpm;
+                            bpmChanged = true;
+                            IsReadyToVisualize = true;
+                        }
                     }
                 }
-                else if (isRepeatingLoop && SceneManager.GetActiveScene().name == "MainMenu")
+
+                if (beatQueue.Count == 0)
                 {
-                    selectedBeatIndex = playNextA ? repeatBeatA : repeatBeatB;
-                    playNextA = !playNextA;
+                    FillBeatQueue();
                 }
 
                 if (selectedBeatIndex != lastBeatIndex)
@@ -312,18 +316,6 @@ public class BeatSequencer : MonoBehaviour
         beatQueue.Clear();
     }
 
-    public void StartRepeatLoop()
-    {
-        isRepeatingLoop = true;
-        playNextA = false;
-        ClearQueue();
-    }
-
-    public void StopRepeatLoop()
-    {
-        isRepeatingLoop = false;
-    }
-
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -344,28 +336,76 @@ public class BeatSequencer : MonoBehaviour
 
     private void SetBeatForScene(string sceneName)
     {
-        if (sceneName.Contains("MainMenu"))
-            return;
-
         ClearQueue();
+        IsReadyToVisualize = false;
 
-        if (sceneName.Contains("Tutorial"))
+        //bridgers + beat
+        if (sceneName.Contains("MainMenu"))
+        {
+            EnqueueBeat(0, 124f);
+            EnqueueBeat(1, 124f);
+        }
+        else if (sceneName.Contains("Tutorial"))
+        {
+            //marker
+            EnqueueBeat(0, 2000f);
+            EnqueueBeat(2, 124f);
+        }
+        else if (sceneName.Contains("Level 1"))
+        {
+            //2 sec pause
+            EnqueueBeat(11, 120f);
+
+            EnqueueBeat(6, 120f);
+            EnqueueBeat(6, 100f);
+            EnqueueBeat(6, 80f);
+            EnqueueBeat(6, 50f);
+
+            //4 sec pause
+            EnqueueBeat(11, 60f);
+
+            EnqueueBeat(7, 136f);
+            EnqueueBeat(7, 136f);
+
+            EnqueueBeat(7, 142f);
+            EnqueueBeat(7, 142f);
+            EnqueueBeat(7, 148f);
+            EnqueueBeat(7, 148f);
+            EnqueueBeat(7, 154f);
+            EnqueueBeat(7, 154f);
+
+            //marker
+            EnqueueBeat(0, 2000f);
+
+            //beat
+            EnqueueBeat(4, 160f);
+            EnqueueBeat(5, 160f);
+        }
+        else if (sceneName.Contains("Level 2"))
+        {
+            EnqueueBeat(0, 2000f); //marker
+            EnqueueBeat(6, 160f);
+        }
+    }
+
+    private void FillBeatQueue()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        // loop beat
+        if (sceneName.Contains("MainMenu"))
+        {
+            EnqueueBeat(0, 124f);
+            EnqueueBeat(1, 124f);
+        }
+        else if (sceneName.Contains("Tutorial"))
         {
             EnqueueBeat(2, 124f);
         }
         else if (sceneName.Contains("Level 1"))
         {
             EnqueueBeat(4, 160f);
+            EnqueueBeat(5, 160f);
         }
-        else if (sceneName.Contains("Level 2"))
-        {
-     
-        }
-        else if (sceneName.Contains("Level 3"))
-        {
-       
-        }
-
-        StopRepeatLoop();
     }
 }
