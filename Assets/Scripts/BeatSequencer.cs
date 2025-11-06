@@ -143,6 +143,11 @@ public class BeatSequencer : MonoBehaviour
                     }
                 }
 
+                if (beatQueue.Count == 0)
+                {
+                    FillBeatQueue();
+                }
+
                 if (selectedBeatIndex != lastBeatIndex)
                     LoadSelectedBeat();
 
@@ -302,34 +307,6 @@ public class BeatSequencer : MonoBehaviour
         beatQueue.Clear();
     }
 
-    public void StartLoop(params QueuedBeat[] beats)
-    {
-        StopLoop();
-        activeLoopCoroutine = StartCoroutine(LoopCoroutine(beats));
-    }
-
-    public void StopLoop()
-    {
-        if (activeLoopCoroutine != null)
-        {
-            StopCoroutine(activeLoopCoroutine);
-            activeLoopCoroutine = null;
-        }
-        ClearQueue();
-    }
-
-    private IEnumerator LoopCoroutine(QueuedBeat[] beats)
-    {
-        while (true)
-        {
-            foreach (var beat in beats)
-                EnqueueBeat(beat.beatIndex, beat.bpm);
-
-            //wait until all beats in the queue have been played
-            yield return new WaitUntil(() => beatQueue.Count == 0);
-        }
-    }
-
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -351,14 +328,11 @@ public class BeatSequencer : MonoBehaviour
     private void SetBeatForScene(string sceneName)
     {
         ClearQueue();
-        StopLoop();
 
         if (sceneName.Contains("MainMenu"))
         {
-            StartCoroutine(StartLoopAfterQueueClears(
-                new QueuedBeat(0, 124f),
-                new QueuedBeat(1, 124f)
-            ));
+            EnqueueBeat(0, 124f);
+            EnqueueBeat(1, 124f);
         }
         else if (sceneName.Contains("Tutorial"))
         {
@@ -366,25 +340,31 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 1"))
         {
-            //if bpm != 160 : build up to speed
-            // EnqueueBeat(7, 130f);
-            // EnqueueBeat(7, 136f);
-            // EnqueueBeat(8, 142f);
-            // EnqueueBeat(9, 148f);
-            
-            StartCoroutine(StartLoopAfterQueueClears(
-                new QueuedBeat(4, 160f),
-                new QueuedBeat(5, 160f)
-            ));
+            EnqueueBeat(4, 160f);
+            EnqueueBeat(5, 160f);
         }
         else if (sceneName.Contains("Level 2"))
         {
             EnqueueBeat(6, 140f);
         }
     }
-    private IEnumerator StartLoopAfterQueueClears(params QueuedBeat[] loopBeats)
+
+    private void FillBeatQueue()
     {
-        yield return new WaitUntil(() => beatQueue.Count == 0);
-        StartLoop(loopBeats);
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName.Contains("MainMenu"))
+        {
+            EnqueueBeat(0, 124f);
+            EnqueueBeat(1, 124f);
+        }
+        else if (sceneName.Contains("Tutorial"))
+        {
+            EnqueueBeat(2, 124f);
+        }
+        else if (sceneName.Contains("Level 1"))
+        {
+            EnqueueBeat(4, 160f);
+            EnqueueBeat(5, 160f);
+        }
     }
 }
