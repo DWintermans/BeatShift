@@ -443,16 +443,18 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 8a83ed3ec094efe4ea2c88f8249611de, type: 3}
   - {fileID: 4900000, guid: 745dcdcd89bad174eb2501a939492f9d, type: 3}
   - {fileID: 4900000, guid: 1ed1fdb957d8c9649a9248545b90d4ce, type: 3}
-  - {fileID: 4900000, guid: 5cf66e7df7b6a0f49b87ec6a249cc844, type: 3}
+  - {fileID: 4900000, guid: 6c9d80e6ad1dacf4b9cb8c2f3279be74, type: 3}
   - {fileID: 4900000, guid: adc804dcf26c78f4ea3e09d347aaaa5f, type: 3}
-  - {fileID: 4900000, guid: c650aac4a64132e4e92f061595118b2b, type: 3}
-  selectedBeatIndex: 0
+  - {fileID: 4900000, guid: 8713719c99cb1c1419268501ad2b97fc, type: 3}
+  - {fileID: 4900000, guid: d23cdc60994e0884c8d66cdaeaecf5ed, type: 3}
+  - {fileID: 4900000, guid: 80e0bdd7924cb594f8f24d76a64c05bf, type: 3}
+  selectedBeatIndex: 5
   kickSource: {fileID: 8405999469411708903}
   snareSource: {fileID: 7838680780402486543}
   hihatSource: {fileID: 7043965409245134618}
   stickSource: {fileID: 6929102570087510033}
   visualizer: {fileID: 0}
-  bpm: 160
+  bpm: 124
   bassSource: {fileID: 2762445665211569762}
   E0: {fileID: 8300000, guid: f6fcfa79698e2084ea3abd0dc3258119, type: 3}
   E1: {fileID: 8300000, guid: 2cc73240f5d06d74bbc274aa931a3a84, type: 3}
@@ -484,7 +486,6 @@ MonoBehaviour:
   G12: {fileID: 8300000, guid: 0deaf04c5a6648b49b4898f03b7f2201, type: 3}
   G13: {fileID: 8300000, guid: 916cc0ffa4e24df4b8a393839bb2ebb4, type: 3}
   G14: {fileID: 8300000, guid: b32aed1d67722b54eb449de2886e2e7a, type: 3}
-  beatToQueue: 2
 --- !u!82 &2762445665211569762
 AudioSource:
   m_ObjectHideFlags: 0

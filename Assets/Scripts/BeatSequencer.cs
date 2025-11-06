@@ -355,10 +355,10 @@ public class BeatSequencer : MonoBehaviour
 
         if (sceneName.Contains("MainMenu"))
         {
-            StartLoop(
+            StartCoroutine(StartLoopAfterQueueClears(
                 new QueuedBeat(0, 124f),
                 new QueuedBeat(1, 124f)
-            );
+            ));
         }
         else if (sceneName.Contains("Tutorial"))
         {
@@ -367,18 +367,24 @@ public class BeatSequencer : MonoBehaviour
         else if (sceneName.Contains("Level 1"))
         {
             //if bpm != 160 : build up to speed
-            // EnqueueBeat(8, 130f);
-            // EnqueueBeat(9, 136f);
-            // EnqueueBeat(10, 142f);
-            // EnqueueBeat(10, 148f);
-            StartLoop(
+            // EnqueueBeat(7, 130f);
+            // EnqueueBeat(7, 136f);
+            // EnqueueBeat(8, 142f);
+            // EnqueueBeat(9, 148f);
+            
+            StartCoroutine(StartLoopAfterQueueClears(
                 new QueuedBeat(4, 160f),
                 new QueuedBeat(5, 160f)
-            );
+            ));
         }
         else if (sceneName.Contains("Level 2"))
         {
             EnqueueBeat(6, 140f);
         }
+    }
+    private IEnumerator StartLoopAfterQueueClears(params QueuedBeat[] loopBeats)
+    {
+        yield return new WaitUntil(() => beatQueue.Count == 0);
+        StartLoop(loopBeats);
     }
 }
