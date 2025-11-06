@@ -9,11 +9,19 @@ public class StartMenuController : MonoBehaviour
     private Button playButton, settingsButton, levelsButton, exitButton, settingsBackButton, levelsBackButton;
     private (SliderInt slider, Label label, System.Action<float> setter)[] volumeControls;
     public InputAction MenuAction;
+    private BeatSequencer beatSequencer;
 
     private bool IsMainMenu => SceneManager.GetActiveScene().name == "MainMenu";
 
     void OnEnable()
     {
+        beatSequencer = FindFirstObjectByType<BeatSequencer>();
+
+        if (beatSequencer != null)
+        {
+            beatSequencer.StartRepeatLoop();
+        }
+        
         var root = GetComponent<UIDocument>().rootVisualElement;
 
         InitPanels(root);
@@ -103,9 +111,13 @@ public class StartMenuController : MonoBehaviour
     private void OnPlayClicked()
     {
         if (IsMainMenu)
+        {
             SceneManager.LoadScene("Tutorial");
+        }
         else
+        {
             HideMainMenu();
+        }
     }
 
     private void OnExitClicked()
@@ -159,7 +171,7 @@ public class StartMenuController : MonoBehaviour
         foreach (var (slider, label, _) in volumeControls)
             label.text = slider.value.ToString();
 
-        UpdateAudioMute();    
+        UpdateAudioMute();
     }
 
     private void ShowLevels()
@@ -195,7 +207,7 @@ public class StartMenuController : MonoBehaviour
     private void UpdateAudioMute()
     {
         //mute audio if not mainmenu and any menu panel is open
-        bool shouldMute = !IsMainMenu && 
+        bool shouldMute = !IsMainMenu &&
                         (mainPanel.style.display == DisplayStyle.Flex ||
                         settingsPanel.style.display == DisplayStyle.Flex ||
                         levelsPanel.style.display == DisplayStyle.Flex);

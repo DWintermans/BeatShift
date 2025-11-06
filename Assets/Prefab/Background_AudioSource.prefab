@@ -438,6 +438,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BeatSequencer
   beatCSVs:
+  - {fileID: 4900000, guid: 67ea27298250ca94fac50e5d6676568c, type: 3}
+  - {fileID: 4900000, guid: 81721d76f2334f7478a6b4e36372ea2b, type: 3}
   - {fileID: 4900000, guid: 8a83ed3ec094efe4ea2c88f8249611de, type: 3}
   - {fileID: 4900000, guid: 745dcdcd89bad174eb2501a939492f9d, type: 3}
   - {fileID: 4900000, guid: 1ed1fdb957d8c9649a9248545b90d4ce, type: 3}
@@ -451,8 +453,6 @@ MonoBehaviour:
   stickSource: {fileID: 6929102570087510033}
   visualizer: {fileID: 0}
   bpm: 160
-  testSequence: []
-  useTestSequence: 0
   bassSource: {fileID: 2762445665211569762}
   E0: {fileID: 8300000, guid: f6fcfa79698e2084ea3abd0dc3258119, type: 3}
   E1: {fileID: 8300000, guid: 2cc73240f5d06d74bbc274aa931a3a84, type: 3}
@@ -484,6 +484,7 @@ MonoBehaviour:
   G12: {fileID: 8300000, guid: 0deaf04c5a6648b49b4898f03b7f2201, type: 3}
   G13: {fileID: 8300000, guid: 916cc0ffa4e24df4b8a393839bb2ebb4, type: 3}
   G14: {fileID: 8300000, guid: b32aed1d67722b54eb449de2886e2e7a, type: 3}
+  beatToQueue: 2
 --- !u!82 &2762445665211569762
 AudioSource:
   m_ObjectHideFlags: 0
