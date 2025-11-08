@@ -446,6 +446,10 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 6c9d80e6ad1dacf4b9cb8c2f3279be74, type: 3}
   - {fileID: 4900000, guid: adc804dcf26c78f4ea3e09d347aaaa5f, type: 3}
   - {fileID: 4900000, guid: 8713719c99cb1c1419268501ad2b97fc, type: 3}
+  - {fileID: 4900000, guid: 5487dd85ef43d1c4d86f32cfeab80586, type: 3}
+  - {fileID: 4900000, guid: 0790cbe0631c9e14eaf36316b87bd634, type: 3}
+  - {fileID: 4900000, guid: b3c91e8f0e1e5504d8ce6f847acd3e78, type: 3}
+  - {fileID: 4900000, guid: 11f7572374c3cf84286d1761a265e4d9, type: 3}
   selectedBeatIndex: 5
   kickSource: {fileID: 8405999469411708903}
   snareSource: {fileID: 7838680780402486543}

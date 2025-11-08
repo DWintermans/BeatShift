@@ -357,26 +357,36 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 1"))
         {
-            //2 sec pause
-            EnqueueBeat(11, 120f);
+            // //2 sec pause
+            // EnqueueBeat(11, 120f);
 
-            EnqueueBeat(6, 120f);
-            EnqueueBeat(6, 100f);
-            EnqueueBeat(6, 80f);
-            EnqueueBeat(6, 50f);
+            // EnqueueBeat(6, 120f);
+            // EnqueueBeat(6, 100f);
+            // EnqueueBeat(6, 80f);
+            // EnqueueBeat(6, 50f);
 
-            //4 sec pause
-            EnqueueBeat(11, 60f);
+            // //4 sec pause
+            // EnqueueBeat(11, 60f);
 
             EnqueueBeat(7, 136f);
             EnqueueBeat(7, 136f);
+            EnqueueBeat(7, 142f);
+            EnqueueBeat(7, 142f);
 
-            EnqueueBeat(7, 142f);
-            EnqueueBeat(7, 142f);
             EnqueueBeat(7, 148f);
             EnqueueBeat(7, 148f);
             EnqueueBeat(7, 154f);
             EnqueueBeat(7, 154f);
+
+            EnqueueBeat(8, 160f);
+            EnqueueBeat(8, 160f);
+            EnqueueBeat(8, 160f);
+            EnqueueBeat(8, 160f);
+
+            EnqueueBeat(9, 160f);
+            EnqueueBeat(9, 160f);
+            EnqueueBeat(9, 160f);
+            EnqueueBeat(9, 160f);
 
             //marker
             EnqueueBeat(0, 2000f);
@@ -384,6 +394,8 @@ public class BeatSequencer : MonoBehaviour
             //beat
             EnqueueBeat(4, 160f);
             EnqueueBeat(5, 160f);
+            EnqueueBeat(4, 160f);
+            EnqueueBeat(10, 160f);
         }
         else if (sceneName.Contains("Level 2"))
         {
@@ -410,6 +422,8 @@ public class BeatSequencer : MonoBehaviour
         {
             EnqueueBeat(4, 160f);
             EnqueueBeat(5, 160f);
+            EnqueueBeat(4, 160f);
+            EnqueueBeat(10, 160f);
         }
     }
 }
