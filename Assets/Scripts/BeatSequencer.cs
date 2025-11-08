@@ -346,6 +346,7 @@ public class BeatSequencer : MonoBehaviour
         //bridgers + beat
         if (sceneName.Contains("MainMenu"))
         {
+            //beat
             EnqueueBeat(0, 124f);
             EnqueueBeat(1, 124f);
         }
@@ -353,20 +354,22 @@ public class BeatSequencer : MonoBehaviour
         {
             //marker
             EnqueueBeat(0, 2000f);
+
+            //beat
             EnqueueBeat(2, 124f);
         }
         else if (sceneName.Contains("Level 1"))
         {
-            // //2 sec pause
-            // EnqueueBeat(11, 120f);
+            //2 sec pause
+            EnqueueBeat(11, 120f);
 
-            // EnqueueBeat(6, 120f);
-            // EnqueueBeat(6, 100f);
-            // EnqueueBeat(6, 80f);
-            // EnqueueBeat(6, 50f);
+            EnqueueBeat(6, 120f);
+            EnqueueBeat(6, 100f);
+            EnqueueBeat(6, 80f);
+            EnqueueBeat(6, 50f);
 
-            // //4 sec pause
-            // EnqueueBeat(11, 60f);
+            //4 sec pause
+            EnqueueBeat(11, 60f);
 
             EnqueueBeat(7, 136f);
             EnqueueBeat(7, 136f);
@@ -399,8 +402,11 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 2"))
         {
-            EnqueueBeat(0, 2000f); //marker
-            EnqueueBeat(6, 160f);
+            //marker
+            EnqueueBeat(0, 2000f); 
+
+            //beat
+            EnqueueBeat(3, 124f);
         }
     }
 
@@ -424,6 +430,10 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(5, 160f);
             EnqueueBeat(4, 160f);
             EnqueueBeat(10, 160f);
+        }
+        else if (sceneName.Contains("Level 2"))
+        {
+            EnqueueBeat(3, 124f);
         }
     }
 }
