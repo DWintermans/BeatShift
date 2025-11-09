@@ -52,6 +52,12 @@ public class BeatSequencer : MonoBehaviour
             this.bpm = bpm;
         }
     }
+    private bool switchBeat = false;
+
+    public void SwitchBeat()
+    {
+        switchBeat = true;
+    }
 
     private bool IsReadyToVisualize = false;
 
@@ -403,7 +409,7 @@ public class BeatSequencer : MonoBehaviour
         else if (sceneName.Contains("Level 2"))
         {
             //marker
-            EnqueueBeat(0, 2000f); 
+            EnqueueBeat(0, 2000f);
 
             //beat
             EnqueueBeat(3, 124f);
@@ -433,7 +439,16 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 2"))
         {
-            EnqueueBeat(3, 124f);
+            if (!switchBeat)
+            {
+                //normal beat
+                EnqueueBeat(3, 124f);
+            }
+            else
+            {
+                //updated beat
+                EnqueueBeat(12, 124f);
+            }
         }
     }
 }
