@@ -348,6 +348,7 @@ public class BeatSequencer : MonoBehaviour
     {
         ClearQueue();
         IsReadyToVisualize = false;
+        switchBeat = false;
 
         //bridgers + beat
         if (sceneName.Contains("MainMenu"))
