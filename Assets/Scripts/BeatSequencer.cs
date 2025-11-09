@@ -256,7 +256,7 @@ public class BeatSequencer : MonoBehaviour
     private IEnumerator FadeInBass(AudioSource source, float duration)
     {
         float targetVolume = VolumeManager.Instance.bassVolume * VolumeManager.Instance.mainVolume;
-        source.volume = 0f;
+        source.volume = 0.1f;
         source.Play();
 
         float elapsed = 0f;
@@ -284,7 +284,7 @@ public class BeatSequencer : MonoBehaviour
             yield return null;
         }
 
-        source.volume = 0f;
+        source.volume = 0.1f;
         source.Stop();
     }
 

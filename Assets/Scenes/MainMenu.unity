@@ -503,6 +503,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4588528112674001532, guid: 9d72ec6e4a9b0fc4fb61d408bb8c75a0, type: 3}
+      propertyPath: bassVolume
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 6480546530228865033, guid: 9d72ec6e4a9b0fc4fb61d408bb8c75a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32.35277
