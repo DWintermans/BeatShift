@@ -55,6 +55,7 @@ public class BeatSequencer : MonoBehaviour
         }
     }
     private bool switchBeat = false;
+    private bool PreparingTransition = false;
 
     public void SwitchBeat()
     {
@@ -71,7 +72,7 @@ public class BeatSequencer : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         Instance = this;
         DontDestroyOnLoad(bassSource.gameObject);
         DontDestroyOnLoad(kickSource.gameObject);
@@ -150,6 +151,10 @@ public class BeatSequencer : MonoBehaviour
                         IsReadyToVisualize = true;
                         continue;
                     }
+                    else if (nextBeat.bpm == 4000f){
+                        FindFirstObjectByType<LevelManager>().LoadNextLevel();
+                        break;
+                    }
                     //cutscene
                     else if (nextBeat.bpm >= (float)CutsceneAction.HideAllPanels)
                     {
@@ -171,7 +176,7 @@ public class BeatSequencer : MonoBehaviour
                     }
                 }
 
-                if (beatQueue.Count == 0)
+                if (beatQueue.Count == 0 && !PreparingTransition)
                 {
                     FillBeatQueue();
                 }
@@ -320,12 +325,6 @@ public class BeatSequencer : MonoBehaviour
             dictionary[instrument] = pattern;
         }
 
-        // foreach (var kvp in dictionary)
-        // {
-        //     string patternStr = string.Join(",", kvp.Value);
-        //     Debug.Log($"{kvp.Key}: {patternStr}");
-        // }
-
         return dictionary;
     }
 
@@ -364,6 +363,7 @@ public class BeatSequencer : MonoBehaviour
         ClearQueue();
         IsReadyToVisualize = false;
         switchBeat = false;
+        PreparingTransition = false;
 
         //bridgers + beat
         if (sceneName.Contains("MainMenu"))
@@ -374,7 +374,7 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Tutorial"))
         {
-            EnqueueBeat(11, 3000f); //HideAllPanels
+            EnqueueBeat(11, (float)CutsceneAction.HideAllPanels);
 
             //marker
             EnqueueBeat(13, 2000f);
@@ -388,9 +388,6 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(11, (float)CutsceneAction.ShowIntroPanel);
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
 
-            // //2 sec pause
-            // EnqueueBeat(11, 180f);
-
             //heartbeat
             EnqueueBeat(6, 120f);
             EnqueueBeat(6, 100f);
@@ -401,6 +398,7 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(11, 180f);
             EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
             EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
+
 
             //2 sec pause
             EnqueueBeat(11, 120f);
@@ -426,7 +424,6 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(9, 160f);
             EnqueueBeat(9, 160f);
             EnqueueBeat(9, 160f);
-
 
             //marker
             EnqueueBeat(13, 2000f);
@@ -482,4 +479,38 @@ public class BeatSequencer : MonoBehaviour
             }
         }
     }
+
+    public void PrepareSceneTransition(string currentScene)
+    {
+        ClearQueue();
+        IsReadyToVisualize = false;
+        switchBeat = false;
+        PreparingTransition = true;
+
+        if (currentScene.Contains("Level 1"))
+        {
+            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanel);
+
+            //load next level
+            EnqueueBeat(11, 4000f);
+
+            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanel);
+        }
+        else if (currentScene.Contains("Tutorial"))
+        {
+            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
+            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
+
+            //4 sec pause
+            EnqueueBeat(11, 60f);
+
+            //load next level
+            EnqueueBeat(11, 4000f);
+        }
+    }
+
 }
