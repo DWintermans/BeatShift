@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/CutsceneStyleSheet.uss?fileID=7433441132597879392&amp;guid=b0383254ff3391b408ad5a72e5e2085a&amp;type=3#CutsceneStyleSheet" />
+    <ui:VisualElement name="BLACK" enabled="true" tabindex="0" style="flex-grow: 1; -unity-background-image-tint-color: rgb(0, 0, 0); background-color: rgb(0, 0, 0); display: none;" />
+    <ui:VisualElement name="INTRO" tabindex="0" style="flex-grow: 1; display: none; background-image: url(&quot;project://database/Assets/Images/cutscenes/Intro.png?fileID=2800000&amp;guid=17ad3536bcc4b3440ae4cf2126295c45&amp;type=3#Intro&quot;);" />
+    <ui:VisualElement name="ENDING" style="flex-grow: 1; display: none; background-image: url(&quot;project://database/Assets/Images/cutscenes/Ending_Prot.png?fileID=2800000&amp;guid=9317167254c3f5148a45c6fb31b40180&amp;type=3#Ending_Prot&quot;);" />
+    <ui:VisualElement name="CHARGING" style="flex-grow: 1; display: none; background-image: url(&quot;project://database/Assets/Images/cutscenes/Charging_Station.png?fileID=2800000&amp;guid=d3f2c911697910449a3754a3336eab90&amp;type=3#Charging_Station&quot;);" />
+</ui:UXML>

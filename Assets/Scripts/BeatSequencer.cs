@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class BeatSequencer : MonoBehaviour
 {
+    public CutsceneController cutsceneController;
+
     [Header("CSV Files")]
     public TextAsset[] beatCSVs;
     public int selectedBeatIndex = 0;
@@ -80,6 +82,7 @@ public class BeatSequencer : MonoBehaviour
     void Start()
     {
         visualizer = FindFirstObjectByType<BeatVisualizer>();
+        cutsceneController = FindFirstObjectByType<CutsceneController>();
         ApplyBPM();
         LoadSelectedBeat();
 
@@ -137,24 +140,31 @@ public class BeatSequencer : MonoBehaviour
             //run changes after loop ends
             if (gridPos == 0)
             {
-                if (beatQueue.Count > 0)
+                while (beatQueue.Count > 0)
                 {
-                    if (beatQueue.Count > 0)
+                    QueuedBeat nextBeat = beatQueue.Dequeue();
+
+                    //marker
+                    if (nextBeat.bpm == 2000f)
                     {
-                        QueuedBeat nextBeat = beatQueue.Dequeue();
+                        IsReadyToVisualize = true;
+                        continue;
+                    }
+                    //cutscene
+                    else if (nextBeat.bpm >= 3000f)
+                    {
+                        if (cutsceneController != null)
+                            cutsceneController.PlayCutScene(nextBeat.bpm);
+
+                        continue;
+                    }
+                    //normal playable beat
+                    else
+                    {
                         selectedBeatIndex = nextBeat.beatIndex;
                         bpm = nextBeat.bpm;
                         bpmChanged = true;
-
-                        //skip beat if its a marker with 2000f bpm
-                        if (Mathf.Approximately(nextBeat.bpm, 2000f) && beatQueue.Count > 0)
-                        {
-                            QueuedBeat followUpBeat = beatQueue.Dequeue();
-                            selectedBeatIndex = followUpBeat.beatIndex;
-                            bpm = followUpBeat.bpm;
-                            bpmChanged = true;
-                            IsReadyToVisualize = true;
-                        }
+                        break;
                     }
                 }
 
@@ -359,17 +369,25 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Tutorial"))
         {
+            EnqueueBeat(11, 3000f); //HideAllPanels
+
             //marker
-            EnqueueBeat(0, 2000f);
+            EnqueueBeat(13, 2000f);
 
             //beat
             EnqueueBeat(2, 124f);
         }
         else if (sceneName.Contains("Level 1"))
         {
+            EnqueueBeat(11, 3002f); //ShowIntroPanel
+            EnqueueBeat(11, 3001f); //ShowBlackPanel
+
             //2 sec pause
             EnqueueBeat(11, 120f);
 
+            EnqueueBeat(11, 3003f); //FadeOutOfBlackPanel 2 sec
+
+            //heartbeat
             EnqueueBeat(6, 120f);
             EnqueueBeat(6, 100f);
             EnqueueBeat(6, 80f);
@@ -377,7 +395,12 @@ public class BeatSequencer : MonoBehaviour
 
             //4 sec pause
             EnqueueBeat(11, 60f);
+            EnqueueBeat(11, 3004f); //FadeToBlackPanel 4 sec
+            EnqueueBeat(11, 3006f); //HideAllImagePanels
+            EnqueueBeat(11, 3003f); //FadeOutOfBlackPanel 2 sec
 
+
+            //beat buildup from 124 to 1600 bpm
             EnqueueBeat(7, 136f);
             EnqueueBeat(7, 136f);
             EnqueueBeat(7, 142f);
@@ -393,13 +416,16 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(8, 160f);
             EnqueueBeat(8, 160f);
 
+            // cutsceneController.FadeOutOfBlackPanel(1f);
+
             EnqueueBeat(9, 160f);
             EnqueueBeat(9, 160f);
             EnqueueBeat(9, 160f);
             EnqueueBeat(9, 160f);
+
 
             //marker
-            EnqueueBeat(0, 2000f);
+            EnqueueBeat(13, 2000f);
 
             //beat
             EnqueueBeat(4, 160f);
@@ -410,7 +436,7 @@ public class BeatSequencer : MonoBehaviour
         else if (sceneName.Contains("Level 2"))
         {
             //marker
-            EnqueueBeat(0, 2000f);
+            EnqueueBeat(13, 2000f);
 
             //beat
             EnqueueBeat(3, 124f);
