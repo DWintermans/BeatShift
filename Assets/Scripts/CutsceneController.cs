@@ -9,11 +9,6 @@ public class CutsceneController : MonoBehaviour
     private List<VisualElement> allPanels;
     private Coroutine currentFade;
 
-    void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
-
     void OnEnable()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
@@ -32,7 +27,44 @@ public class CutsceneController : MonoBehaviour
             case 3004: FadeToBlackPanel(4f); break;
             case 3005: FadeOutOfBlackPanel(1f); break;
             case 3006: HideAllImagePanels(); break;
+            case 3007: FadeToBlackPanel(5f); break;
             default: Debug.LogWarning("Unknown cutscene BPM: " + bpm); break;
+        }
+    }
+
+    public void PlayCutScene(CutsceneAction action)
+    {
+        Debug.Log(action);
+
+        switch (action)
+        {
+            case CutsceneAction.HideAllPanels:
+                HideAllPanels();
+                break;
+            case CutsceneAction.ShowBlackPanel:
+                ShowBlackPanel();
+                break;
+            case CutsceneAction.ShowIntroPanel:
+                ShowIntroPanel();
+                break;
+            case CutsceneAction.FadeOutOfBlackPanelShort:
+                FadeOutOfBlackPanel(2f);
+                break;
+            case CutsceneAction.FadeOutOfBlackPanel:
+                FadeOutOfBlackPanel(4f);
+                break;
+            case CutsceneAction.FadeToBlackPanelShort:
+                FadeToBlackPanel(2f);
+                break;
+            case CutsceneAction.FadeToBlackPanel:
+                FadeToBlackPanel(4f);
+                break;
+            case CutsceneAction.HideAllImagePanels:
+                HideAllImagePanels();
+                break;
+            default:
+                Debug.LogWarning("Unknown cutscene action: " + action);
+                break;
         }
     }
 

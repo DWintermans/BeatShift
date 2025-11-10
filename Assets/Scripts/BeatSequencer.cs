@@ -151,10 +151,13 @@ public class BeatSequencer : MonoBehaviour
                         continue;
                     }
                     //cutscene
-                    else if (nextBeat.bpm >= 3000f)
+                    else if (nextBeat.bpm >= (float)CutsceneAction.HideAllPanels)
                     {
                         if (cutsceneController != null)
-                            cutsceneController.PlayCutScene(nextBeat.bpm);
+                        {
+                            CutsceneAction action = (CutsceneAction)(int)nextBeat.bpm;
+                            cutsceneController.PlayCutScene(action);
+                        }
 
                         continue;
                     }
@@ -351,6 +354,8 @@ public class BeatSequencer : MonoBehaviour
         //find the visualizer in new scene
         visualizer = FindFirstObjectByType<BeatVisualizer>();
 
+        cutsceneController = FindFirstObjectByType<CutsceneController>();
+
         SetBeatForScene(scene.name);
     }
 
@@ -379,13 +384,12 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 1"))
         {
-            EnqueueBeat(11, 3002f); //ShowIntroPanel
-            EnqueueBeat(11, 3001f); //ShowBlackPanel
+            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.ShowIntroPanel);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
 
-            //2 sec pause
-            EnqueueBeat(11, 120f);
-
-            EnqueueBeat(11, 3003f); //FadeOutOfBlackPanel 2 sec
+            // //2 sec pause
+            // EnqueueBeat(11, 180f);
 
             //heartbeat
             EnqueueBeat(6, 120f);
@@ -393,14 +397,16 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(6, 80f);
             EnqueueBeat(6, 50f);
 
-            //4 sec pause
-            EnqueueBeat(11, 60f);
-            EnqueueBeat(11, 3004f); //FadeToBlackPanel 4 sec
-            EnqueueBeat(11, 3006f); //HideAllImagePanels
-            EnqueueBeat(11, 3003f); //FadeOutOfBlackPanel 2 sec
+            //1 sec pause
+            EnqueueBeat(11, 180f);
+            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
 
+            //2 sec pause
+            EnqueueBeat(11, 120f);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
 
-            //beat buildup from 124 to 1600 bpm
+            //beat buildup from 124 to 160 bpm
             EnqueueBeat(7, 136f);
             EnqueueBeat(7, 136f);
             EnqueueBeat(7, 142f);
@@ -415,8 +421,6 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(8, 160f);
             EnqueueBeat(8, 160f);
             EnqueueBeat(8, 160f);
-
-            // cutsceneController.FadeOutOfBlackPanel(1f);
 
             EnqueueBeat(9, 160f);
             EnqueueBeat(9, 160f);
