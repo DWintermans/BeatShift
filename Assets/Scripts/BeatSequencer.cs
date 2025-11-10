@@ -12,7 +12,7 @@ public class BeatSequencer : MonoBehaviour
     public int selectedBeatIndex = 0;
 
     [Header("Drum Audio Sources")]
-    public AudioSource kickSource, snareSource, hihatSource, stickSource;
+    public AudioSource kickSource, snareSource, hihatSource, stickSource, bellSource;
 
     [Header("Visualizer")]
     public BeatVisualizer visualizer;
@@ -51,6 +51,12 @@ public class BeatSequencer : MonoBehaviour
             this.beatIndex = beatIndex;
             this.bpm = bpm;
         }
+    }
+    private bool switchBeat = false;
+
+    public void SwitchBeat()
+    {
+        switchBeat = true;
     }
 
     private bool IsReadyToVisualize = false;
@@ -220,6 +226,10 @@ public class BeatSequencer : MonoBehaviour
                 {
                     stickSource.PlayOneShot(stickSource.clip, drumVolume);
                 }
+                else if (instrument == "bell")
+                {
+                    bellSource.PlayOneShot(bellSource.clip, drumVolume);
+                }
             }
 
             //bass
@@ -246,7 +256,7 @@ public class BeatSequencer : MonoBehaviour
     private IEnumerator FadeInBass(AudioSource source, float duration)
     {
         float targetVolume = VolumeManager.Instance.bassVolume * VolumeManager.Instance.mainVolume;
-        source.volume = 0f;
+        source.volume = 0.1f;
         source.Play();
 
         float elapsed = 0f;
@@ -274,7 +284,7 @@ public class BeatSequencer : MonoBehaviour
             yield return null;
         }
 
-        source.volume = 0f;
+        source.volume = 0.1f;
         source.Stop();
     }
 
@@ -338,10 +348,12 @@ public class BeatSequencer : MonoBehaviour
     {
         ClearQueue();
         IsReadyToVisualize = false;
+        switchBeat = false;
 
         //bridgers + beat
         if (sceneName.Contains("MainMenu"))
         {
+            //beat
             EnqueueBeat(0, 124f);
             EnqueueBeat(1, 124f);
         }
@@ -349,6 +361,8 @@ public class BeatSequencer : MonoBehaviour
         {
             //marker
             EnqueueBeat(0, 2000f);
+
+            //beat
             EnqueueBeat(2, 124f);
         }
         else if (sceneName.Contains("Level 1"))
@@ -366,13 +380,23 @@ public class BeatSequencer : MonoBehaviour
 
             EnqueueBeat(7, 136f);
             EnqueueBeat(7, 136f);
+            EnqueueBeat(7, 142f);
+            EnqueueBeat(7, 142f);
 
-            EnqueueBeat(7, 142f);
-            EnqueueBeat(7, 142f);
             EnqueueBeat(7, 148f);
             EnqueueBeat(7, 148f);
             EnqueueBeat(7, 154f);
             EnqueueBeat(7, 154f);
+
+            EnqueueBeat(8, 160f);
+            EnqueueBeat(8, 160f);
+            EnqueueBeat(8, 160f);
+            EnqueueBeat(8, 160f);
+
+            EnqueueBeat(9, 160f);
+            EnqueueBeat(9, 160f);
+            EnqueueBeat(9, 160f);
+            EnqueueBeat(9, 160f);
 
             //marker
             EnqueueBeat(0, 2000f);
@@ -380,11 +404,16 @@ public class BeatSequencer : MonoBehaviour
             //beat
             EnqueueBeat(4, 160f);
             EnqueueBeat(5, 160f);
+            EnqueueBeat(4, 160f);
+            EnqueueBeat(10, 160f);
         }
         else if (sceneName.Contains("Level 2"))
         {
-            EnqueueBeat(0, 2000f); //marker
-            EnqueueBeat(6, 160f);
+            //marker
+            EnqueueBeat(0, 2000f);
+
+            //beat
+            EnqueueBeat(3, 124f);
         }
     }
 
@@ -406,6 +435,21 @@ public class BeatSequencer : MonoBehaviour
         {
             EnqueueBeat(4, 160f);
             EnqueueBeat(5, 160f);
+            EnqueueBeat(4, 160f);
+            EnqueueBeat(10, 160f);
+        }
+        else if (sceneName.Contains("Level 2"))
+        {
+            if (!switchBeat)
+            {
+                //normal beat
+                EnqueueBeat(3, 124f);
+            }
+            else
+            {
+                //updated beat
+                EnqueueBeat(12, 124f);
+            }
         }
     }
 }
