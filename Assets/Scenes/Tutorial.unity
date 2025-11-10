@@ -23589,6 +23589,14 @@ PrefabInstance:
       propertyPath: activatedImage
       value: 
       objectReference: {fileID: 2100000, guid: 995e5d7f25fd0fe49ab4521cf0fc968c, type: 2}
+    - target: {fileID: 4256491775843679289, guid: 312a673133becc74f995b821ce91994a, type: 3}
+      propertyPath: 'activatedImages.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 995e5d7f25fd0fe49ab4521cf0fc968c, type: 2}
+    - target: {fileID: 4256491775843679289, guid: 312a673133becc74f995b821ce91994a, type: 3}
+      propertyPath: 'activatedImages.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e94428ed2a8f3b848a3ca17db7a19707, type: 2}
     - target: {fileID: 6664127698679425231, guid: 312a673133becc74f995b821ce91994a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
