@@ -1,10 +1,10 @@
 using UnityEngine;
 
 public class BeatSwitchTrigger : MonoBehaviour
-{ 
-    private void OnTriggerEnter(Collider other)
+{
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             BeatSequencer.Instance.SwitchBeat();
         }
