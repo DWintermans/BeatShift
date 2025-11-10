@@ -1,33 +1,18 @@
 using UnityEngine;
-using System.Linq;
 
-public class WindowDestroyer : MonoBehaviour
+public class WindowManager : MonoBehaviour
 {
-    [Range(0f, 100f)]
-    public float randomDeletePercentage = 50f;
-    public Transform WindowSide;
-
-    void Awake()
+    private WindowController[] windowControllers;
+    private void Start()
     {
-        RandomlyDeleteWindows();
+        windowControllers = FindObjectsByType<WindowController>(FindObjectsSortMode.None);
     }
 
-    private void RandomlyDeleteWindows()
+    public void SetAllWindowsActive(bool active)
     {
-        if (randomDeletePercentage <= 0f) return;
-
-        var windows = WindowSide.GetComponentsInChildren<Transform>()
-                                  .Where(t => t != WindowSide)
-                                  .Select(t => t.gameObject)
-                                  .ToList();
-
-        int countToDelete = Mathf.RoundToInt(windows.Count * (randomDeletePercentage / 100f));
-
-        var randomWindows = windows.OrderBy(_ => Random.value).Take(countToDelete);
-
-        foreach (var window in randomWindows)
+        foreach (var controller in windowControllers)
         {
-            Destroy(window);
+            controller.SetWindowRenderersActive(active);
         }
     }
 }
