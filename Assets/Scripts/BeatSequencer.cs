@@ -502,6 +502,9 @@ public class BeatSequencer : MonoBehaviour
 
             //beat
             EnqueueBeat(15, 60);
+            EnqueueBeat(17, 60);
+            EnqueueBeat(17, 60);
+            EnqueueBeat(18, 60);
         }
     }
 
@@ -544,12 +547,15 @@ public class BeatSequencer : MonoBehaviour
             if (!switchBeat)
             {
                 //normal beat
-                EnqueueBeat(15, 60);
+                EnqueueBeat(17, 60);
+                EnqueueBeat(17, 60);
+                EnqueueBeat(17, 60);
+                EnqueueBeat(18, 60);
             }
             else
             {
                 //updated beat
-                // EnqueueBeat(15, 112f);
+                EnqueueBeat(16, 120);
             }
         }
     }
