@@ -153,6 +153,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 6120165ca3a6d62419e7dcc5a85e339a, type: 3}
     - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: electricSwitch
+      value: 
+      objectReference: {fileID: 8300000, guid: 898b411c0305da940aef97fb20ba5907, type: 3}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: electricitySource
       value: 
       objectReference: {fileID: 660732319}

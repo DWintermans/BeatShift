@@ -28,6 +28,7 @@ public class BeatSequencer : MonoBehaviour
     public AudioClip electricity2;
     public AudioClip electricity3;
     public AudioClip electricity4;
+    public AudioClip electricSwitch;
 
 
     [Header("Bass Audio Sources")]
@@ -164,10 +165,17 @@ public class BeatSequencer : MonoBehaviour
                         IsReadyToVisualize = true;
                         continue;
                     }
+                    //next level loader triggering after a beat ends
                     else if (nextBeat.bpm == 4000f)
                     {
                         FindFirstObjectByType<LevelManager>().LoadNextLevel();
                         break;
+                    }
+                    //play electric switch sound
+                    else if (nextBeat.bpm == 5000f)
+                    {
+                        electricitySource.PlayOneShot(electricSwitch, VolumeManager.Instance.drumVolume);
+                        continue;
                     }
                     //cutscene
                     else if (nextBeat.bpm >= (float)CutsceneAction.HideAllPanels)
@@ -408,6 +416,11 @@ public class BeatSequencer : MonoBehaviour
         PreparingTransition = false;
         electricityState = true;
 
+        if (!sceneName.Contains("MainMenu") || !sceneName.Contains("Level 1"))
+        {
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
+        }
+
         //bridgers + beat
         if (sceneName.Contains("MainMenu"))
         {
@@ -417,8 +430,6 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Tutorial"))
         {
-            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
-
             //marker
             EnqueueBeat(13, 2000f);
 
@@ -477,8 +488,6 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 2"))
         {
-            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
-
             //marker
             EnqueueBeat(13, 2000f);
 
@@ -487,8 +496,6 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 2"))
         {
-            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
-
             //marker
             EnqueueBeat(13, 2000f);
 
@@ -563,18 +570,16 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(11, (float)CutsceneAction.ShowChargingPanel);
 
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
-            EnqueueBeat(11, 60f);
+            EnqueueBeat(11, 120f);
 
-            //play battery click sound with charging panel shot
-            //here
+            EnqueueBeat(11, 5000f);
 
-            EnqueueBeat(11, 60f);
+            EnqueueBeat(11, 180f);
 
             EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
-            //play electricty beat with windows on off
+            
+            //play electricty beat + turn windows on/off, automatically does FadeToBlackPanelShort on 4th
             EnqueueBeat(14, 100f);
-
-            EnqueueBeat(11, 120f);
 
             //load next level
             EnqueueBeat(11, 4000f);
