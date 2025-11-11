@@ -495,13 +495,13 @@ public class BeatSequencer : MonoBehaviour
             //beat
             EnqueueBeat(3, 124f);
         }
-        else if (sceneName.Contains("Level 2"))
+        else if (sceneName.Contains("Level 3"))
         {
             //marker
             EnqueueBeat(13, 2000f);
 
             //beat
-            //EnqueueBeat(, 124f);
+            EnqueueBeat(15, 60);
         }
     }
 
@@ -544,49 +544,41 @@ public class BeatSequencer : MonoBehaviour
             if (!switchBeat)
             {
                 //normal beat
-                //EnqueueBeat(, 124f);
+                EnqueueBeat(15, 60);
             }
             else
             {
                 //updated beat
-                //EnqueueBeat(, 124f);
+                // EnqueueBeat(15, 112f);
             }
         }
     }
 
+    //triggers when landing on platform marked as Finish.
     public void PrepareSceneTransition(string currentScene)
     {
         if (PreparingTransition)
             return;
-        
+
         ClearQueue();
         IsReadyToVisualize = false;
         switchBeat = false;
         PreparingTransition = true;
 
-        //transition to level 2
-        if (currentScene.Contains("Level 1"))
+        //transition to ending
+        if (currentScene.Contains("Level 3"))
         {
-            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanelShort);
-            EnqueueBeat(11, 120f);
-
-            EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
-            EnqueueBeat(11, (float)CutsceneAction.ShowChargingPanel);
-
-            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
-            EnqueueBeat(11, 120f);
-
-            EnqueueBeat(11, 5000f);
-
-            EnqueueBeat(11, 120f);
-
-            EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
-
-            //play electricty beat + turn windows on/off, automatically does FadeToBlackPanelShort on 4th
-            EnqueueBeat(14, 100f);
-
-            //load next level
-            EnqueueBeat(11, 4000f);
+            ChargingCutscene(false);
+        }
+        //transition to level 3
+        else if (currentScene.Contains("Level 2"))
+        {
+            ChargingCutscene();
+        }
+        //transition to level 2
+        else if (currentScene.Contains("Level 1"))
+        {
+            ChargingCutscene();
         }
         //transition to level 1
         else if (currentScene.Contains("Tutorial"))
@@ -594,12 +586,36 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
             EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
 
-            //4 sec pause
-            EnqueueBeat(11, 60f);
+            //2 sec pause
+            EnqueueBeat(11, 120f);
 
             //load next level
             EnqueueBeat(11, 4000f);
         }
     }
 
+    private void ChargingCutscene(bool AutoLoadNextLevel = true)
+    {
+        EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanelShort);
+        EnqueueBeat(11, 120f);
+
+        EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
+        EnqueueBeat(11, (float)CutsceneAction.ShowChargingPanel);
+
+        EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
+        EnqueueBeat(11, 120f);
+
+        EnqueueBeat(11, 5000f);
+
+        EnqueueBeat(11, 120f);
+
+        EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
+
+        //play electricty beat + turn windows on/off on beat, automatically does FadeToBlackPanelShort on 4th note
+        EnqueueBeat(14, 100f);
+
+        //load next level
+        if (AutoLoadNextLevel)
+            EnqueueBeat(11, 4000f);
+    }
 }
