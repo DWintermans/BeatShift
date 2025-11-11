@@ -605,7 +605,7 @@ public class BeatSequencer : MonoBehaviour
         else if (currentScene.Contains("Level 3"))
         {
             ChargingCutscene(false);
-            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
             EnqueueBeat(11, 60f);
             EnqueueBeat(11, (float)CutsceneAction.ShowEndingPanel);
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
