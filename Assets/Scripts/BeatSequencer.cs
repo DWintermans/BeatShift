@@ -22,6 +22,14 @@ public class BeatSequencer : MonoBehaviour
     [Header("Tempo")]
     public float bpm = 124f;
 
+    [Header("Electricity Audio Sources")]
+    public AudioSource electricitySource;
+    public AudioClip electricity1;
+    public AudioClip electricity2;
+    public AudioClip electricity3;
+    public AudioClip electricity4;
+
+
     [Header("Bass Audio Sources")]
     public AudioSource bassSource;
     public AudioClip E0, E1, E2, E3, E4, E5,
@@ -65,6 +73,9 @@ public class BeatSequencer : MonoBehaviour
     private bool IsReadyToVisualize = false;
 
     public static BeatSequencer Instance;
+    private WindowManager windowManager;
+    private bool electricityState = true;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -84,6 +95,8 @@ public class BeatSequencer : MonoBehaviour
     {
         visualizer = FindFirstObjectByType<BeatVisualizer>();
         cutsceneController = FindFirstObjectByType<CutsceneController>();
+        windowManager = FindFirstObjectByType<WindowManager>();
+
         ApplyBPM();
         LoadSelectedBeat();
 
@@ -269,6 +282,32 @@ public class BeatSequencer : MonoBehaviour
                     }
                 }
             }
+
+            //electricity
+            if (instrument == "electricity" && cell != "-")
+            {
+                switch (cell)
+                {
+                    case "1":
+                        electricitySource.PlayOneShot(electricity1, VolumeManager.Instance.drumVolume);
+                        break;
+                    case "2":
+                        electricitySource.PlayOneShot(electricity2, VolumeManager.Instance.drumVolume);
+                        break;
+                    case "3":
+                        electricitySource.PlayOneShot(electricity3, VolumeManager.Instance.drumVolume);
+                        break;
+                    case "4":
+                        electricitySource.PlayOneShot(electricity4, VolumeManager.Instance.drumVolume);
+                        break;
+                }
+
+                electricityState = !electricityState;
+                windowManager.SetAllWindowsActive(electricityState);
+
+                if (cell == "4" && cutsceneController != null)
+                    cutsceneController.PlayCutScene(CutsceneAction.FadeToBlackPanelShort);
+            }
         }
     }
 
@@ -353,8 +392,9 @@ public class BeatSequencer : MonoBehaviour
     {
         //find the visualizer in new scene
         visualizer = FindFirstObjectByType<BeatVisualizer>();
-
         cutsceneController = FindFirstObjectByType<CutsceneController>();
+        windowManager = FindFirstObjectByType<WindowManager>();
+
         SetBeatForScene(scene.name);
     }
 
@@ -366,6 +406,7 @@ public class BeatSequencer : MonoBehaviour
         IsReadyToVisualize = false;
         switchBeat = false;
         PreparingTransition = false;
+        electricityState = true;
 
         //bridgers + beat
         if (sceneName.Contains("MainMenu"))
@@ -444,6 +485,16 @@ public class BeatSequencer : MonoBehaviour
             //beat
             EnqueueBeat(3, 124f);
         }
+        else if (sceneName.Contains("Level 2"))
+        {
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
+
+            //marker
+            EnqueueBeat(13, 2000f);
+
+            //beat
+            //EnqueueBeat(, 124f);
+        }
     }
 
     private void FillBeatQueue()
@@ -480,6 +531,19 @@ public class BeatSequencer : MonoBehaviour
                 EnqueueBeat(12, 124f);
             }
         }
+        else if (sceneName.Contains("Level 3"))
+        {
+            if (!switchBeat)
+            {
+                //normal beat
+                //EnqueueBeat(, 124f);
+            }
+            else
+            {
+                //updated beat
+                //EnqueueBeat(, 124f);
+            }
+        }
     }
 
     public void PrepareSceneTransition(string currentScene)
@@ -501,9 +565,15 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
             EnqueueBeat(11, 60f);
 
-            //add battery sequence here
+            //play battery click sound with charging panel shot
+            //here
 
-            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanelShort);
+            EnqueueBeat(11, 60f);
+
+            EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
+            //play electricty beat with windows on off
+            EnqueueBeat(14, 100f);
+
             EnqueueBeat(11, 120f);
 
             //load next level
