@@ -9,4 +9,6 @@ public enum CutsceneAction
     FadeOutOfBlackPanelShort = 3005,
     HideAllImagePanels = 3006,
     FadeToBlackPanelShort = 3007,
+    ShowChargingPanel = 3008,
+    ShowEndingPanel = 3009,
 }

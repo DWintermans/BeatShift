@@ -72,7 +72,7 @@ public class BeatSequencer : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         Instance = this;
         DontDestroyOnLoad(bassSource.gameObject);
         DontDestroyOnLoad(kickSource.gameObject);
@@ -151,7 +151,8 @@ public class BeatSequencer : MonoBehaviour
                         IsReadyToVisualize = true;
                         continue;
                     }
-                    else if (nextBeat.bpm == 4000f){
+                    else if (nextBeat.bpm == 4000f)
+                    {
                         FindFirstObjectByType<LevelManager>().LoadNextLevel();
                         break;
                     }
@@ -354,13 +355,14 @@ public class BeatSequencer : MonoBehaviour
         visualizer = FindFirstObjectByType<BeatVisualizer>();
 
         cutsceneController = FindFirstObjectByType<CutsceneController>();
-
         SetBeatForScene(scene.name);
     }
 
     private void SetBeatForScene(string sceneName)
     {
         ClearQueue();
+        cutsceneController.ShowBlackPanel();
+        cutsceneController.HideAllImagePanels();
         IsReadyToVisualize = false;
         switchBeat = false;
         PreparingTransition = false;
@@ -374,7 +376,7 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Tutorial"))
         {
-            EnqueueBeat(11, (float)CutsceneAction.HideAllPanels);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
 
             //marker
             EnqueueBeat(13, 2000f);
@@ -384,7 +386,6 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 1"))
         {
-            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
             EnqueueBeat(11, (float)CutsceneAction.ShowIntroPanel);
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
 
@@ -399,10 +400,9 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
             EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
 
-
             //2 sec pause
             EnqueueBeat(11, 120f);
-            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanel);
 
             //beat buildup from 124 to 160 bpm
             EnqueueBeat(7, 136f);
@@ -436,6 +436,8 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 2"))
         {
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
+
             //marker
             EnqueueBeat(13, 2000f);
 
@@ -487,23 +489,31 @@ public class BeatSequencer : MonoBehaviour
         switchBeat = false;
         PreparingTransition = true;
 
+        //transition to level 2
         if (currentScene.Contains("Level 1"))
         {
-            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanelShort);
+            EnqueueBeat(11, 120f);
+
             EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
-            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.ShowChargingPanel);
+
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
+            EnqueueBeat(11, 60f);
+
+            //add battery sequence here
+
+            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanelShort);
+            EnqueueBeat(11, 120f);
 
             //load next level
             EnqueueBeat(11, 4000f);
-
-            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
-            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanel);
         }
+        //transition to level 1
         else if (currentScene.Contains("Tutorial"))
         {
             EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
             EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
-            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
 
             //4 sec pause
             EnqueueBeat(11, 60f);

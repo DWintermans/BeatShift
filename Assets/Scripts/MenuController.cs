@@ -108,6 +108,12 @@ public class StartMenuController : MonoBehaviour
         if (IsMainMenu)
         {
             SceneManager.LoadScene("Tutorial");
+
+            var cutsceneController = FindFirstObjectByType<CutsceneController>();
+            if (cutsceneController != null)
+                cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
+            else
+                Debug.LogWarning("CutsceneController not found by MenuController");
         }
         else
         {
@@ -138,6 +144,12 @@ public class StartMenuController : MonoBehaviour
         Debug.Log($"Loading scene: {sceneName}");
 
         SceneManager.LoadScene(sceneName);
+
+        var cutsceneController = FindFirstObjectByType<CutsceneController>();
+        if (cutsceneController != null)
+            cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
+        else
+            Debug.LogWarning("CutsceneController not found by MenuController");
     }
     #endregion
 
