@@ -563,6 +563,7 @@ public class BeatSequencer : MonoBehaviour
     //triggers when landing on platform marked as Finish.
     public void PrepareSceneTransition(string currentScene)
     {
+        //prevent double calling of function
         if (PreparingTransition)
             return;
 
@@ -571,23 +572,8 @@ public class BeatSequencer : MonoBehaviour
         switchBeat = false;
         PreparingTransition = true;
 
-        //transition to ending
-        if (currentScene.Contains("Level 3"))
-        {
-            ChargingCutscene(false);
-        }
-        //transition to level 3
-        else if (currentScene.Contains("Level 2"))
-        {
-            ChargingCutscene();
-        }
-        //transition to level 2
-        else if (currentScene.Contains("Level 1"))
-        {
-            ChargingCutscene();
-        }
         //transition to level 1
-        else if (currentScene.Contains("Tutorial"))
+        if (currentScene.Contains("Tutorial"))
         {
             EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
             EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
@@ -596,6 +582,30 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(11, 120f);
 
             //load next level
+            EnqueueBeat(11, 4000f);
+        }
+        //transition to level 2
+        else if (currentScene.Contains("Level 1"))
+        {
+            ChargingCutscene();
+        }
+        //transition to level 3
+        else if (currentScene.Contains("Level 2"))
+        {
+            ChargingCutscene();
+        }
+        //transition to ending
+        else if (currentScene.Contains("Level 3"))
+        {
+            ChargingCutscene(false);
+            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
+            EnqueueBeat(11, 60f);
+            EnqueueBeat(11, (float)CutsceneAction.ShowEndingPanel);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
+            EnqueueBeat(11, 60f);
+            EnqueueBeat(11, 60f);
+            
+            //back to menu
             EnqueueBeat(11, 4000f);
         }
     }
