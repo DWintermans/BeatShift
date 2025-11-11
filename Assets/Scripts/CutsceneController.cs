@@ -9,9 +9,17 @@ public class CutsceneController : MonoBehaviour
     private List<VisualElement> allPanels;
     private Coroutine currentFade;
 
+    public static CutsceneController Instance;
+
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        Instance = this;
     }
 
     void OnEnable()
@@ -50,6 +58,12 @@ public class CutsceneController : MonoBehaviour
             case CutsceneAction.HideAllImagePanels:
                 HideAllImagePanels();
                 break;
+            case CutsceneAction.ShowChargingPanel:
+                ShowChargingPanel();
+                break;
+            case CutsceneAction.ShowEndingPanel:
+                ShowEndingPanel();
+                break;    
             default:
                 Debug.LogWarning("Unknown cutscene action: " + action);
                 break;

@@ -22,6 +22,13 @@ public class LevelManager : MonoBehaviour
         if (nextIndex < scenes.Length)
         {
             Debug.Log("Loading: " + scenes[nextIndex]);
+            
+            var cutsceneController = FindFirstObjectByType<CutsceneController>();
+            if (cutsceneController != null)
+                cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
+            else
+                Debug.LogWarning("CutsceneController not found by MenuController");
+
             SceneManager.LoadScene(scenes[nextIndex]);
         }
         else
