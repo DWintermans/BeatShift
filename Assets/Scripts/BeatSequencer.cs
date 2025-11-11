@@ -90,6 +90,7 @@ public class BeatSequencer : MonoBehaviour
         DontDestroyOnLoad(kickSource.gameObject);
         DontDestroyOnLoad(snareSource.gameObject);
         DontDestroyOnLoad(hihatSource.gameObject);
+        DontDestroyOnLoad(electricitySource.gameObject);
     }
 
     void Start()
@@ -292,7 +293,7 @@ public class BeatSequencer : MonoBehaviour
             }
 
             //electricity
-            if (instrument == "electricity" && cell != "-")
+            if (instrument == "electricity" && cell != "-" && PreparingTransition)
             {
                 switch (cell)
                 {
@@ -555,6 +556,9 @@ public class BeatSequencer : MonoBehaviour
 
     public void PrepareSceneTransition(string currentScene)
     {
+        if (PreparingTransition)
+            return;
+        
         ClearQueue();
         IsReadyToVisualize = false;
         switchBeat = false;
@@ -574,10 +578,10 @@ public class BeatSequencer : MonoBehaviour
 
             EnqueueBeat(11, 5000f);
 
-            EnqueueBeat(11, 180f);
+            EnqueueBeat(11, 120f);
 
             EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
-            
+
             //play electricty beat + turn windows on/off, automatically does FadeToBlackPanelShort on 4th
             EnqueueBeat(14, 100f);
 
