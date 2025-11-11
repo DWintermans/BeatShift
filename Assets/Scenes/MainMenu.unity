@@ -156,6 +156,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Background_AudioSource
       objectReference: {fileID: 0}
+    - target: {fileID: 7887792829813334898, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7887792829813334898, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8935878820773270019, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.62563
@@ -428,7 +436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4588528112674001532, guid: 9d72ec6e4a9b0fc4fb61d408bb8c75a0, type: 3}
       propertyPath: bassVolume
-      value: 0.25
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 6480546530228865033, guid: 9d72ec6e4a9b0fc4fb61d408bb8c75a0, type: 3}
       propertyPath: m_LocalPosition.x

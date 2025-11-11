@@ -55,6 +55,7 @@ public class BeatSequencer : MonoBehaviour
         }
     }
     private bool switchBeat = false;
+    private bool PreparingTransition = false;
 
     public void SwitchBeat()
     {
@@ -71,7 +72,7 @@ public class BeatSequencer : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         Instance = this;
         DontDestroyOnLoad(bassSource.gameObject);
         DontDestroyOnLoad(kickSource.gameObject);
@@ -150,11 +151,18 @@ public class BeatSequencer : MonoBehaviour
                         IsReadyToVisualize = true;
                         continue;
                     }
+                    else if (nextBeat.bpm == 4000f){
+                        FindFirstObjectByType<LevelManager>().LoadNextLevel();
+                        break;
+                    }
                     //cutscene
-                    else if (nextBeat.bpm >= 3000f)
+                    else if (nextBeat.bpm >= (float)CutsceneAction.HideAllPanels)
                     {
                         if (cutsceneController != null)
-                            cutsceneController.PlayCutScene(nextBeat.bpm);
+                        {
+                            CutsceneAction action = (CutsceneAction)(int)nextBeat.bpm;
+                            cutsceneController.PlayCutScene(action);
+                        }
 
                         continue;
                     }
@@ -168,7 +176,7 @@ public class BeatSequencer : MonoBehaviour
                     }
                 }
 
-                if (beatQueue.Count == 0)
+                if (beatQueue.Count == 0 && !PreparingTransition)
                 {
                     FillBeatQueue();
                 }
@@ -317,12 +325,6 @@ public class BeatSequencer : MonoBehaviour
             dictionary[instrument] = pattern;
         }
 
-        // foreach (var kvp in dictionary)
-        // {
-        //     string patternStr = string.Join(",", kvp.Value);
-        //     Debug.Log($"{kvp.Key}: {patternStr}");
-        // }
-
         return dictionary;
     }
 
@@ -351,6 +353,8 @@ public class BeatSequencer : MonoBehaviour
         //find the visualizer in new scene
         visualizer = FindFirstObjectByType<BeatVisualizer>();
 
+        cutsceneController = FindFirstObjectByType<CutsceneController>();
+
         SetBeatForScene(scene.name);
     }
 
@@ -359,6 +363,7 @@ public class BeatSequencer : MonoBehaviour
         ClearQueue();
         IsReadyToVisualize = false;
         switchBeat = false;
+        PreparingTransition = false;
 
         //bridgers + beat
         if (sceneName.Contains("MainMenu"))
@@ -369,7 +374,7 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Tutorial"))
         {
-            EnqueueBeat(11, 3000f); //HideAllPanels
+            EnqueueBeat(11, (float)CutsceneAction.HideAllPanels);
 
             //marker
             EnqueueBeat(13, 2000f);
@@ -379,13 +384,9 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 1"))
         {
-            EnqueueBeat(11, 3002f); //ShowIntroPanel
-            EnqueueBeat(11, 3001f); //ShowBlackPanel
-
-            //2 sec pause
-            EnqueueBeat(11, 120f);
-
-            EnqueueBeat(11, 3003f); //FadeOutOfBlackPanel 2 sec
+            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.ShowIntroPanel);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
 
             //heartbeat
             EnqueueBeat(6, 120f);
@@ -393,14 +394,17 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(6, 80f);
             EnqueueBeat(6, 50f);
 
-            //4 sec pause
-            EnqueueBeat(11, 60f);
-            EnqueueBeat(11, 3004f); //FadeToBlackPanel 4 sec
-            EnqueueBeat(11, 3006f); //HideAllImagePanels
-            EnqueueBeat(11, 3003f); //FadeOutOfBlackPanel 2 sec
+            //1 sec pause
+            EnqueueBeat(11, 180f);
+            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
 
 
-            //beat buildup from 124 to 1600 bpm
+            //2 sec pause
+            EnqueueBeat(11, 120f);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
+
+            //beat buildup from 124 to 160 bpm
             EnqueueBeat(7, 136f);
             EnqueueBeat(7, 136f);
             EnqueueBeat(7, 142f);
@@ -416,13 +420,10 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(8, 160f);
             EnqueueBeat(8, 160f);
 
-            // cutsceneController.FadeOutOfBlackPanel(1f);
-
             EnqueueBeat(9, 160f);
             EnqueueBeat(9, 160f);
             EnqueueBeat(9, 160f);
             EnqueueBeat(9, 160f);
-
 
             //marker
             EnqueueBeat(13, 2000f);
@@ -478,4 +479,38 @@ public class BeatSequencer : MonoBehaviour
             }
         }
     }
+
+    public void PrepareSceneTransition(string currentScene)
+    {
+        ClearQueue();
+        IsReadyToVisualize = false;
+        switchBeat = false;
+        PreparingTransition = true;
+
+        if (currentScene.Contains("Level 1"))
+        {
+            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanel);
+
+            //load next level
+            EnqueueBeat(11, 4000f);
+
+            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanel);
+        }
+        else if (currentScene.Contains("Tutorial"))
+        {
+            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
+            EnqueueBeat(11, (float)CutsceneAction.HideAllImagePanels);
+            EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
+
+            //4 sec pause
+            EnqueueBeat(11, 60f);
+
+            //load next level
+            EnqueueBeat(11, 4000f);
+        }
+    }
+
 }

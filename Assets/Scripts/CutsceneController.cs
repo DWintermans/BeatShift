@@ -20,19 +20,39 @@ public class CutsceneController : MonoBehaviour
         InitPanels(root);
     }
 
-    public void PlayCutScene(float bpm)
+    public void PlayCutScene(CutsceneAction action)
     {
-        Debug.Log(bpm);
-        switch ((int)bpm)
+        Debug.Log(action);
+
+        switch (action)
         {
-            case 3000: HideAllPanels(); break;
-            case 3001: ShowBlackPanel(); break;
-            case 3002: ShowIntroPanel(); break;
-            case 3003: FadeOutOfBlackPanel(2f); break;
-            case 3004: FadeToBlackPanel(4f); break;
-            case 3005: FadeOutOfBlackPanel(1f); break;
-            case 3006: HideAllImagePanels(); break;
-            default: Debug.LogWarning("Unknown cutscene BPM: " + bpm); break;
+            case CutsceneAction.HideAllPanels:
+                HideAllPanels();
+                break;
+            case CutsceneAction.ShowBlackPanel:
+                ShowBlackPanel();
+                break;
+            case CutsceneAction.ShowIntroPanel:
+                ShowIntroPanel();
+                break;
+            case CutsceneAction.FadeOutOfBlackPanelShort:
+                FadeOutOfBlackPanel(2f);
+                break;
+            case CutsceneAction.FadeOutOfBlackPanel:
+                FadeOutOfBlackPanel(4f);
+                break;
+            case CutsceneAction.FadeToBlackPanelShort:
+                FadeToBlackPanel(2f);
+                break;
+            case CutsceneAction.FadeToBlackPanel:
+                FadeToBlackPanel(4f);
+                break;
+            case CutsceneAction.HideAllImagePanels:
+                HideAllImagePanels();
+                break;
+            default:
+                Debug.LogWarning("Unknown cutscene action: " + action);
+                break;
         }
     }
 

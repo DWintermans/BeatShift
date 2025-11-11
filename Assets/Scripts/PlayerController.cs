@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -70,8 +71,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Danger"))
@@ -81,7 +80,11 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Finish"))
         {
-            FindFirstObjectByType<LevelManager>().LoadNextLevel();
+            string currentScene = SceneManager.GetActiveScene().name;
+
+            var sequencer = FindFirstObjectByType<BeatSequencer>();
+            if (sequencer != null)
+                sequencer.PrepareSceneTransition(currentScene);
         }
     }
 
