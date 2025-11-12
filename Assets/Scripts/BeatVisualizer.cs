@@ -7,8 +7,13 @@ public class BeatVisualizer : MonoBehaviour
     private GameObject[] kickPlatformsList;
     private GameObject[] snarePlatformsList;
     private GameObject[] hihatPlatformsList;
+<<<<<<< HEAD
     private GameObject[] kickMovingPlatformsList;
     private GameObject[] snareMovingPlatformsList;
+=======
+    private MovingPlatform[] kickMovingPlatformsList;
+    private MovingPlatform[] snareMovingPlatformsList;
+>>>>>>> dev
 
     private bool isKickOpaque = false;
     private bool isSnareOpaque = false;
@@ -19,8 +24,13 @@ public class BeatVisualizer : MonoBehaviour
         kickPlatformsList = GetChildrenOf("KickPlatforms");
         snarePlatformsList = GetChildrenOf("SnarePlatforms");
         hihatPlatformsList = GetChildrenOf("HihatPlatforms");
+<<<<<<< HEAD
         kickMovingPlatformsList = GetChildrenOf("KickMovingPlatforms");
         snareMovingPlatformsList = GetChildrenOf("SnareMovingPlatforms");
+=======
+        kickMovingPlatformsList = GetMovingPlatformChildrenOf("KickMovingPlatforms");
+        snareMovingPlatformsList = GetMovingPlatformChildrenOf("SnareMovingPlatforms");
+>>>>>>> dev
     }
 
     private GameObject[] GetChildrenOf(string parentName)
@@ -34,6 +44,15 @@ public class BeatVisualizer : MonoBehaviour
                      .ToArray();
     }
 
+    private MovingPlatform[] GetMovingPlatformChildrenOf(string parentName)
+    {
+        var parent = GameObject.Find(parentName);
+        if (parent == null) return new MovingPlatform[0];
+
+        return parent.GetComponentsInChildren<MovingPlatform>(true)
+                     .ToArray();
+    }
+
     public void OnKick()
     {
         isKickOpaque = !isKickOpaque;
@@ -41,7 +60,11 @@ public class BeatVisualizer : MonoBehaviour
         ToggleHitbox(kickPlatformsList, isKickOpaque);
         ToggleEmission(kickPlatformsList, isKickOpaque);
         ToggleAdvertisementBaseMap(kickPlatformsList, isKickOpaque);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> dev
         ToggleMovingPlatformDirection(kickMovingPlatformsList);
     }
 
@@ -106,7 +129,10 @@ public class BeatVisualizer : MonoBehaviour
             var collider = obj.GetComponent<Collider>();
             if (collider != null)
             {
-                collider.enabled = !isOpaque;
+                if (obj.layer == LayerMask.NameToLayer("Platforms"))
+                    collider.enabled = !isOpaque;
+                else
+                    collider.isTrigger = isOpaque;
             }
         }
     }
@@ -147,12 +173,20 @@ public class BeatVisualizer : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     private void ToggleMovingPlatformDirection(GameObject[] platforms)
     {
         foreach (var obj in platforms)
         {
             var movingPlatform = obj.GetComponent<MovingPlatform>();
             movingPlatform.Move();
+=======
+    private void ToggleMovingPlatformDirection(MovingPlatform[] platforms)
+    {
+        foreach (var obj in platforms)
+        {
+            obj.Move();
+>>>>>>> dev
         }
     }
 }

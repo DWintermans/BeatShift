@@ -267,7 +267,13 @@ MonoBehaviour:
   images:
   - {fileID: 8774473393092910088}
   - {fileID: 7675939125392519799}
+<<<<<<< HEAD
   activatedImage: {fileID: 2100000, guid: 9d095243827c8a5489301078edce3855, type: 2}
+=======
+  activatedImages:
+  - {fileID: 2100000, guid: 9d095243827c8a5489301078edce3855, type: 2}
+  - {fileID: 2100000, guid: 9d095243827c8a5489301078edce3855, type: 2}
+>>>>>>> dev
   activatedImageScale: {x: 0.1, y: 0.1, z: 0.1}
 --- !u!1 &7675939125392519799 stripped
 GameObject:
