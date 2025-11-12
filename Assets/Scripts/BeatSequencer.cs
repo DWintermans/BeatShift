@@ -636,6 +636,8 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(6, 80f);
             EnqueueBeat(6, 100f);
             EnqueueBeat(6, 120f);
+            EnqueueBeat(6, 120f);
+            EnqueueBeat(6, 120f);
 
             EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanelShort);
             EnqueueBeat(6, 120f);
