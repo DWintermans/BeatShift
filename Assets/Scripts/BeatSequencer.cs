@@ -144,6 +144,9 @@ public class BeatSequencer : MonoBehaviour
 
     void Update()
     {
+        if (!Application.isFocused)
+            return;
+        
         if (!Mathf.Approximately(bpm, lastBpm))
             bpmChanged = true;
 
