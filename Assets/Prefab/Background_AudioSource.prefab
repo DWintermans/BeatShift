@@ -551,19 +551,29 @@ MonoBehaviour:
   - {fileID: 4900000, guid: b3c91e8f0e1e5504d8ce6f847acd3e78, type: 3}
   - {fileID: 4900000, guid: 11f7572374c3cf84286d1761a265e4d9, type: 3}
   - {fileID: 4900000, guid: 3187941de79aa394a86445ef5b1cf0f8, type: 3}
+  - {fileID: 4900000, guid: 5d76871db06c1294bb98482ee68370c5, type: 3}
+  - {fileID: 4900000, guid: 399cbc0f0f5cbbb4e9af6088ef2d7f6c, type: 3}
+  - {fileID: 4900000, guid: 5cf66e7df7b6a0f49b87ec6a249cc844, type: 3}
+  - {fileID: 4900000, guid: 7d2db7a254f6ec54aae74b3258bb1e4d, type: 3}
+  - {fileID: 4900000, guid: c65077b55d5282449bc50942992f1011, type: 3}
+  - {fileID: 4900000, guid: e86f1dba276593245acea837bea510c6, type: 3}
+  - {fileID: 4900000, guid: 204a56266c320e542a2c048de00493c4, type: 3}
+  - {fileID: 4900000, guid: e4cde77c01491be4cab09196c4341ba6, type: 3}
+  - {fileID: 4900000, guid: baf24b3aa20c9f24d93d33a755400aca, type: 3}
   selectedBeatIndex: 5
   kickSource: {fileID: 8405999469411708903}
   snareSource: {fileID: 7838680780402486543}
   hihatSource: {fileID: 7043965409245134618}
   stickSource: {fileID: 6929102570087510033}
-  bellSource: {fileID: 0}
+  bellSource: {fileID: 7887792829813334898}
   visualizer: {fileID: 0}
   bpm: 124
-  electricitySource: {fileID: 0}
-  electricity1: {fileID: 0}
-  electricity2: {fileID: 0}
-  electricity3: {fileID: 0}
-  electricity4: {fileID: 0}
+  electricitySource: {fileID: 6009184265687289412}
+  electricity1: {fileID: 8300000, guid: c5574886d39195b4abc83f985b37abd2, type: 3}
+  electricity2: {fileID: 8300000, guid: 87143ad4e19afb9429ca5b60a8f7e077, type: 3}
+  electricity3: {fileID: 8300000, guid: 1e22176e9d72f394386723439a317977, type: 3}
+  electricity4: {fileID: 8300000, guid: 6120165ca3a6d62419e7dcc5a85e339a, type: 3}
+  electricSwitch: {fileID: 8300000, guid: 898b411c0305da940aef97fb20ba5907, type: 3}
   bassSource: {fileID: 2762445665211569762}
   E0: {fileID: 8300000, guid: f6fcfa79698e2084ea3abd0dc3258119, type: 3}
   E1: {fileID: 8300000, guid: 2cc73240f5d06d74bbc274aa931a3a84, type: 3}

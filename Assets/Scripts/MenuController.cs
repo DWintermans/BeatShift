@@ -10,8 +10,26 @@ public class StartMenuController : MonoBehaviour
     private (SliderInt slider, Label label, System.Action<float> setter)[] volumeControls;
     public InputAction MenuAction;
     private BeatSequencer beatSequencer;
+    private GameObject cutsceneGO;
 
     private bool IsMainMenu => SceneManager.GetActiveScene().name == "MainMenu";
+
+    void Start()
+    {
+        cutsceneGO = GameObject.Find("CutsceneController");
+        if (cutsceneGO != null)
+        {
+            if (IsMainMenu)
+                cutsceneGO.SetActive(false);
+            else
+                cutsceneGO.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("Cutscene GameObject not found in the scene.");
+        }
+    }
+
 
     void OnEnable()
     {
@@ -34,6 +52,10 @@ public class StartMenuController : MonoBehaviour
     {
         MenuAction.performed -= OnMenuPressed;
         MenuAction.Disable();
+        if (cutsceneGO != null)
+        {
+            cutsceneGO.SetActive(true);
+        }
     }
 
     #region Initialization
@@ -109,6 +131,11 @@ public class StartMenuController : MonoBehaviour
         {
             SceneManager.LoadScene("Tutorial");
 
+            if (cutsceneGO != null)
+            {
+                cutsceneGO.SetActive(true);
+            }
+            
             var cutsceneController = FindFirstObjectByType<CutsceneController>();
             if (cutsceneController != null)
                 cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
