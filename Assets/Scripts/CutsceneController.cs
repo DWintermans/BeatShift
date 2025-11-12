@@ -5,8 +5,9 @@ using System.Collections.Generic;
 
 public class CutsceneController : MonoBehaviour
 {
-    private VisualElement introPanel, endingPanel, chargingPanel, blackPanel;
+    private VisualElement introPanel, endingPanel, chargingPanel, blackPanel, bat1Panel, bat2Panel, bat3Panel, bat4Panel;
     private List<VisualElement> allPanels;
+    private List<VisualElement> allBatPanels;
     private Coroutine currentFade;
 
     public static CutsceneController Instance;
@@ -18,7 +19,7 @@ public class CutsceneController : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
+
         Instance = this;
     }
 
@@ -63,7 +64,19 @@ public class CutsceneController : MonoBehaviour
                 break;
             case CutsceneAction.ShowEndingPanel:
                 ShowEndingPanel();
-                break;    
+                break;
+            case CutsceneAction.ShowBAT1:
+                ShowBat1Panel();
+                break;
+            case CutsceneAction.ShowBAT2:
+                ShowBat2Panel();
+                break;
+            case CutsceneAction.ShowBAT3:
+                ShowBat3Panel();
+                break;
+            case CutsceneAction.ShowBAT4:
+                ShowBat4Panel();
+                break;
             default:
                 Debug.LogWarning("Unknown cutscene action: " + action);
                 break;
@@ -76,8 +89,14 @@ public class CutsceneController : MonoBehaviour
         endingPanel = root.Q<VisualElement>("ENDING");
         chargingPanel = root.Q<VisualElement>("CHARGING");
         blackPanel = root.Q<VisualElement>("BLACK");
+        bat1Panel = root.Q<VisualElement>("BAT_1");
+        bat2Panel = root.Q<VisualElement>("BAT_2");
+        bat3Panel = root.Q<VisualElement>("BAT_3");
+        bat4Panel = root.Q<VisualElement>("BAT_4");
 
-        allPanels = new List<VisualElement> { introPanel, endingPanel, chargingPanel, blackPanel };
+        allPanels = new List<VisualElement> { introPanel, endingPanel, chargingPanel, blackPanel, bat1Panel, bat2Panel, bat3Panel, bat4Panel };
+
+        allBatPanels = new List<VisualElement> { bat1Panel, bat2Panel, bat3Panel, bat4Panel };
 
         blackPanel.style.display = DisplayStyle.None;
         blackPanel.style.opacity = 0f;
@@ -87,6 +106,36 @@ public class CutsceneController : MonoBehaviour
     {
         panelToShow.style.display = DisplayStyle.Flex;
     }
+
+    public void ShowBat1Panel()
+    {
+        HideAllBatPanels();
+        Show(bat1Panel);
+    }
+    public void ShowBat2Panel()
+    {
+        HideAllBatPanels();
+        Show(bat2Panel);
+    }
+    public void ShowBat3Panel()
+    {
+        HideAllBatPanels();
+        Show(bat3Panel);
+    }
+    public void ShowBat4Panel()
+    {
+        HideAllBatPanels();
+        Show(bat4Panel);
+    }
+
+    public void HideAllBatPanels()
+    {
+        foreach (var panel in allBatPanels)
+        {
+            panel.style.display = DisplayStyle.None;
+        }
+    }
+    
 
     public void HideAllImagePanels()
     {

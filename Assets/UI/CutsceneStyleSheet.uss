@@ -2,7 +2,7 @@
 
 }
 
-#INTRO, #ENDING, #CHARGING, #BLACK {
+#INTRO, #ENDING, #CHARGING, #BLACK, #BAT_1, #BAT_2, #BAT_3, #BAT_4 {
     position: absolute;
     top: 0;
     left: 0;

@@ -326,6 +326,26 @@ public class BeatSequencer : MonoBehaviour
                 electricityState = !electricityState;
                 lightsManager.SetAllLightsActive(electricityState);
 
+                //when electricity is off during cutscene, show new battery level; otherwise, show old one.
+                string sceneName = SceneManager.GetActiveScene().name;
+                int levelNum = sceneName.Contains("Level 1") ? 1 :
+                               sceneName.Contains("Level 2") ? 2 :
+                               sceneName.Contains("Level 3") ? 3 : 0;
+
+                if (levelNum > 0 && cutsceneController != null)
+                {
+                    int batToShow = electricityState ? levelNum : levelNum + 1;
+                    batToShow = Mathf.Clamp(batToShow, 1, 4);
+
+                    switch (batToShow)
+                    {
+                        case 1: cutsceneController.ShowBat1Panel(); break;
+                        case 2: cutsceneController.ShowBat2Panel(); break;
+                        case 3: cutsceneController.ShowBat3Panel(); break;
+                        case 4: cutsceneController.ShowBat4Panel(); break;
+                    }
+                }
+
                 if (cell == "4" && cutsceneController != null)
                     cutsceneController.PlayCutScene(CutsceneAction.FadeToBlackPanelShort);
             }
@@ -472,6 +492,7 @@ public class BeatSequencer : MonoBehaviour
 
             //2 sec pause
             EnqueueBeat(11, 120f);
+            EnqueueBeat(11, (float)CutsceneAction.ShowBAT1);
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanel);
 
             //allow movement
@@ -509,6 +530,8 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 2"))
         {
+            EnqueueBeat(11, (float)CutsceneAction.ShowBAT2);
+
             //marker
             EnqueueBeat(13, 2000f);
 
@@ -520,6 +543,8 @@ public class BeatSequencer : MonoBehaviour
         }
         else if (sceneName.Contains("Level 3"))
         {
+            EnqueueBeat(11, (float)CutsceneAction.ShowBAT3);
+
             //marker
             EnqueueBeat(13, 2000f);
 
