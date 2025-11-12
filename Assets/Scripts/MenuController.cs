@@ -10,12 +10,15 @@ public class StartMenuController : MonoBehaviour
     private (SliderInt slider, Label label, System.Action<float> setter)[] volumeControls;
     public InputAction MenuAction;
     private BeatSequencer beatSequencer;
+    private CutsceneController cutsceneController;
 
     private bool IsMainMenu => SceneManager.GetActiveScene().name == "MainMenu";
 
     void OnEnable()
     {
         beatSequencer = FindFirstObjectByType<BeatSequencer>();
+        cutsceneController = FindFirstObjectByType<CutsceneController>();
+        cutsceneController.enabled = false;
 
         var root = GetComponent<UIDocument>().rootVisualElement;
 
@@ -34,6 +37,7 @@ public class StartMenuController : MonoBehaviour
     {
         MenuAction.performed -= OnMenuPressed;
         MenuAction.Disable();
+        cutsceneController.enabled = true;
     }
 
     #region Initialization

@@ -558,7 +558,7 @@ MonoBehaviour:
   - {fileID: 4900000, guid: c65077b55d5282449bc50942992f1011, type: 3}
   - {fileID: 4900000, guid: e86f1dba276593245acea837bea510c6, type: 3}
   - {fileID: 4900000, guid: 204a56266c320e542a2c048de00493c4, type: 3}
-  - {fileID: 4900000, guid: 204a56266c320e542a2c048de00493c4, type: 3}
+  - {fileID: 4900000, guid: e4cde77c01491be4cab09196c4341ba6, type: 3}
   - {fileID: 4900000, guid: baf24b3aa20c9f24d93d33a755400aca, type: 3}
   selectedBeatIndex: 5
   kickSource: {fileID: 8405999469411708903}

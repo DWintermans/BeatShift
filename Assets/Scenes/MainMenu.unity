@@ -131,10 +131,6 @@ PrefabInstance:
       propertyPath: cutsceneController
       value: 
       objectReference: {fileID: 632526900}
-    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: 'beatCSVs.Array.data[20]'
-      value: 
-      objectReference: {fileID: 4900000, guid: e4cde77c01491be4cab09196c4341ba6, type: 3}
     - target: {fileID: 6009184265687289412, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: m_Volume
       value: 0.75
@@ -537,6 +533,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 905545478}
   - {fileID: 6072026624705602014}
-  - {fileID: 4660181232513608959}
   - {fileID: 427925953}
   - {fileID: 8076990717232603773}
+  - {fileID: 4660181232513608959}
