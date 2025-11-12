@@ -101,6 +101,8 @@ public class BeatSequencer : MonoBehaviour
         visualizer = FindFirstObjectByType<BeatVisualizer>();
         cutsceneController = FindFirstObjectByType<CutsceneController>();
         windowManager = FindFirstObjectByType<WindowManager>();
+        playerController = FindFirstObjectByType<PlayerController>();
+        jumpController = FindFirstObjectByType<JumpController>();
 
         ApplyBPM();
         LoadSelectedBeat();
@@ -630,6 +632,9 @@ public class BeatSequencer : MonoBehaviour
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
             EnqueueBeat(11, 60f);
             EnqueueBeat(11, 60f);
+
+            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanelShort);
+            EnqueueBeat(11, 120f);
 
             //back to menu
             EnqueueBeat(11, 4000f);
