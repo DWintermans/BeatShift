@@ -24,10 +24,6 @@ public class StartMenuController : MonoBehaviour
             else
                 cutsceneGO.SetActive(true);
         }
-        else
-        {
-            Debug.LogWarning("Cutscene GameObject not found in the scene.");
-        }
     }
 
 
@@ -139,8 +135,7 @@ public class StartMenuController : MonoBehaviour
             var cutsceneController = FindFirstObjectByType<CutsceneController>();
             if (cutsceneController != null)
                 cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
-            else
-                Debug.LogWarning("CutsceneController not found by MenuController");
+
         }
         else
         {
@@ -153,7 +148,6 @@ public class StartMenuController : MonoBehaviour
         if (IsMainMenu)
         {
             Application.Quit();
-            Debug.Log("Exit game");
         }
         else
         {
@@ -168,15 +162,11 @@ public class StartMenuController : MonoBehaviour
         if (sceneName.Contains("Level"))
             sceneName = sceneName.Replace("Level", "Level ");
 
-        Debug.Log($"Loading scene: {sceneName}");
-
         SceneManager.LoadScene(sceneName);
 
         var cutsceneController = FindFirstObjectByType<CutsceneController>();
         if (cutsceneController != null)
             cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
-        else
-            Debug.LogWarning("CutsceneController not found by MenuController");
     }
     #endregion
 

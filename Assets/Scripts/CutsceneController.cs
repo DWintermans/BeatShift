@@ -31,8 +31,6 @@ public class CutsceneController : MonoBehaviour
 
     public void PlayCutScene(CutsceneAction action)
     {
-        Debug.Log(action);
-
         switch (action)
         {
             case CutsceneAction.HideAllPanels:
@@ -78,7 +76,6 @@ public class CutsceneController : MonoBehaviour
                 ShowBat4Panel();
                 break;
             default:
-                Debug.LogWarning("Unknown cutscene action: " + action);
                 break;
         }
     }
