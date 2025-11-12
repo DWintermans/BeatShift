@@ -74,7 +74,7 @@ public class BeatSequencer : MonoBehaviour
     private bool IsReadyToVisualize = false;
 
     public static BeatSequencer Instance;
-    private WindowManager windowManager;
+    private LightsManager lightsManager;
     private PlayerController playerController;
     private JumpController jumpController;
 
@@ -100,7 +100,7 @@ public class BeatSequencer : MonoBehaviour
     {
         visualizer = FindFirstObjectByType<BeatVisualizer>();
         cutsceneController = FindFirstObjectByType<CutsceneController>();
-        windowManager = FindFirstObjectByType<WindowManager>();
+        lightsManager = FindFirstObjectByType<LightsManager>();
         playerController = FindFirstObjectByType<PlayerController>();
         jumpController = FindFirstObjectByType<JumpController>();
 
@@ -324,7 +324,7 @@ public class BeatSequencer : MonoBehaviour
                 }
 
                 electricityState = !electricityState;
-                windowManager.SetAllWindowsActive(electricityState);
+                lightsManager.SetAllLightsActive(electricityState);
 
                 if (cell == "4" && cutsceneController != null)
                     cutsceneController.PlayCutScene(CutsceneAction.FadeToBlackPanelShort);
@@ -414,7 +414,7 @@ public class BeatSequencer : MonoBehaviour
         //find the visualizer in new scene
         visualizer = FindFirstObjectByType<BeatVisualizer>();
         cutsceneController = FindFirstObjectByType<CutsceneController>();
-        windowManager = FindFirstObjectByType<WindowManager>();
+        lightsManager = FindFirstObjectByType<LightsManager>();
         playerController = FindFirstObjectByType<PlayerController>();
         jumpController = FindFirstObjectByType<JumpController>();
 
