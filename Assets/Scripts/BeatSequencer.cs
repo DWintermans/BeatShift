@@ -77,7 +77,7 @@ public class BeatSequencer : MonoBehaviour
     private WindowManager windowManager;
     private PlayerController playerController;
     private JumpController jumpController;
-    
+
     private bool electricityState = true;
 
     void Awake()
@@ -434,7 +434,7 @@ public class BeatSequencer : MonoBehaviour
         PreparingTransition = false;
         electricityState = true;
 
-        if (!sceneName.Contains("MainMenu") || !sceneName.Contains("Level 1"))
+        if (!sceneName.Contains("MainMenu") && !sceneName.Contains("Level 1"))
         {
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
         }
@@ -670,10 +670,20 @@ public class BeatSequencer : MonoBehaviour
 
     private void SetPlayerControls(bool active)
     {
-        if (playerController != null)
-            playerController.enabled = active;
+        if (playerController.MoveAction != null)
+        {
+            if (active)
+                playerController.MoveAction.Enable();
+            else
+                playerController.MoveAction.Disable();
+        }
 
-        if (jumpController != null)
-            jumpController.enabled = active;
+        if (jumpController.JumpAction != null)
+        {
+            if (active)
+                jumpController.JumpAction.Enable();
+            else
+                jumpController.JumpAction.Disable();
+        }
     }
 }
