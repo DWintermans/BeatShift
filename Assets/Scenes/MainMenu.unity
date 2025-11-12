@@ -131,6 +131,14 @@ PrefabInstance:
       propertyPath: cutsceneController
       value: 
       objectReference: {fileID: 632526900}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: beatCSVs.Array.size
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: 'beatCSVs.Array.data[22]'
+      value: 
+      objectReference: {fileID: 4900000, guid: 964285a223e0d88469e2f0fadd181a69, type: 3}
     - target: {fileID: 6009184265687289412, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: m_Volume
       value: 0.75
