@@ -9,40 +9,11 @@ public class StartMenuController : MonoBehaviour
     private Button playButton, settingsButton, levelsButton, exitButton, settingsBackButton, levelsBackButton;
     private (SliderInt slider, Label label, System.Action<float> setter)[] volumeControls;
     public InputAction MenuAction;
-<<<<<<< HEAD
 
     private bool IsMainMenu => SceneManager.GetActiveScene().name == "MainMenu";
 
     void OnEnable()
     {
-=======
-    private BeatSequencer beatSequencer;
-    private GameObject cutsceneGO;
-
-    private bool IsMainMenu => SceneManager.GetActiveScene().name == "MainMenu";
-
-    void Start()
-    {
-        cutsceneGO = GameObject.Find("CutsceneController");
-        if (cutsceneGO != null)
-        {
-            if (IsMainMenu)
-                cutsceneGO.SetActive(false);
-            else
-                cutsceneGO.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("Cutscene GameObject not found in the scene.");
-        }
-    }
-
-
-    void OnEnable()
-    {
-        beatSequencer = FindFirstObjectByType<BeatSequencer>();
-
->>>>>>> dev
         var root = GetComponent<UIDocument>().rootVisualElement;
 
         InitPanels(root);
@@ -60,13 +31,6 @@ public class StartMenuController : MonoBehaviour
     {
         MenuAction.performed -= OnMenuPressed;
         MenuAction.Disable();
-<<<<<<< HEAD
-=======
-        if (cutsceneGO != null)
-        {
-            cutsceneGO.SetActive(true);
-        }
->>>>>>> dev
     }
 
     #region Initialization
@@ -139,30 +103,9 @@ public class StartMenuController : MonoBehaviour
     private void OnPlayClicked()
     {
         if (IsMainMenu)
-<<<<<<< HEAD
             SceneManager.LoadScene("Tutorial");
         else
             HideMainMenu();
-=======
-        {
-            SceneManager.LoadScene("Tutorial");
-
-            if (cutsceneGO != null)
-            {
-                cutsceneGO.SetActive(true);
-            }
-            
-            var cutsceneController = FindFirstObjectByType<CutsceneController>();
-            if (cutsceneController != null)
-                cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
-            else
-                Debug.LogWarning("CutsceneController not found by MenuController");
-        }
-        else
-        {
-            HideMainMenu();
-        }
->>>>>>> dev
     }
 
     private void OnExitClicked()
@@ -186,19 +129,8 @@ public class StartMenuController : MonoBehaviour
             sceneName = sceneName.Replace("Level", "Level ");
 
         Debug.Log($"Loading scene: {sceneName}");
-<<<<<<< HEAD
         
         SceneManager.LoadScene(sceneName);
-=======
-
-        SceneManager.LoadScene(sceneName);
-
-        var cutsceneController = FindFirstObjectByType<CutsceneController>();
-        if (cutsceneController != null)
-            cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
-        else
-            Debug.LogWarning("CutsceneController not found by MenuController");
->>>>>>> dev
     }
     #endregion
 
@@ -226,11 +158,6 @@ public class StartMenuController : MonoBehaviour
         //refresh labels
         foreach (var (slider, label, _) in volumeControls)
             label.text = slider.value.ToString();
-<<<<<<< HEAD
-=======
-
-        UpdateAudioMute();
->>>>>>> dev
     }
 
     private void ShowLevels()
@@ -239,11 +166,6 @@ public class StartMenuController : MonoBehaviour
         settingsPanel.style.display = DisplayStyle.None;
         levelsPanel.style.display = DisplayStyle.Flex;
         Time.timeScale = 0f;
-<<<<<<< HEAD
-=======
-
-        UpdateAudioMute();
->>>>>>> dev
     }
 
     private void ShowMainMenu()
@@ -252,11 +174,6 @@ public class StartMenuController : MonoBehaviour
         settingsPanel.style.display = DisplayStyle.None;
         levelsPanel.style.display = DisplayStyle.None;
         Time.timeScale = 0f;
-<<<<<<< HEAD
-=======
-
-        UpdateAudioMute();
->>>>>>> dev
     }
 
     private void HideMainMenu()
@@ -265,24 +182,6 @@ public class StartMenuController : MonoBehaviour
         settingsPanel.style.display = DisplayStyle.None;
         levelsPanel.style.display = DisplayStyle.None;
         Time.timeScale = 1f;
-<<<<<<< HEAD
     }
     #endregion
 }
-=======
-
-        UpdateAudioMute();
-    }
-    #endregion
-    private void UpdateAudioMute()
-    {
-        //mute audio if not mainmenu and any menu panel is open
-        bool shouldMute = !IsMainMenu &&
-                        (mainPanel.style.display == DisplayStyle.Flex ||
-                        settingsPanel.style.display == DisplayStyle.Flex ||
-                        levelsPanel.style.display == DisplayStyle.Flex);
-
-        AudioListener.volume = shouldMute ? 0f : 1f;
-    }
-}
->>>>>>> dev

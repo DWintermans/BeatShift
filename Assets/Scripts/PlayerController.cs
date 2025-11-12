@@ -70,11 +70,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> dev
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Danger"))
@@ -84,15 +81,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Finish"))
         {
-<<<<<<< HEAD
             FindFirstObjectByType<LevelManager>().LoadNextLevel();
-=======
-            string currentScene = SceneManager.GetActiveScene().name;
-
-            var sequencer = FindFirstObjectByType<BeatSequencer>();
-            if (sequencer != null)
-                sequencer.PrepareSceneTransition(currentScene);
->>>>>>> dev
         }
     }
 

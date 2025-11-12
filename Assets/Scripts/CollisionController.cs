@@ -7,10 +7,6 @@ public class CollisionController : MonoBehaviour
     public float distance;
     public string platformsLayerName;
     public float IsGroundedMarginOfError = 1E-06f;
-<<<<<<< HEAD
-=======
-    public float FrontPosition;
->>>>>>> dev
 
     public bool IsGrounded { get; private set; } = false;
 
@@ -41,19 +37,14 @@ public class CollisionController : MonoBehaviour
         if (!hitLeft)
             hitRight = Physics.Raycast(rayRight, out hit, distance, LayerMask.GetMask(platformsLayerName));
 
-<<<<<<< HEAD
-=======
-        IsGrounded = false;
-
->>>>>>> dev
         if (hitLeft || hitRight)
         {
             AdjustDepthPosition(hit.collider);
             IsGrounded = Approximately(hit.collider.bounds.max.y, m_Collider.bounds.min.y);
         }
-        else if (IsPlayerBehindSomething())
+        else
         {
-            TeleportToFront();
+            IsGrounded = false;
         }
 
         Debug.DrawRay(rayLeft.origin, rayLeft.direction * distance, Color.red);
@@ -134,40 +125,5 @@ public class CollisionController : MonoBehaviour
             position.y = colBounds.max.y + m_Collider.bounds.extents.y;
             transform.position = position;
         }
-    }
-
-    bool IsPlayerBehindSomething()
-    {
-        int nonPlatformsMask = ~LayerMask.GetMask(platformsLayerName);
-        Vector3 rayOrigin = Camera.transform.position;
-        Vector3 direction = Camera.transform.forward;
-
-        if (Physics.Raycast(rayOrigin, direction, out var hit, distance, nonPlatformsMask))
-        {
-            return hit.collider != m_Collider && !hit.collider.gameObject.CompareTag("Danger");
-        }
-
-        return false;
-    }
-
-
-    void TeleportToFront()
-    {
-        Vector3 oldPosition = transform.position;
-        Vector3 newPosition = oldPosition;
-        float yAdjustment;
-        if (rotationController.Rotated)
-        {
-            newPosition.x = FrontPosition;
-            yAdjustment = GetDistanceDownByTilt(oldPosition.x, newPosition.x);
-        }
-        else
-        {
-            newPosition.z = FrontPosition;
-            yAdjustment = GetDistanceDownByTilt(oldPosition.z, newPosition.z);
-        }
-        newPosition.y -= yAdjustment;
-
-        transform.position = newPosition;
     }
 }
