@@ -75,6 +75,9 @@ public class BeatSequencer : MonoBehaviour
 
     public static BeatSequencer Instance;
     private WindowManager windowManager;
+    private PlayerController playerController;
+    private JumpController jumpController;
+    
     private bool electricityState = true;
 
     void Awake()
@@ -164,6 +167,13 @@ public class BeatSequencer : MonoBehaviour
                     if (nextBeat.bpm == 2000f)
                     {
                         IsReadyToVisualize = true;
+                        SetPlayerControls(true);
+                        continue;
+                    }
+                    //allow movement
+                    else if (nextBeat.bpm == 2500f)
+                    {
+                        SetPlayerControls(true);
                         continue;
                     }
                     //next level loader triggering after a beat ends
@@ -403,6 +413,8 @@ public class BeatSequencer : MonoBehaviour
         visualizer = FindFirstObjectByType<BeatVisualizer>();
         cutsceneController = FindFirstObjectByType<CutsceneController>();
         windowManager = FindFirstObjectByType<WindowManager>();
+        playerController = FindFirstObjectByType<PlayerController>();
+        jumpController = FindFirstObjectByType<JumpController>();
 
         SetBeatForScene(scene.name);
     }
@@ -412,6 +424,9 @@ public class BeatSequencer : MonoBehaviour
         ClearQueue();
         cutsceneController.ShowBlackPanel();
         cutsceneController.HideAllImagePanels();
+
+        SetPlayerControls(false);
+
         IsReadyToVisualize = false;
         switchBeat = false;
         PreparingTransition = false;
@@ -456,6 +471,9 @@ public class BeatSequencer : MonoBehaviour
             //2 sec pause
             EnqueueBeat(11, 120f);
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanel);
+
+            //allow movement
+            EnqueueBeat(7, 2500f);
 
             //beat buildup from 124 to 160 bpm
             EnqueueBeat(7, 136f);
@@ -577,6 +595,7 @@ public class BeatSequencer : MonoBehaviour
         IsReadyToVisualize = false;
         switchBeat = false;
         PreparingTransition = true;
+        SetPlayerControls(false);
 
         //transition to level 1
         if (currentScene.Contains("Tutorial"))
@@ -642,5 +661,14 @@ public class BeatSequencer : MonoBehaviour
         //load next level
         if (AutoLoadNextLevel)
             EnqueueBeat(11, 4000f);
+    }
+
+    private void SetPlayerControls(bool active)
+    {
+        if (playerController != null)
+            playerController.enabled = active;
+
+        if (jumpController != null)
+            jumpController.enabled = active;
     }
 }
