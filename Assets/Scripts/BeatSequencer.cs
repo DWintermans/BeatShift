@@ -628,13 +628,26 @@ public class BeatSequencer : MonoBehaviour
             ChargingCutscene(false);
             EnqueueBeat(11, (float)CutsceneAction.ShowBlackPanel);
             EnqueueBeat(11, 60f);
-            EnqueueBeat(11, (float)CutsceneAction.ShowEndingPanel);
+            EnqueueBeat(11, (float)CutsceneAction.ShowIntroPanel);
             EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
-            EnqueueBeat(11, 60f);
-            EnqueueBeat(11, 60f);
+
+            //increase heartbeat
+            EnqueueBeat(6, 50f);
+            EnqueueBeat(6, 80f);
+            EnqueueBeat(6, 100f);
+            EnqueueBeat(6, 120f);
 
             EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanelShort);
-            EnqueueBeat(11, 120f);
+            EnqueueBeat(6, 120f);
+
+            EnqueueBeat(11, (float)CutsceneAction.ShowEndingPanel);
+            EnqueueBeat(11, (float)CutsceneAction.FadeOutOfBlackPanelShort);
+
+            //heart beat with bass
+            EnqueueBeat(22, 120f);
+
+            EnqueueBeat(11, (float)CutsceneAction.FadeToBlackPanel);
+            EnqueueBeat(11, 60f);
 
             //back to menu
             EnqueueBeat(11, 4000f);
@@ -670,20 +683,26 @@ public class BeatSequencer : MonoBehaviour
 
     private void SetPlayerControls(bool active)
     {
-        if (playerController.MoveAction != null)
+        if (playerController != null)
         {
-            if (active)
-                playerController.MoveAction.Enable();
-            else
-                playerController.MoveAction.Disable();
+            if (playerController.MoveAction != null)
+            {
+                if (active)
+                    playerController.MoveAction.Enable();
+                else
+                    playerController.MoveAction.Disable();
+            }
         }
 
-        if (jumpController.JumpAction != null)
+        if (jumpController != null)
         {
-            if (active)
-                jumpController.JumpAction.Enable();
-            else
-                jumpController.JumpAction.Disable();
+            if (jumpController.JumpAction != null)
+            {
+                if (active)
+                    jumpController.JumpAction.Enable();
+                else
+                    jumpController.JumpAction.Disable();
+            }
         }
     }
 }
