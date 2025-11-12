@@ -13,10 +13,17 @@ public class LightsManager : MonoBehaviour
         advertisementBoards = GameObject.FindGameObjectsWithTag("AdvertisementBoard");
 
         var advertisementTextsParent = GameObject.Find("AdvertisementTexts");
-        advertisementTexts = advertisementTextsParent.GetComponentsInChildren<Transform>(true)
-                                .Where(t => t.gameObject != advertisementTextsParent)
-                                .Select(t => t.gameObject)
-                                .ToArray();
+        if (advertisementTextsParent != null)
+        {
+            advertisementTexts = advertisementTextsParent.GetComponentsInChildren<Transform>(true)
+                                    .Where(t => t.gameObject != advertisementTextsParent)
+                                    .Select(t => t.gameObject)
+                                    .ToArray();
+        }
+        else
+        {
+            advertisementTexts = new GameObject[0];
+        }
     }
 
     public void SetAllLightsActive(bool active)
