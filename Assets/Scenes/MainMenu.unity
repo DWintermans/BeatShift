@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!82 &180166181 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7887792829813334898, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+  m_PrefabInstance: {fileID: 427925953}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &427925953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128,13 +133,49 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: bellSource
+      value: 
+      objectReference: {fileID: 180166181}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: electricity1
+      value: 
+      objectReference: {fileID: 8300000, guid: c5574886d39195b4abc83f985b37abd2, type: 3}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: electricity2
+      value: 
+      objectReference: {fileID: 8300000, guid: 87143ad4e19afb9429ca5b60a8f7e077, type: 3}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: electricity3
+      value: 
+      objectReference: {fileID: 8300000, guid: 1e22176e9d72f394386723439a317977, type: 3}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: electricity4
+      value: 
+      objectReference: {fileID: 8300000, guid: 6120165ca3a6d62419e7dcc5a85e339a, type: 3}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: electricSwitch
+      value: 
+      objectReference: {fileID: 8300000, guid: 898b411c0305da940aef97fb20ba5907, type: 3}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: electricitySource
+      value: 
+      objectReference: {fileID: 660732319}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: cutsceneController
       value: 
       objectReference: {fileID: 632526900}
     - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
-      propertyPath: 'beatCSVs.Array.data[20]'
+      propertyPath: beatCSVs.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: 'beatCSVs.Array.data[13]'
       value: 
-      objectReference: {fileID: 4900000, guid: e4cde77c01491be4cab09196c4341ba6, type: 3}
+      objectReference: {fileID: 4900000, guid: 5d76871db06c1294bb98482ee68370c5, type: 3}
+    - target: {fileID: 5463383964817547087, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+      propertyPath: 'beatCSVs.Array.data[14]'
+      value: 
+      objectReference: {fileID: 4900000, guid: 399cbc0f0f5cbbb4e9af6088ef2d7f6c, type: 3}
     - target: {fileID: 6009184265687289412, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
       propertyPath: m_Volume
       value: 0.75
@@ -211,6 +252,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98bbf936e34482949bc1af9a2fb0b167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CutsceneController
+--- !u!82 &660732319 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6009184265687289412, guid: 655ab58f22e6e2c4aa6718f7dad886a1, type: 3}
+  m_PrefabInstance: {fileID: 427925953}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &905545475
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,6 +402,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1156799520566264662, guid: fe986934bc4721c448c01708f3210958, type: 3}
+      propertyPath: MenuAction.m_Name
+      value: Menu
+      objectReference: {fileID: 0}
     - target: {fileID: 4235000282968152903, guid: fe986934bc4721c448c01708f3210958, type: 3}
       propertyPath: m_Name
       value: UIDocument
