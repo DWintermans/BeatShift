@@ -551,26 +551,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1156799520566264662, guid: fe986934bc4721c448c01708f3210958, type: 3}
-      propertyPath: MenuAction.m_Name
-      value: Menu
-      objectReference: {fileID: 0}
-    - target: {fileID: 1156799520566264662, guid: fe986934bc4721c448c01708f3210958, type: 3}
-      propertyPath: MenuAction.m_SingletonActionBindings.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1156799520566264662, guid: fe986934bc4721c448c01708f3210958, type: 3}
-      propertyPath: MenuAction.m_SingletonActionBindings.Array.data[0].m_Id
-      value: 8c4ca108-3665-474b-902d-0ab3d44ee21a
-      objectReference: {fileID: 0}
-    - target: {fileID: 1156799520566264662, guid: fe986934bc4721c448c01708f3210958, type: 3}
-      propertyPath: MenuAction.m_SingletonActionBindings.Array.data[0].m_Path
-      value: <Keyboard>/escape
-      objectReference: {fileID: 0}
-    - target: {fileID: 1156799520566264662, guid: fe986934bc4721c448c01708f3210958, type: 3}
-      propertyPath: MenuAction.m_SingletonActionBindings.Array.data[0].m_Action
-      value: Menu
-      objectReference: {fileID: 0}
     - target: {fileID: 4235000282968152903, guid: fe986934bc4721c448c01708f3210958, type: 3}
       propertyPath: m_Name
       value: UIDocument
@@ -1388,7 +1368,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 2000
   field of view: 60.000004
   orthographic: 1
   orthographic size: 10
@@ -1918,8 +1898,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e3a2bca1cf5d2d4086bdfa963a6c22c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  Priority: 0
   Rotated: 0
+  glitchParticleSystems: []
+  changeMaterialDelaytime: 0
+  platforms: []
+  activatedMaterial: {fileID: 0}
+  images: []
+  activatedImages: []
+  activatedImageScale: {x: 0, y: 0, z: 0}
 --- !u!1001 &1966010361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2517,3 +2503,5 @@ SceneRoots:
   - {fileID: 463706408468312037}
   - {fileID: 7042545667375846239}
   - {fileID: 1120176053}
+  - {fileID: 632805851}
+  - {fileID: 331289439740387543}
