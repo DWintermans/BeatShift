@@ -9,11 +9,28 @@ public class StartMenuController : MonoBehaviour
     private Button playButton, settingsButton, levelsButton, exitButton, settingsBackButton, levelsBackButton;
     private (SliderInt slider, Label label, System.Action<float> setter)[] volumeControls;
     public InputAction MenuAction;
+    private BeatSequencer beatSequencer;
+    private GameObject cutsceneGO;
 
     private bool IsMainMenu => SceneManager.GetActiveScene().name == "MainMenu";
 
+    void Start()
+    {
+        cutsceneGO = GameObject.Find("CutsceneController");
+        if (cutsceneGO != null)
+        {
+            if (IsMainMenu)
+                cutsceneGO.SetActive(false);
+            else
+                cutsceneGO.SetActive(true);
+        }
+    }
+
+
     void OnEnable()
     {
+        beatSequencer = FindFirstObjectByType<BeatSequencer>();
+
         var root = GetComponent<UIDocument>().rootVisualElement;
 
         InitPanels(root);
@@ -31,6 +48,10 @@ public class StartMenuController : MonoBehaviour
     {
         MenuAction.performed -= OnMenuPressed;
         MenuAction.Disable();
+        if (cutsceneGO != null)
+        {
+            cutsceneGO.SetActive(true);
+        }
     }
 
     #region Initialization
@@ -103,9 +124,23 @@ public class StartMenuController : MonoBehaviour
     private void OnPlayClicked()
     {
         if (IsMainMenu)
+        {
             SceneManager.LoadScene("Tutorial");
+
+            if (cutsceneGO != null)
+            {
+                cutsceneGO.SetActive(true);
+            }
+            
+            var cutsceneController = FindFirstObjectByType<CutsceneController>();
+            if (cutsceneController != null)
+                cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
+
+        }
         else
+        {
             HideMainMenu();
+        }
     }
 
     private void OnExitClicked()
@@ -113,7 +148,6 @@ public class StartMenuController : MonoBehaviour
         if (IsMainMenu)
         {
             Application.Quit();
-            Debug.Log("Exit game");
         }
         else
         {
@@ -128,9 +162,11 @@ public class StartMenuController : MonoBehaviour
         if (sceneName.Contains("Level"))
             sceneName = sceneName.Replace("Level", "Level ");
 
-        Debug.Log($"Loading scene: {sceneName}");
-        
         SceneManager.LoadScene(sceneName);
+
+        var cutsceneController = FindFirstObjectByType<CutsceneController>();
+        if (cutsceneController != null)
+            cutsceneController.PlayCutScene(CutsceneAction.ShowBlackPanel);
     }
     #endregion
 
@@ -158,6 +194,8 @@ public class StartMenuController : MonoBehaviour
         //refresh labels
         foreach (var (slider, label, _) in volumeControls)
             label.text = slider.value.ToString();
+
+        UpdateAudioMute();
     }
 
     private void ShowLevels()
@@ -166,6 +204,8 @@ public class StartMenuController : MonoBehaviour
         settingsPanel.style.display = DisplayStyle.None;
         levelsPanel.style.display = DisplayStyle.Flex;
         Time.timeScale = 0f;
+
+        UpdateAudioMute();
     }
 
     private void ShowMainMenu()
@@ -174,6 +214,8 @@ public class StartMenuController : MonoBehaviour
         settingsPanel.style.display = DisplayStyle.None;
         levelsPanel.style.display = DisplayStyle.None;
         Time.timeScale = 0f;
+
+        UpdateAudioMute();
     }
 
     private void HideMainMenu()
@@ -182,6 +224,18 @@ public class StartMenuController : MonoBehaviour
         settingsPanel.style.display = DisplayStyle.None;
         levelsPanel.style.display = DisplayStyle.None;
         Time.timeScale = 1f;
+
+        UpdateAudioMute();
     }
     #endregion
+    private void UpdateAudioMute()
+    {
+        //mute audio if not mainmenu and any menu panel is open
+        bool shouldMute = !IsMainMenu &&
+                        (mainPanel.style.display == DisplayStyle.Flex ||
+                        settingsPanel.style.display == DisplayStyle.Flex ||
+                        levelsPanel.style.display == DisplayStyle.Flex);
+
+        AudioListener.volume = shouldMute ? 0f : 1f;
+    }
 }

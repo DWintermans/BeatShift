@@ -12,7 +12,7 @@ public class Checkpoint : MonoBehaviour
     [SerializeField] private GameObject[] platforms;
     [SerializeField] private Material activatedMaterial;
     [SerializeField] private GameObject[] images;
-    [SerializeField] private Material activatedImage;
+    [SerializeField] private Material[] activatedImages;
     [SerializeField] private Vector3 activatedImageScale;
 
     void Start()
@@ -54,10 +54,10 @@ public class Checkpoint : MonoBehaviour
         {
             obj.GetComponent<Renderer>().material = activatedMaterial;
         }
-        foreach (var obj in images)
+        for (int i = 0; i < images.Length; i++)
         {
-            obj.GetComponent<Renderer>().material = activatedImage;
-            obj.transform.localScale = activatedImageScale;
+            images[i].GetComponent<Renderer>().material = activatedImages[i];
+            images[i].transform.localScale = activatedImageScale;
         }
     }
 }

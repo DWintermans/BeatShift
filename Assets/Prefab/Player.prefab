@@ -175,9 +175,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CollisionController
   rotationController: {fileID: 3114355002555193910}
   Camera: {fileID: 0}
-  distance: 1000
+  distance: 5000
   platformsLayerName: Platforms
   IsGroundedMarginOfError: 0.01
+  FrontPosition: 300
 --- !u!114 &1697801363758021783
 MonoBehaviour:
   m_ObjectHideFlags: 0
